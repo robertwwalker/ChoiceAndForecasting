@@ -1,0 +1,30 @@
+---
+title: "About"
+image: profile.jpg
+about:
+  template: jolla
+  links:
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com/PieRatio
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com
+    - icon: github
+      text: Github
+      href: https://github.com/robertwwalker/ChoiceAndForecasting
+---
+
+## Course: Models of Choice and Forecasting
+
+**TLDR: The course is what I think of as the natural successor for Data Analysis, Modeling, and Decision Making that extends basic regression to a broader universe of data types and the particular troubles in forecasting data observed over time.**
+
+It relies on two texts that exist in both paper and digital [with free access] forms.  The first half of the course is built around [The Handbook of Regression Modeling in People Analytics: With Examples in R, Python, and Julia](https://peopleanalytics-regression-book.org/index.html) by Keith McNulty [Global Director of Talent Sciences at McKinsey and Company] that covers models for discrete data types [binary, ordered, nominal choices, counts of events, and survival/duration analysis].  
+
+The second half of the course relies on the excellent [Forecasting, Principles and Practice, 3rd Edition](https://otexts.com/fpp3/), by Rob J. Hyndman and George Athanasopoulos of Monash University in Australia that is entirely supported by R libraries for time series problems.  
+
+The lectures will focus on intuition and the mathematical logic but the goal is to put the tools into practice.  To this end, the expectations are weekly homework exercises to insure that we can actually do what we are presented but there are two key summary deliverables: a project employing a detailed application of choice models near the middle and a project in time series forecasting due at the end of the term.  Both are to be presented at the end of the term on date to be arranged to make up for the cancellation the first week.
+
+## Instructor
+
+**Robert W. Walker** is Associate Professor of Quantitative Methods in the Atkinson Graduate School of Management at Willamette University. He earned a Ph. D. in political science from the University of Rochester in 2005 and has previously held teaching positions at Dartmouth College, Rice University, Texas A&M University, and Washington University in Saint Louis. His current research develops and applies semi-Markov processes to time-series, cross-section data in international relations and international/comparative political economy. He teaches courses in quantitative methods/applied statistics and microeconomic strategy and previously taught four iterations in the U. S. National Science Foundation funded Empirical Implications of Theoretical Models sequence at Washington University in Saint Louis.  His work with Curt Signorino and Muhammet Bas was awarded the Miller Prize for the best article in Political Analysis in 2009.

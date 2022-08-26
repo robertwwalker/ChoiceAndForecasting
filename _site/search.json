@@ -1,0 +1,37 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Models of Choice and Forecasting",
+    "section": "",
+    "text": "R\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 29, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 26, 2022\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Welcome to Models of Choice and Forecasting",
+    "section": "",
+    "text": "We will work with two books.\n\nFor the first half of the course, we will work with the Handbook of Regression Modelling for People Analytics with Examples in R, Python, and Julia\nFor the second half of the course, we will work with Forecasting: Principles and Practice, 3rd Edition\n\n\nTo hit the ground running, you will probably need two key bits of software: R and RStudio. To wit,\n\nIf you prefer something like VSCode or another IDE, that is your choice. I will heavily utilize RMarkdown and quarto and both are extensively supported in RStudio. The most recent version of RStudio can be obtained here\nIf you wish, the first half of the course can also be completed with either Python or Julia so you can defer R for now. R can be obtained from this link. As an R user, I am no expert in Python or Julia and this limits my ability to support those that choose to deploy them."
+  },
+  {
+    "objectID": "posts/week-1/index.html",
+    "href": "posts/week-1/index.html",
+    "title": "Week 1: R, Inference, and Regression: A Review",
+    "section": "",
+    "text": "# url of data set \nurl <- \"http://peopleanalytics-regression-book.org/data/salespeople.csv\"\n# load the data set and store it as a dataframe called salespeople\nsalespeople <- read.csv(url)\nlibrary(GGally)\n\nLoading required package: ggplot2\n\n\nRegistered S3 method overwritten by 'GGally':\n  method from   \n  +.gg   ggplot2\n\n# convert performance and promotion to categorical\nsalespeople$promoted <- as.factor(salespeople$promoted)\nsalespeople$performance <- as.factor(salespeople$performance)\n# pairplot of salespeople\nggpairs(salespeople)\n\nWarning: Removed 1 rows containing non-finite values (stat_boxplot).\nRemoved 1 rows containing non-finite values (stat_boxplot).\n\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\nWarning: Removed 1 rows containing non-finite values (stat_bin).\n\n\nWarning: Removed 1 rows containing non-finite values (stat_density).\n\n\nWarning in ggally_statistic(data = data, mapping = mapping, na.rm = na.rm, :\nRemoving 1 row that contained a missing value\n\n\nWarning: Removed 1 rows containing non-finite values (stat_boxplot).\n\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\nWarning: Removed 1 rows containing non-finite values (stat_bin).\n\n\nWarning: Removed 1 rows containing missing values (geom_point).\n\n\nWarning: Removed 1 rows containing non-finite values (stat_density).\n\n\nWarning: Removed 1 rows containing non-finite values (stat_boxplot).\n\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\nWarning: Removed 1 rows containing non-finite values (stat_bin).\n\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\nWarning: Removed 1 rows containing non-finite values (stat_bin)."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "TLDR: The course is what I think of as the natural successor for Data Analysis, Modeling, and Decision Making that extends basic regression to a broader universe of data types and the particular troubles in forecasting data observed over time.\nIt relies on two texts that exist in both paper and digital [with free access] forms. The first half of the course is built around The Handbook of Regression Modeling in People Analytics: With Examples in R, Python, and Julia by Keith McNulty [Global Director of Talent Sciences at McKinsey and Company] that covers models for discrete data types [binary, ordered, nominal choices, counts of events, and survival/duration analysis].\nThe second half of the course relies on the excellent Forecasting, Principles and Practice, 3rd Edition, by Rob J. Hyndman and George Athanasopoulos of Monash University in Australia that is entirely supported by R libraries for time series problems.\nThe lectures will focus on intuition and the mathematical logic but the goal is to put the tools into practice. To this end, the expectations are weekly homework exercises to insure that we can actually do what we are presented but there are two key summary deliverables: a project employing a detailed application of choice models near the middle and a project in time series forecasting due at the end of the term. Both are to be presented at the end of the term on date to be arranged to make up for the cancellation the first week."
+  },
+  {
+    "objectID": "about.html#instructor",
+    "href": "about.html#instructor",
+    "title": "About",
+    "section": "Instructor",
+    "text": "Instructor\nRobert W. Walker is Associate Professor of Quantitative Methods in the Atkinson Graduate School of Management at Willamette University. He earned a Ph. D. in political science from the University of Rochester in 2005 and has previously held teaching positions at Dartmouth College, Rice University, Texas A&M University, and Washington University in Saint Louis. His current research develops and applies semi-Markov processes to time-series, cross-section data in international relations and international/comparative political economy. He teaches courses in quantitative methods/applied statistics and microeconomic strategy and previously taught four iterations in the U. S. National Science Foundation funded Empirical Implications of Theoretical Models sequence at Washington University in Saint Louis. His work with Curt Signorino and Muhammet Bas was awarded the Miller Prize for the best article in Political Analysis in 2009."
+  }
+]

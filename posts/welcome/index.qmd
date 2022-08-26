@@ -1,0 +1,23 @@
+---
+title: "Welcome to Models of Choice and Forecasting"
+author: "Robert W. Walker"
+date: "2022-08-26"
+categories: [news]
+---
+
+I hope you are ready! 
+
+We will work with two books.  
+
+1. For the first half of the course, we will work with the [Handbook of Regression Modelling for People Analytics with Examples in R, Python, and Julia](https://peopleanalytics-regression-book.org/)   
+
+1. For the second half of the course, we will work with [Forecasting: Principles and Practice, 3rd Edition](https://otexts.com/fpp3/)
+
+
+![](thumbnail.jpg)
+
+To hit the ground running, you will probably need two key bits of software: `R` and `RStudio`.  To wit,
+
+- If you prefer something like VSCode or another IDE, that is your choice.  I will heavily utilize `RMarkdown` and `quarto` and both are extensively supported in RStudio.  The most recent version of [RStudio can be obtained here](https://www.rstudio.com/products/rstudio/download/#download)
+
+- If you wish, the first half of the course can also be completed with either Python or Julia so you can defer `R` for now.  [R can be obtained from this link](https://cran.r-project.org/).  As an R user, I am no expert in Python or Julia and this limits my ability to support those that choose to deploy them.

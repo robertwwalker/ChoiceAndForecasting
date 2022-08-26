@@ -1,0 +1,22 @@
+---
+title: "Week 1: R, Inference, and Regression: A Review"
+author: "Robert W. Walker"
+date: "2022-08-29"
+categories: [R]
+image: "image.jpg"
+---
+
+Our first class meeting will focus on Chapters [1](https://peopleanalytics-regression-book.org/gitbook/inf-model.html), [2](https://peopleanalytics-regression-book.org/gitbook/the-basics-of-the-r-programming-language.html), and [3](https://peopleanalytics-regression-book.org/gitbook/found-stats.html) of __Handbook of Regression Modeling in People Analytics__.
+
+```{r}
+# url of data set 
+url <- "http://peopleanalytics-regression-book.org/data/salespeople.csv"
+# load the data set and store it as a dataframe called salespeople
+salespeople <- read.csv(url)
+library(GGally)
+# convert performance and promotion to categorical
+salespeople$promoted <- as.factor(salespeople$promoted)
+salespeople$performance <- as.factor(salespeople$performance)
+# pairplot of salespeople
+ggpairs(salespeople)
+```
