@@ -197,73 +197,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<p>Our first class meeting will focus on Chapters <a href="https://peopleanalytics-regression-book.org/gitbook/inf-model.html">1</a>, <a href="https://peopleanalytics-regression-book.org/gitbook/the-basics-of-the-r-programming-language.html">2</a>, and <a href="https://peopleanalytics-regression-book.org/gitbook/found-stats.html">3</a> of <strong>Handbook of Regression Modeling in People Analytics</strong>.</p>
+<p>The slides <a href="./slides/">are here.</a></p>
+<p>Our first class meeting will focus on Chapters <a href="https://peopleanalytics-regression-book.org/gitbook/inf-model.html">1</a>, <a href="https://peopleanalytics-regression-book.org/gitbook/the-basics-of-the-r-programming-language.html">2</a>, <a href="https://peopleanalytics-regression-book.org/gitbook/found-stats.html">3</a>; I suspect we will of <strong>Handbook of Regression Modeling in People Analytics</strong>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># url of data set </span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"http://peopleanalytics-regression-book.org/data/salespeople.csv"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># load the data set and store it as a dataframe called salespeople</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>salespeople <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(url)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: ggplot2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Registered S3 method overwritten by 'GGally':
-  method from   
-  +.gg   ggplot2</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># convert performance and promotion to categorical</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>salespeople<span class="sc">$</span>promoted <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(salespeople<span class="sc">$</span>promoted)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>salespeople<span class="sc">$</span>performance <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(salespeople<span class="sc">$</span>performance)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># pairplot of salespeople</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(salespeople)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1 rows containing non-finite values (stat_boxplot).
-Removed 1 rows containing non-finite values (stat_boxplot).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1 rows containing non-finite values (stat_bin).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1 rows containing non-finite values (stat_density).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in ggally_statistic(data = data, mapping = mapping, na.rm = na.rm, :
-Removing 1 row that contained a missing value</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1 rows containing non-finite values (stat_boxplot).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1 rows containing non-finite values (stat_bin).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1 rows containing non-finite values (stat_density).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1 rows containing non-finite values (stat_boxplot).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1 rows containing non-finite values (stat_bin).</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1 rows containing non-finite values (stat_bin).</code></pre>
-</div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># convert performance and promotion to categorical</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>salespeople<span class="sc">$</span>promoted <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(salespeople<span class="sc">$</span>promoted)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>salespeople<span class="sc">$</span>performance <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(salespeople<span class="sc">$</span>performance)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># pairplot of salespeople</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(salespeople)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="index_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
 </div>

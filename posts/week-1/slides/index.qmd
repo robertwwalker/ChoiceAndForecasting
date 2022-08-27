@@ -1,0 +1,130 @@
+---
+title: "Choice and Forecasting"
+author: "Robert W. Walker"
+format: 
+   revealjs:
+     theme: [custom.scss]
+     scrollable: true
+     logo: AGSMlogo.jpeg
+     footer: "Models of Choice and Forecasting"
+     self-contained: true
+     html-math-method: katex
+     incremental: true
+     slide-number: c/t
+     transition: zoom
+---
+
+# An Overview of Forecasting and Choice
+
+
+## Choice and Forecasting
+
+The course is intended to expand your familiarity with common models in the analysis of data of two distinct types that extend basic linear regression tools that you encountered in Data Analysis, Modelling, and Decision Making.  We will do it in two sections.
+
+- Non-continuous data   
+[term of art: **limited dependent variables**]   
+
+- Time series data
+
+# Overview
+
+## Class Structure
+
+Assignments of two types:
+
+
+- Weekly homework implementing the model/topic   
+- Two summary unit presentations   
+      - Choice modelling of some chosen data   
+      - Time series forecasting with data of your choice   
+
+
+# Choice
+
+## The Text on Choice
+
+A primary text for this is Keith McNulty's excellent [<span style="text-decoration:underline">Handbook of Regression Modelling in People Analytics: With Examples in R, Python, and Julia</span>](https://peopleanalytics-regression-book.org/) 
+
+::: aside
+Keith McNulty is Global Director of Talent Sciences at McKinsey and Company.   
+Full citation is:   
+
+McNulty, Keith.  2021.  <span style="text-decoration:underline">Handbook of Regression Modeling in People Analytics: With Examples in R and Python</span>. Boca Raton, FL: CRC Press.
+:::
+
+## Topics
+
+- Weeks 1 and 2: Review of Linear Models and Inferential Statistics [chapters 1-4]
+- Week 3: Binomial Logistic Regression [chapter 5]
+- Week 4: Ordered and Multinomial Logistic Regression [chapters 6 and 7]
+- Week 5: Hierarchical Data [chapter 8]
+- Week 6: Survival Analysis [chapter 9]
+- Week 7: Power Analysis: How much data do I need? and Review [chapter 10]
+
+# Forecasting
+
+## The Text on Forecasting
+
+A primary text for forecasting is Rob Hyndman and George Athanasopoulos's excellent [<span style="text-decoration:underline">Forecasting: Principles and Practice (3rd ed)</span>](https://otexts.com/fpp3/).  The book combines forecasting principles with practical examples in R.
+
+::: aside
+Rob J. Hyndman is Professor of Statistics and Head of the Department of Econometrics and Business Statistics at Monash University, Australia.
+
+George Athanasopoulos is a Professor, Director of Education, and Deputy Head in the Department of Econometrics and Business Statistics at Monash University, Australia.
+
+Full citation is:   
+
+Hyndman, R.J., & Athanasopoulos, G. 2021. <span style="text-decoration:underline">Forecasting: principles and practice, 3rd edition</span>. Melbourne, Australia: [OTexts.com](https://otexts.com/fpp3/)
+:::
+
+## Topics
+
+- Weeks 8 and 9: The Basics, Time as a Variable, and Decomposition [chapters 1-5]
+- Week 10: Judgemental Forecast and Regression   
+[chapters 6 and 7]
+- Week 11: Exponential Smoothing and ARIMA   
+[chapters 8 and 9]
+- Week 12: Dynamic Regression [chapter 10]
+- Week 13: Hierarchies, advanced forecasting and related issues   
+[chapters 11-13]
+- Week 14: Presentations on a people analytics problem and a time series forecast [See footer]
+
+::: footer
+Date TBA: We will have to reschedule this because it represents the cancelled class the first week.
+:::
+
+## On the Projects/Presentations
+
+An original modelling project is the expectation/deliverable.
+
+- Pose an interesting question
+- Find some data that can inform an answer.  
+- Present: 
+  - a motivation, 
+  - the data, 
+  - the question, 
+  - the models, and 
+  - the answer, concluding with 
+  - some directions to take it further.
+  
+## On Homework
+
+Each week, we need to engage with examples.  As a result, in addition to weekly reading, the homework is twofold.  One part should be easy, the other a bit harder.
+
+- The Easy Part
+  - Replicate the computing in the book chapter.  
+  - That gives us working examples to start from.
+  
+- The Harder Part
+  - Each chapter concludes with `Data Exercises`
+  - These push you to apply the concepts and models in new settings.
+  
+::: aside
+In R, Julia, or Python, if you wish, during the first half on People Analytics.
+:::
+
+# Questions?
+
+# Introduction, R, Statistics, and Regression
+
+## The Importance of People Analytics

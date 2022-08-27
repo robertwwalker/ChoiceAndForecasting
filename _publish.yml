@@ -1,0 +1,4 @@
+- source: project
+  quarto-pub:
+    - id: cbfa92d1-5850-4011-8b0b-6f6263a399f2
+      url: 'https://quartopub.com/sites/rww/models-of-choice-and-forecasting'

@@ -1,0 +1,26 @@
+/*-- scss:defaults --*/
+
+// fonts
+$font-family-sans-serif: "Palatino Linotype", "Book Antiqua", Palatino,
+  FreeSerif, serif !default;
+
+// colors
+$body-bg: #371142 !default;
+$body-color: #E487BB !default;
+$link-color: #F97B64 !default;
+$selection-bg: #1c5253 !default;
+
+// headings
+$presentation-heading-font: "Palatino Linotype", "Book Antiqua", Palatino,
+  FreeSerif, serif !default;
+$presentation-heading-color: #98B2E1 !default;
+
+// size
+
+$presentation-font-size-root: 32px;
+
+/*-- scss:rules --*/
+
+.reveal a {
+  line-height: 1.3em;
+}
