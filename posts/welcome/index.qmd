@@ -5,7 +5,7 @@ date: "2022-08-26"
 categories: [news]
 ---
 
-I hope you are ready! 
+I hope you are ready!  The [syllabus can be found here](./syllabus/Syllabus.pdf).
 
 We will work with two books.  
 
