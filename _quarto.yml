@@ -4,6 +4,8 @@ project:
 
 website:
   title: "Models of Choice and Forecasting"
+  twitter-card: 
+    creator: "@PieRatio"
   navbar:
     right:
       - about.qmd
