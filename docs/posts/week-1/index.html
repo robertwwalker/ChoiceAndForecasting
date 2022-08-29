@@ -119,12 +119,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../../styles.css">
 <meta name="twitter:title" content="Models of Choice and Forecasting - Week 1: R, Inference, and Regression: A Review">
 <meta name="twitter:description" content="The slides are here.">
-<meta name="twitter:image" content="image.png">
+<meta name="twitter:image" content="https://quartopub.com/sites/rww/models-of-choice-and-forecasting/posts/week-1/image.png">
 <meta name="twitter:creator" content="@PieRatio">
+<meta name="twitter:image-height" content="960">
+<meta name="twitter:image-width" content="1344">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -203,7 +206,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <p>The slides <a href="https://robertwwalker.github.io/xaringan/CMF-Week-1/">are here.</a></p>
-<p>Our first class meeting will focus on Chapters <a href="https://peopleanalytics-regression-book.org/gitbook/inf-model.html">1</a>, <a href="https://peopleanalytics-regression-book.org/gitbook/the-basics-of-the-r-programming-language.html">2</a>, <a href="https://peopleanalytics-regression-book.org/gitbook/found-stats.html">3</a>; I suspect we will of <strong>Handbook of Regression Modeling in People Analytics</strong>.</p>
+<p>Our first class meeting will focus on Chapters <a href="https://peopleanalytics-regression-book.org/gitbook/inf-model.html">1</a>, <a href="https://peopleanalytics-regression-book.org/gitbook/the-basics-of-the-r-programming-language.html">2</a>, <a href="https://peopleanalytics-regression-book.org/gitbook/found-stats.html">3</a>; I suspect we will leave Chapter 4 of <strong>Handbook of Regression Modeling in People Analytics</strong> for next time.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># url of data set </span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"http://peopleanalytics-regression-book.org/data/salespeople.csv"</span></span>
@@ -219,8 +222,236 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="index_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<section id="hypothesis-tests-and-confidence-intervals" class="level2">
+<h2 class="anchored" data-anchor-id="hypothesis-tests-and-confidence-intervals">Hypothesis Tests and Confidence Intervals</h2>
+</section>
+<section id="single-means-with-the-cars-data" class="level1">
+<h1>Single means with the cars data</h1>
+<p>I will work with R’s internal dataset on cars: <code>cars</code>. There are two variables in the dataset, this is what they look like.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/cars-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="an-hypothesis-test" class="level2">
+<h2 class="anchored" data-anchor-id="an-hypothesis-test">An Hypothesis Test</h2>
+<p>I will work with the speed variable. The hypothesis to advance is that 17 or greater is the true average speed. The alternative must then be that the average speed is less than 17. Knowing only the sample size, I can figure out what <span class="math inline">\(t\)</span> must be to reject 17 or greater and conclude that the true average must be less with 90% probability. The sample mean would have to be at least <code>qt(0.1, 49)</code> standard errors below 17 to rule out a mean of 17 or greater. Now let’s see what we have. Let me skim the data for the relevant information.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(cars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">cars</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 13%">
+<col style="width: 18%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">speed</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">15.40</td>
+<td style="text-align: right;">5.29</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: left;">▂▅▇▇▃</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dist</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">42.98</td>
+<td style="text-align: right;">25.77</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">56</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: left;">▅▇▅▂▁</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Doing the math by hand, I get:</p>
+<p><span class="math display">\[ t = \frac{\overline{x} - \mu}{\frac{s}{\sqrt{n}}} = \frac{15.4 - 17}{\frac{5.29}{\sqrt{50}}} = -2.14 \]</span></p>
+<p>Interpreting the result, the sample mean is 2.14 standard errors below the hypothetical mean of 17. The probability of a sample mean of 15.4 [or smaller] given a true average of 17, this standard deviation and sample size is <code>pt(-2.14, 49)</code> = 0.0186798. Notice that probability is less than 0.1; thus with at least 90% confidence, the true mean is not 17 or greater and thus must be smaller. Assuming the hypothetical mean [17 or greater] is true, the likelihood of generating a sample mean of 15.4 is only 0.0187 and this is far less than the 10% permissible outside of 90% confidence. Indeed, any sample mean more than 1.299 standard errors below 17 would be too small to sustain the belief that the true mean is 17 or greater because <code>qt(0.1, 49)</code> is -1.299. Put in the original metric, any sample mean below 16.0285747 would require a rejection of the claim that the true mean is 17 or greater with 90% confidence.</p>
+</section>
+<section id="the-confidence-interval" class="level2">
+<h2 class="anchored" data-anchor-id="the-confidence-interval">The Confidence Interval</h2>
+<p>The confidence interval is always centered on the sample mean. Rearranging the equation above and solving for <span class="math inline">\(\mu\)</span> given the <span class="math inline">\(t\)</span> above, we get</p>
+<p><span class="math display">\[ \mu = \overline{x} - t(\frac{s}{\sqrt{n}}) = 15.4 - (-1.299*\frac{5.29}{\sqrt{50}}) = 16.37143 \]</span></p>
+<p>With 90% confidence, given this sample mean, the true value should be less than 16.37143.</p>
+</section>
+<section id="the-native-t.test" class="level2">
+<h2 class="anchored" data-anchor-id="the-native-t.test">The native <code>t.test</code></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(cars<span class="sc">$</span>speed, <span class="at">conf.level =</span> <span class="fl">0.9</span>, <span class="at">alternative =</span> <span class="st">"less"</span>, <span class="at">mu=</span><span class="dv">17</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  cars$speed
+t = -2.1397, df = 49, p-value = 0.01869
+alternative hypothesis: true mean is less than 17
+90 percent confidence interval:
+     -Inf 16.37143
+sample estimates:
+mean of x 
+     15.4 </code></pre>
+</div>
+</div>
+</section>
+<section id="simplifying" class="level2">
+<h2 class="anchored" data-anchor-id="simplifying">Simplifying?</h2>
+<p><span class="math display">\[ t(\frac{s}{\sqrt{n}}) = \overline{x} - \mu \]</span> can lead to either:</p>
+<p><span class="math display">\[  \overline{x} - t(\frac{s}{\sqrt{n}}) = \mu \]</span></p>
+<p>or</p>
+<p><span class="math display">\[ \overline{x} = \mu + t(\frac{s}{\sqrt{n}}) \]</span></p>
+<p>So a minus <span class="math inline">\(t\)</span> will be below <span class="math inline">\(\mu\)</span> but above <span class="math inline">\(\overline{x}\)</span> and a positive <span class="math inline">\(t\)</span> will be above <span class="math inline">\(\mu\)</span> but below <span class="math inline">\(\overline{x}\)</span>.<br>
+1. An hypothesis test given <span class="math inline">\(\mu\)</span> with an alternative that is less must then render an upper bound given <span class="math inline">\(\overline{x}\)</span>.<br>
+2. An hypothesis test given <span class="math inline">\(\mu\)</span> with an alternative that is greater must then render a lower bound given <span class="math inline">\(\overline{x}\)</span>.</p>
+</section>
+<section id="a-graphical-representation" class="level2">
+<h2 class="anchored" data-anchor-id="a-graphical-representation">A graphical representation</h2>
+<p>Given a sample size <span class="math inline">\(n\)</span>, some unknown constant <span class="math inline">\(\mu\)</span> and satisfaction of Lindeberg’s condition, the sampling distribution of the sample mean follows a <span class="math inline">\(t\)</span> distribution with degrees of freedom <span class="math inline">\(n-1\)</span>. To render a graphical representation, let’s arbitrarily set n to 50, as in the above example. Here is a plot.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="fu">dt</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">df=</span><span class="dv">49</span>), <span class="at">xlab=</span><span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"x-bar -"</span>,mu,<span class="st">" (measured in std. errors of the mean)"</span>, <span class="at">sep=</span><span class="st">""</span>)), <span class="at">ylab=</span><span class="st">"Density"</span>, <span class="at">type=</span><span class="st">"l"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="inverting-the-scale-transformation" class="level3">
+<h3 class="anchored" data-anchor-id="inverting-the-scale-transformation">Inverting the <code>scale</code> transformation</h3>
+<p>We can now reverse the scale by the standard error of the mean. In the above example, it is 0.7478. Measured in miles per hour, we obtain:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>)<span class="sc">*</span><span class="fl">0.7478</span>, <span class="fu">dt</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">df=</span><span class="dv">49</span>), <span class="at">xlab=</span><span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"x-bar -"</span>,mu,<span class="st">" (measured in mph)"</span>, <span class="at">sep=</span><span class="st">""</span>)), <span class="at">ylab=</span><span class="st">"Density"</span>, <span class="at">type=</span><span class="st">"l"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Now we will take the concrete example above.</p>
+</section>
+<section id="the-hypothesis-test" class="level3">
+<h3 class="anchored" data-anchor-id="the-hypothesis-test">The Hypothesis Test</h3>
+<p>We claim that the true mean is 17 or greater. Now we need center the distribution above as though the claim is true.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span><span class="dv">17</span><span class="sc">+</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>)<span class="sc">*</span><span class="fl">0.7478</span>, <span class="fu">dt</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">df=</span><span class="dv">49</span>), <span class="at">xlab=</span><span class="fu">expression</span>(<span class="fu">paste</span>(mu,<span class="st">" (measured in mph)"</span>, <span class="at">sep=</span><span class="st">""</span>)), <span class="at">ylab=</span><span class="st">"Density"</span>, <span class="at">type=</span><span class="st">"l"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">17</span>, <span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">17</span><span class="sc">+</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>)<span class="sc">*</span><span class="fl">0.7478</span>, <span class="dv">21</span>), <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">dt</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">df=</span><span class="dv">49</span>)), <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The sample mean is estimated to be 15.4. How likely is that?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span><span class="dv">17</span><span class="sc">+</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>)<span class="sc">*</span><span class="fl">0.7478</span>, <span class="fu">dt</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">df=</span><span class="dv">49</span>), <span class="at">xlab=</span><span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"x-bar -"</span>,mu,<span class="st">" (measured in mph)"</span>, <span class="at">sep=</span><span class="st">""</span>)), <span class="at">ylab=</span><span class="st">"Density"</span>, <span class="at">type=</span><span class="st">"l"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">17</span>, <span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fl">15.4</span>, <span class="at">col=</span><span class="st">"blue"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">17</span><span class="sc">+</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>)<span class="sc">*</span><span class="fl">0.7478</span>, <span class="dv">21</span>), <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">dt</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">df=</span><span class="dv">49</span>)), <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">17</span><span class="sc">+</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="fl">2.14</span>, <span class="at">by=</span><span class="fl">0.01</span>)<span class="sc">*</span><span class="fl">0.7478</span>), <span class="at">y =</span> <span class="fu">c</span>(<span class="fu">dt</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="sc">-</span><span class="fl">2.14</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">df=</span><span class="dv">49</span>), <span class="dv">0</span>), <span class="at">col =</span> <span class="st">"blue"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">col=</span><span class="st">"black"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">17</span> <span class="sc">+</span> <span class="fu">qt</span>(<span class="fl">0.1</span>, <span class="at">df=</span><span class="dv">49</span>)<span class="sc">*</span><span class="fl">0.7874</span>, <span class="at">col=</span><span class="st">"black"</span>, <span class="at">lty=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The probability of seeing such a small sample mean if the true average is 17 is only 0.01869. The probability above the dotted black line is 0.9 with 0.1 below. WIth 90% confidence, anything below this would be sufficient evidence to reject the claim that the true average is 17 or above.</p>
+</section>
+</section>
+<section id="the-confidence-interval-1" class="level2">
+<h2 class="anchored" data-anchor-id="the-confidence-interval-1">The Confidence Interval</h2>
+<p>Let’s take the sample mean as the center and work out a confidence interval at 90%. It’s exactly the 16.37143 gives above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span><span class="fl">15.4</span><span class="sc">+</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>)<span class="sc">*</span><span class="fl">0.7478</span>, <span class="fu">dt</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">df=</span><span class="dv">49</span>), <span class="at">xlab=</span><span class="fu">expression</span>(<span class="fu">paste</span>(mu,<span class="st">" | x-bar (measured in mph)"</span>, <span class="at">sep=</span><span class="st">""</span>)), <span class="at">ylab=</span><span class="st">"Density"</span>, <span class="at">type=</span><span class="st">"l"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fl">15.4</span>, <span class="at">col=</span><span class="st">"blue"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fl">15.4</span> <span class="sc">-</span> <span class="fu">qt</span>(<span class="fl">0.1</span>, <span class="at">df=</span><span class="dv">49</span>)<span class="sc">*</span><span class="fl">0.7478</span>, <span class="at">col=</span><span class="st">"black"</span>, <span class="at">lty=</span><span class="dv">3</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">11</span>, <span class="fl">15.4</span><span class="sc">+</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="fl">1.3</span>, <span class="at">by=</span><span class="fl">0.01</span>)<span class="sc">*</span><span class="fl">0.7478</span>), <span class="at">y =</span> <span class="fu">c</span>(<span class="fu">dt</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="fl">1.3</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">df=</span><span class="dv">49</span>), <span class="dv">0</span>), <span class="at">col =</span> <span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>As an aside, 17 has exactly 0.01869 probability above it shown in orange.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span><span class="fl">15.4</span><span class="sc">+</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>)<span class="sc">*</span><span class="fl">0.7478</span>, <span class="fu">dt</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">df=</span><span class="dv">49</span>), <span class="at">xlab=</span><span class="fu">expression</span>(<span class="fu">paste</span>(mu,<span class="st">" | x-bar (measured in mph)"</span>, <span class="at">sep=</span><span class="st">""</span>)), <span class="at">ylab=</span><span class="st">"Density"</span>, <span class="at">type=</span><span class="st">"l"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fl">15.4</span>, <span class="at">col=</span><span class="st">"blue"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fl">15.4</span> <span class="sc">-</span> <span class="fu">qt</span>(<span class="fl">0.1</span>, <span class="at">df=</span><span class="dv">49</span>)<span class="sc">*</span><span class="fl">0.7478</span>, <span class="at">col=</span><span class="st">"black"</span>, <span class="at">lty=</span><span class="dv">3</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">11</span>, <span class="fl">15.4</span><span class="sc">+</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="fl">1.3</span>, <span class="at">by=</span><span class="fl">0.01</span>)<span class="sc">*</span><span class="fl">0.7478</span>), <span class="at">y =</span> <span class="fu">c</span>(<span class="fu">dt</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="fl">1.3</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">df=</span><span class="dv">49</span>), <span class="dv">0</span>), <span class="at">col =</span> <span class="st">"blue"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="fl">15.4</span><span class="sc">+</span><span class="fu">seq</span>(<span class="fl">2.14</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>)<span class="sc">*</span><span class="fl">0.7478</span>, <span class="dv">17</span>), <span class="at">y =</span> <span class="fu">c</span>(<span class="fu">dt</span>(<span class="fu">seq</span>(<span class="fl">2.14</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">df=</span><span class="dv">49</span>), <span class="dv">0</span>), <span class="at">col =</span> <span class="st">"orange"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
