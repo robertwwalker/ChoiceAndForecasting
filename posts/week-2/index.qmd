@@ -3,7 +3,7 @@ title: "Week 2: Inference and Regression: A Review"
 author: "Robert W. Walker"
 date: "2022-09-05"
 categories: [R]
-image: "image.png"
+image: "image.jpg"
 ---
 
 The slides [are here.](https://robertwwalker.github.io/xaringan/CMF-Week-2/)
