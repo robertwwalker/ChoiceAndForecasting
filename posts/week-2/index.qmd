@@ -161,4 +161,35 @@ library(GGally)
 # display a pairplot of all four columns of data
 GGally::ggpairs(ugtests)
 ```
+```{r}
+my.lm <- lm(Final ~ Yr1 + Yr2 + Yr3, data=ugtests)
+summary(my.lm)
+```
+
+```{r}
+confint(my.lm)
+```
+
+```{r}
+predict(my.lm)
+```
+
+```{r}
+plot(my.lm)
+```
+
+```{r}
+library(car)
+avPlots(my.lm)
+```
+
+```{r}
+library(gvlma)
+gvlma(my.lm)
+```
+
+```{r}
+library(visreg)
+visreg(my.lm, xvar="Yr2")
+```
 
