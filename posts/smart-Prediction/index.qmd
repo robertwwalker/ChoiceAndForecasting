@@ -1,12 +1,12 @@
 ---
 title: "A Small Thread on Smart Prediction"
 author: "Robert W. Walker"
-date: "2022-09-05"
+date: "2022-09-06"
 categories: [R]
-image: "image.jpg"
+image: "image.png"
 ---
 
-# Chapter 4: Linear Regression
+# Linear Regression
 
 A linear regression example.  The data can be loaded from the web.
 
