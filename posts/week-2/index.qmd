@@ -6,7 +6,7 @@ categories: [R]
 image: "image.jpg"
 ---
 
-The slides [are here.](https://robertwwalker.github.io/xaringan/CMF-Week-2/)
+The slides [are here.](https://robertwwalker.github.io/xaringan/CMF-Week-2/).  The video is [linked here](https://youtu.be/gwgD4pF-Qt8).
 
 Our second class meeting will focus on [Chapter 3](https://peopleanalytics-regression-book.org/gitbook/found-stats.html);  and [Chapter 4](https://peopleanalytics-regression-book.org/gitbook/linear-reg-ols.html)  of __Handbook of Regression Modeling in People Analytics__ for next time.
 
