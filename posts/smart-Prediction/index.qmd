@@ -1,0 +1,212 @@
+---
+title: "A Small Thread on Smart Prediction"
+author: "Robert W. Walker"
+date: "2022-09-05"
+categories: [R]
+image: "image.jpg"
+---
+
+# Chapter 4: Linear Regression
+
+A linear regression example.  The data can be loaded from the web.
+
+```{r}
+# if needed, download ugtests data
+url <- "http://peopleanalytics-regression-book.org/data/ugtests.csv"
+ugtests <- read.csv(url)
+str(ugtests)
+```
+
+There are 975 individuals graduating in the past three years from the biology department of a large academic institution.  We have data on four examinations: 
+
+- a first year exam ranging from 0 to 100 (Yr1)
+- a second year exam ranging from 0 to 200 (Yr2)
+- a third year exam ranging from 0 to 200 (Yr3)
+- a Final year exam ranging from 0 to 300 (Final)
+
+```{r}
+library(skimr); library(kableExtra); library(tidyverse)
+skim(ugtests) %>% dplyr::filter(skim_type=="numeric") %>% kable()
+```
+
+## A Visual of the Data
+
+```{r}
+library(GGally)
+# display a pairplot of all four columns of data
+GGally::ggpairs(ugtests)
+```
+```{r}
+my.lm <- lm(Final ~ Yr1 + Yr2 + Yr3, data=ugtests)
+summary(my.lm)
+```
+
+## Basic In Sample Prediction
+
+```{r}
+ugtests %>% mutate(Fitted.Value = predict(my.lm)) %>% kable() %>% scroll_box(height="300px")
+```
+
+## Out of Sample Prediction
+
+Suppose we have a student with a 55 on `Yr1`, a 95 on `Yr2` and a 110 on `Yr3`.
+
+First, what would their data look like?
+
+```{r}
+Hypothetical.Student <- data.frame(Yr1=55, Yr2=95, Yr3=110)
+Hypothetical.Student
+```
+
+Let's predict, first the single best guess -- the fitted value.
+
+The equation we sought estimates for was:
+
+```{r}
+library(equatiomatic)
+equatiomatic::extract_eq(my.lm)
+```
+
+
+And it was estimated to be
+
+```{r}
+equatiomatic::extract_eq(my.lm, use_coefs = TRUE, coef_digits = 4)
+```
+
+Our best guess for `Hypothetical.Student` must then be:
+
+```{r}
+14.145 + 0.076*55 + 0.4313*95 + 0.8657*110
+```
+
+What does `predict` produce?
+
+```{r}
+predict(my.lm, newdata = Hypothetical.Student)
+```
+
+The same thing except that mine by hand was restricted to four digits.
+
+In exact form, we could produce, using matrix multiplication,
+
+```{r}
+c(summary(my.lm)$coefficients[,1])
+c(1,Hypothetical.Student)
+c(1,55,95,110)%*%c(summary(my.lm)$coefficients[,1])
+```
+Because that is all predict does.
+
+### Confidence Interval
+
+To produce confidence intervals, we can add the `interval` option.  For an interval of the predicted average, we have:
+
+```{r}
+predict(my.lm, newdata = Hypothetical.Student, interval="confidence")
+```
+
+### Prediction Interval
+
+An interval of the predicted range of data, we have
+
+```{r}
+predict(my.lm, newdata = Hypothetical.Student, interval="prediction")
+```
+
+## Smart Prediction
+
+One great thing about R is **smart prediction**.  So what does it do?  Let's try out the centering operations that I used.
+
+```{r}
+my.lm <- lm(Final ~ scale(Yr1, scale=FALSE) + scale(Yr2, scale=FALSE) + scale(Yr3, scale=FALSE), data=ugtests)
+summary(my.lm)
+```
+
+```{r}
+equatiomatic::extract_eq(my.lm, use_coefs = TRUE, coef_digits = 4)
+```
+
+Only the intercept is impacted; the original intercept was the expected `Final` for a student that had all zeroes [possible but a very poor performance] and they'd have expected a 14.15 [the original intercept].  After the centering operation for each predictor, the average student [mean scores on Yr1, Yr2, and Yr3] could expect a score of 148.96205 -- the intercept from the regression on centered data.
+
+Now let's predict our `Hypothetical.Student`.
+
+```{r}
+predict(my.lm, newdata=Hypothetical.Student)
+```
+
+The result is the same.
+
+```{r}
+predict(my.lm, newdata=Hypothetical.Student, interval="confidence")
+```
+
+```{r}
+predict(my.lm, newdata=Hypothetical.Student, interval="prediction")
+```
+
+This works because R knows that each variable was `centered`, the mean was subtracted because that is what scale does when the [unfortunately named] argument `scale` inside the function `scale` is set to FALSE `=>` we are not creating z-scores [the default is $\frac{x_{i} - \overline{x}}{sd(x)}$] but are just taking $x_{i} - \overline{x}$ or **centering the data**.
+
+## Smart Prediction is Deployed Throughout R
+
+Let me try a regression where Yr1, Yr2, and Yr3 are allowed to have effects with curvature using each term and its square.  
+
+```{r}
+my.lm.Sq <- lm(Final ~ Yr1 + Yr1^2 + Yr2 + Yr2^2 + Yr3 + Yr3^2, data=ugtests)
+summary(my.lm.Sq)
+```
+
+Unfortunately, that did not actually include the squared terms, we still only have three lines.  We could use this:
+
+```{r}
+my.lm.Sq <- lm(Final ~ Yr1 + Yr1*Yr1 + Yr2 + Yr2*Yr2 + Yr3 + Yr3*Yr3, data=ugtests)
+summary(my.lm.Sq)
+```
+
+But that also does not work.  The key is to give $R$ an object for the squared term that treats `Yr1`, `Yr2`, and `Yr3` as base terms to be squared; the function for this is `I`.
+
+```{r}
+my.lm.Sq <- lm(Final ~ Yr1 + I(Yr1^2) + Yr2 + I(Yr2^2) + Yr3 + I(Yr3^2), data=ugtests)
+summary(my.lm.Sq)
+```
+
+Does the curvature improve fit?  We can use an F test.
+
+```{r}
+anova(my.lm, my.lm.Sq)
+```
+
+We cannot tell the two models apart so the squared terms do not improve the model.  That wasn't really the goal, it was to illustrate `Smart Prediction`.
+
+What would we expect, given this new model, for our hypothetical student?
+
+```{r}
+predict(my.lm.Sq, newdata=Hypothetical.Student)
+```
+I will forego the intervals but it just works because R knows to square each of `Yr1`, `Yr2`, and `Yr3`.
+
+## An Interaction Term
+
+Suppose that `Yr1` and `Yr2` have an interactive effect.  We could use the `I()` construct but we do not have to.  The regression would be:
+
+```{r}
+my.lm.Int <- lm(Final ~ Yr1 + Yr2 + Yr1*Yr2 + Yr3, data=ugtests)
+summary(my.lm.Int)
+my.lm.I <- lm(Final ~ Yr1 + Yr2 + I(Yr1*Yr2) + Yr3, data=ugtests)
+summary(my.lm.I)
+```
+
+It is worth noting that this does not improve the fit of the model.
+
+```{r}
+anova(my.lm, my.lm.I)
+anova(my.lm, my.lm.Int)
+```
+
+
+The same holds for both:
+
+```{r}
+predict(my.lm.I, newdata=Hypothetical.Student)
+predict(my.lm.Int, newdata=Hypothetical.Student)
+```
+
