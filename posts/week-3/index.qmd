@@ -85,7 +85,6 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE, tidy = TRUE)
 set.seed(9119)
 ```
 
-
 # My Notes on Binary GLMs
 
 Suppose we have some variable that we want to explain, say `Churn` that has two mutually exclusive and exhaustive alternatives.  **Customers can either Churn or not**.  Any given customer is conceptualized as a Bernoulli trial, e.g. $\pi^{y}(1-\pi)^{1-y}$.  With a willingness to believe that every `Churn` decision is an independently and identically distributed trial in this group of customers, overall churn is a binomial random variable with probability mass function $$P_{y} = {n \choose y} \pi^{y}(1-\pi)^{n-y}$$ where
@@ -241,7 +240,6 @@ Taking advantage of the book's example, I first need to clean up the data, there
 ```{r}
 Churn.CC <- Churn %>% select(ChurnF,InternetService,tenure,PhoneService,Contract,TotalCharges) %>% filter(!is.na(TotalCharges))
 my.logit.CC <- glm(ChurnF~InternetService+tenure+PhoneService+Contract+TotalCharges, family = binomial(link="logit"), data=Churn.CC)
-
 library(LogisticDx)
 # get range of goodness-of-fit diagnostics
 model_diagnostics <- LogisticDx::gof(my.logit.CC, 
