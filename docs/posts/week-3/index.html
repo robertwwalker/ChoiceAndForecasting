@@ -236,7 +236,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <p>The slides <a href="https://robertwwalker.github.io/xaringan/CMF-Week-3/">are here.</a></p>
-<p>Our third class meeting will focus on <a href="https://peopleanalytics-regression-book.org/gitbook/found-stats.html">Chapter 5</a> of <strong>Handbook of Regression Modeling in People Analytics</strong>.</p>
+<p>Our third class meeting will focus on <a href="https://peopleanalytics-regression-book.org/gitbook/found-stats.html">Chapter 5</a> of <strong>Handbook of Regression Modeling in People Analytics</strong>. <a href="https://youtu.be/75K9hUQPuHY">The video is on youtube.</a></p>
 <section id="the-skinny" class="level1">
 <h1>The Skinny</h1>
 <p>Why not just use a linear model for a binary outcome? It turns out that you can but many people know just enough to think you don’t know what you are talking about if you do. In a very, very dense paper, Jamie Robins (1986, iirc) proves that, as long as the predicted probabilities tend to remain in the region of about 0.2 to 0.8, that is, <strong>as long as the model is not all that good</strong>, then it really doesn’t matter except that the standard errors you would estimate are likely incorrect. If the model is good for one or the other of the levels, then the behavior in the extremes matters; you could end up with predictions that are less than zero or greater than one and those are invalid as probabilities. Let’s just peak at this example. I will load some data on Churn. For details, <a href="https://www.kaggle.com/datasets/blastchar/telco-customer-churn">look on Kaggle.com – a great source of data</a>.</p>
