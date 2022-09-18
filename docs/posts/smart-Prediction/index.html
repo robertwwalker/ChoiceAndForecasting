@@ -7586,8 +7586,174 @@ Model 2: Final ~ Yr1 + Yr2 + Yr1 * Yr2 + Yr3
 154.544 </code></pre>
 </div>
 </div>
+</section>
+<section id="an-addendum-on-diagnosing-quadratics" class="level2">
+<h2 class="anchored" data-anchor-id="an-addendum-on-diagnosing-quadratics">An Addendum on Diagnosing Quadratics</h2>
+<p>Let me generate some fake data to showcase use cases for quadratic functions of x as determinants of y.</p>
+<section id="the-true-model" class="level3">
+<h3 class="anchored" data-anchor-id="the-true-model">The True Model</h3>
+<p>I will generate <span class="math inline">\(y\)</span> according to the following equation.</p>
+<p><span class="math display">\[y = x + 2*x^2 + \epsilon\]</span></p>
+<p>where x is a sequence from -5 to 5 and <span class="math inline">\(\epsilon\)</span> is Normal(0,1).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'magrittr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:purrr':
+
+    set_names</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:tidyr':
+
+    extract</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>fake.df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>, <span class="at">by=</span><span class="fl">0.05</span>))</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>fake.df<span class="sc">$</span>y <span class="ot">&lt;-</span> fake.df<span class="sc">$</span>x <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>fake.df<span class="sc">$</span>x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">201</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="a-plot" class="level3">
+<h3 class="anchored" data-anchor-id="a-plot">A Plot</h3>
+<p>Let me plot x and y and include the estimated regression line [that does not include the squared term].</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>fake.df <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>To be transparent, here is the regression.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(y<span class="sc">~</span>x, <span class="at">data=</span>fake.df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = y ~ x, data = fake.df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-18.934 -13.695  -4.537  11.878  34.081 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  16.8327     1.0757  15.649  &lt; 2e-16 ***
+x             0.9946     0.3708   2.682  0.00792 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 15.25 on 199 degrees of freedom
+Multiple R-squared:  0.0349,    Adjusted R-squared:  0.03005 
+F-statistic: 7.195 on 1 and 199 DF,  p-value: 0.007923</code></pre>
+</div>
+</div>
+<p>Note just looking at the table would suggest we conclude that <span class="math inline">\(y\)</span> is a linear function of <span class="math inline">\(x\)</span> and this is, at best, partially true. It is actually a quadratic function of <span class="math inline">\(x\)</span>. The fit is not very good, though.</p>
+<p>What do the residuals look like?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>fake.df <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(<span class="at">resid =</span> <span class="fu">lm</span>(y<span class="sc">~</span>x, fake.df)<span class="sc">$</span>residuals)</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>fake.df <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>resid) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Residuals from linear regression with only x"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This is <em>a</em> characteristic pattern of a quadratic, <em>a</em> because the inflection point is at zero and <span class="math inline">\(x\)</span> can be both positive or negative. Real world data is almost always a bit messier. Nevertheless, I digress. Let’s look at the regression estimates including a squared term.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(y<span class="sc">~</span>x<span class="sc">+</span><span class="fu">I</span>(x<span class="sc">^</span><span class="dv">2</span>), fake.df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = y ~ x + I(x^2), data = fake.df)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.48563 -0.65214 -0.01644  0.72777  2.29603 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -0.093122   0.110725  -0.841    0.401    
+x            0.994560   0.025444  39.089   &lt;2e-16 ***
+I(x^2)       2.010986   0.009806 205.084   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.047 on 198 degrees of freedom
+Multiple R-squared:  0.9955,    Adjusted R-squared:  0.9954 
+F-statistic: 2.179e+04 on 2 and 198 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Notice both the linear and the squared term are statistically different from zero and that the linear term has a much smaller standard error because it is far more precisely estimated. What do the residuals now look like?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>fake.df <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(<span class="at">resid.sq =</span> <span class="fu">lm</span>(y<span class="sc">~</span>x<span class="sc">+</span><span class="fu">I</span>(x<span class="sc">^</span><span class="dv">2</span>), fake.df)<span class="sc">$</span>residuals)</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>fake.df <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>resid.sq) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>These are basically random with respect to <span class="math inline">\(x\)</span>.</p>
+<p>I should also point out that the residuals are well behaved now; they were not in the previous case.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gvlma)</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gvlma</span>(<span class="fu">lm</span>(y<span class="sc">~</span>x, <span class="at">data=</span>fake.df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = y ~ x, data = fake.df)
+
+Coefficients:
+(Intercept)            x  
+    16.8327       0.9946  
 
 
+ASSESSMENT OF THE LINEAR MODEL ASSUMPTIONS
+USING THE GLOBAL TEST ON 4 DEGREES-OF-FREEDOM:
+Level of Significance =  0.05 
+
+Call:
+ gvlma(x = lm(y ~ x, data = fake.df)) 
+
+                       Value   p-value                   Decision
+Global Stat        2.195e+02 0.0000000 Assumptions NOT satisfied!
+Skewness           1.300e+01 0.0003115 Assumptions NOT satisfied!
+Kurtosis           6.447e+00 0.0111111 Assumptions NOT satisfied!
+Link Function      2.001e+02 0.0000000 Assumptions NOT satisfied!
+Heteroscedasticity 8.725e-07 0.9992547    Assumptions acceptable.</code></pre>
+</div>
+</div>
+<p>Versus</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gvlma</span>(<span class="fu">lm</span>(y<span class="sc">~</span>x<span class="sc">+</span><span class="fu">I</span>(x<span class="sc">^</span><span class="dv">2</span>), <span class="at">data=</span>fake.df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = y ~ x + I(x^2), data = fake.df)
+
+Coefficients:
+(Intercept)            x       I(x^2)  
+   -0.09312      0.99456      2.01099  
+
+
+ASSESSMENT OF THE LINEAR MODEL ASSUMPTIONS
+USING THE GLOBAL TEST ON 4 DEGREES-OF-FREEDOM:
+Level of Significance =  0.05 
+
+Call:
+ gvlma(x = lm(y ~ x + I(x^2), data = fake.df)) 
+
+                     Value p-value                Decision
+Global Stat        2.63452  0.6207 Assumptions acceptable.
+Skewness           0.49801  0.4804 Assumptions acceptable.
+Kurtosis           1.39940  0.2368 Assumptions acceptable.
+Link Function      0.70078  0.4025 Assumptions acceptable.
+Heteroscedasticity 0.03634  0.8488 Assumptions acceptable.</code></pre>
+</div>
+</div>
+
+
+</section>
 </section>
 </section>
 

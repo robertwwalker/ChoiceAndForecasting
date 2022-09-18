@@ -210,3 +210,72 @@ predict(my.lm.I, newdata=Hypothetical.Student)
 predict(my.lm.Int, newdata=Hypothetical.Student)
 ```
 
+## An Addendum on Diagnosing Quadratics
+
+Let me generate some fake data to showcase use cases for quadratic functions of x as determinants of y.
+
+### The True Model
+
+I will generate $y$ according to the following equation.
+
+$$y = x + 2*x^2 + \epsilon$$
+
+where x is a sequence from -5 to 5 and $\epsilon$ is Normal(0,1).
+
+```{r}
+library(magrittr)
+fake.df <- data.frame(x=seq(-5,5, by=0.05))
+fake.df$y <- fake.df$x + 2*fake.df$x^2 + rnorm(201)
+```
+
+### A Plot
+
+Let me plot x and y and include the estimated regression line [that does not include the squared term].
+
+```{r}
+fake.df %>% ggplot() + aes(x=x, y=y) + geom_point() + geom_smooth(method="lm")
+```
+
+To be transparent, here is the regression.
+
+```{r}
+summary(lm(y~x, data=fake.df))
+```
+
+Note just looking at the table would suggest we conclude that $y$ is a linear function of $x$ and this is, at best, partially true.  It is actually a quadratic function of $x$.  The fit is not very good, though.
+
+What do the residuals look like?
+
+```{r}
+fake.df %<>% mutate(resid = lm(y~x, fake.df)$residuals)
+fake.df %>% ggplot() + aes(x=x, y=resid) + geom_point() + theme_minimal() + labs(y="Residuals from linear regression with only x")
+```
+
+This is *a* characteristic pattern of a quadratic, *a* because the inflection point is at zero and $x$ can be both positive or negative.  Real world data is almost always a bit messier.  Nevertheless, I digress.  Let's look at the regression estimates including a squared term.
+
+```{r}
+summary(lm(y~x+I(x^2), fake.df))
+```
+
+Notice both the linear and the squared term are statistically different from zero and that the linear term has a much smaller standard error because it is far more precisely estimated.  What do the residuals now look like?
+
+```{r}
+fake.df %<>% mutate(resid.sq = lm(y~x+I(x^2), fake.df)$residuals)
+fake.df %>% ggplot() + aes(x=x, y=resid.sq) + geom_point()
+```
+
+These are basically random with respect to $x$.
+
+I should also point out that the residuals are well behaved now; they were not in the previous case.
+
+```{r}
+library(gvlma)
+gvlma(lm(y~x, data=fake.df))
+```
+
+Versus
+
+```{r}
+gvlma(lm(y~x+I(x^2), data=fake.df))
+```
+
