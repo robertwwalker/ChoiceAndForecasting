@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Robert W. Walker">
+<meta name="dcterms.date" content="2022-09-19">
+
+<title>Models of Choice and Forecasting - Week 4: Ordered and Multinomial Logistic Regression</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta name="twitter:title" content="Models of Choice and Forecasting - Week 4: Ordered and Multinomial Logistic Regression">
+<meta name="twitter:description" content="The slides are here.">
+<meta name="twitter:image" content="https://quartopub.com/sites/rww/models-of-choice-and-forecasting/posts/week-4/image.png">
+<meta name="twitter:creator" content="@PieRatio">
+<meta name="twitter:image-height" content="960">
+<meta name="twitter:image-width" content="1344">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Models of Choice and Forecasting</span>
+  </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/robertwwalker/ChoiceAndForecasting"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/PieRatio"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Week 4: Ordered and Multinomial Logistic Regression</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Robert W. Walker </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">September 19, 2022</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-skinny" id="toc-the-skinny" class="nav-link active" data-scroll-target="#the-skinny">The Skinny</a></li>
+  <li><a href="#multinomial-models" id="toc-multinomial-models" class="nav-link" data-scroll-target="#multinomial-models">Multinomial Models</a>
+  <ul class="collapse">
+  <li><a href="#ordered-models" id="toc-ordered-models" class="nav-link" data-scroll-target="#ordered-models">Ordered Models</a></li>
+  <li><a href="#the-outcome" id="toc-the-outcome" class="nav-link" data-scroll-target="#the-outcome">The Outcome</a></li>
+  <li><a href="#inputs" id="toc-inputs" class="nav-link" data-scroll-target="#inputs">Inputs</a></li>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">The Data</a></li>
+  <li><a href="#motivating-the-model" id="toc-motivating-the-model" class="nav-link" data-scroll-target="#motivating-the-model">Motivating the Model</a></li>
+  <li><a href="#what-to-replicate" id="toc-what-to-replicate" class="nav-link" data-scroll-target="#what-to-replicate">What to Replicate</a></li>
+  <li><a href="#column-4-estimates" id="toc-column-4-estimates" class="nav-link" data-scroll-target="#column-4-estimates">Column 4 Estimates</a></li>
+  <li><a href="#diagnostics-and-commentary" id="toc-diagnostics-and-commentary" class="nav-link" data-scroll-target="#diagnostics-and-commentary">Diagnostics and Commentary</a></li>
+  <li><a href="#testing-proportional-odds" id="toc-testing-proportional-odds" class="nav-link" data-scroll-target="#testing-proportional-odds">Testing Proportional-Odds</a></li>
+  <li><a href="#how-well-does-the-model-predict" id="toc-how-well-does-the-model-predict" class="nav-link" data-scroll-target="#how-well-does-the-model-predict">How Well Does the Model Predict?</a></li>
+  <li><a href="#on-aic" id="toc-on-aic" class="nav-link" data-scroll-target="#on-aic">On AIC</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>The slides <a href="https://robertwwalker.github.io/xaringan/CMF-Week-4/">are here.</a></p>
+<p>Our fourth class meeting will focus on <a href="https://peopleanalytics-regression-book.org/multinomial-logistic-regression-for-nominal-category-outcomes.html">Chapter 6</a> and <a href="https://peopleanalytics-regression-book.org/ord-reg.html">Chapter 7</a> of <strong>Handbook of Regression Modeling in People Analytics</strong>. The video will be on youtube.</p>
+<section id="the-skinny" class="level2">
+<h2 class="anchored" data-anchor-id="the-skinny">The Skinny</h2>
+<p>With qualitative outcomes that are nominal (Chapter 6) or ordered (Chapter 7); linear regressions and/or binary GLMs are insufficiently flexible and/or rich to confront the problem. In the nominal case, how one chose to turn the categories to values is unknown and, in the ordered case, the idea that unit distance separates the categories is an arbitrary assumption that is unlikely to be true.</p>
+</section>
+<section id="multinomial-models" class="level2">
+<h2 class="anchored" data-anchor-id="multinomial-models">Multinomial Models</h2>
+<section id="ordered-models" class="level3">
+<h3 class="anchored" data-anchor-id="ordered-models">Ordered Models</h3>
+<p>My preferred method of thinking about ordered regression involves latent variables. So what is a latent variable? It is something that is unobservable, hence latent, and we only observe coarse realizations in the form of qualitative categories. Consider the example from <a href="https://www.journals.uchicago.edu/doi/abs/10.1111/j.1468-2508.2006.00370.x">Li in the <em>Journal of Politics</em></a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./data/Screen%20Shot%202022-09-19%20at%209.59.09%20AM.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Li Abstract</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="the-outcome" class="level3">
+<h3 class="anchored" data-anchor-id="the-outcome">The Outcome</h3>
+<p>The outcome is summed from six individual types of incentives. They are explained here.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./data/Screen%20Shot%202022-09-19%20at%2010.09.08%20AM.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Tax Incentives to FDI</figcaption><p></p>
+</figure>
+</div>
+<p>and</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./data/Screen%20Shot%202022-09-19%20at%2010.10.30%20AM.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Tax Incentives Part 2</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="inputs" class="level3">
+<h3 class="anchored" data-anchor-id="inputs">Inputs</h3>
+<p>There are two parts to the data description for the inputs.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./data/Screen%20Shot%202022-09-19%20at%2010.01.12%20AM.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Part 1</figcaption><p></p>
+</figure>
+</div>
+<p>and <img src="./data/Screen%20Shot%202022-09-19%20at%2010.01.32%20AM.png" class="img-fluid" alt="Part 2"></p>
+<p>and there is a further description of other variables that are deployed.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./data/Screen%20Shot%202022-09-19%20at%2010.17.41%20AM.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Controls: Part 1</figcaption><p></p>
+</figure>
+</div>
+<p>and</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./data/Screen%20Shot%202022-09-19%20at%2010.18.53%20AM.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Controls: Part 2</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="the-data" class="level3">
+<h3 class="anchored" data-anchor-id="the-data">The Data</h3>
+<p>This should give us an idea of what is going on. The data come in Stata format; we can read these via the <code>foreign</code> or <code>haven</code> libraries in R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS); <span class="fu">library</span>(foreign)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Li.Data <span class="ot">&lt;-</span> <span class="fu">read.dta</span>(<span class="st">"./data/li-replication.dta"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Li.Data<span class="sc">$</span>generosityg)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Li.Data<span class="sc">$</span>generositygF <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(Li.Data<span class="sc">$</span>generosityg)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ 0  1  2  3  4  5  6 
+13 10 19  7  2  1  1 </code></pre>
+</div>
+</div>
+<p>It is worthwhile to notice that the top of the scale is rather sparse.</p>
+<p>There is also a concern about FDI and economies of scale. The following is a plot of the relationship between FDI and size of the economy in the sample.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./data/size-fdi.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">FD-Size</figcaption><p></p>
+</figure>
+</div>
+<p>Without careful attention to normalization, China is a clear <code>x-y</code> outlier.</p>
+</section>
+<section id="motivating-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="motivating-the-model">Motivating the Model</h3>
+<p>Suppose there is some unobserved continuous variable, call it <span class="math inline">\(y^{*}\)</span> that measures the willingness/utility to be derived from tax incentives to FDI. Unfortunately, this latent quantity is unobservable; we instead observe how many incentives are offered and posit that the number of incentives is a manifestation of increasing utility with unknown points of separation – cutpoints – that separate these latent utilities into a mutually exclusive and exhaustive partition. In a simplified example, consider this.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rlogis</span>(<span class="dv">1000</span>)))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">4</span>))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>So anything below -3 is zero incentives; anything between -3 and -2 is one incentive, … , and anything above 4 should be all six incentives. What we have is a regression problem but the outcome is unobserved and takes the form of a logistic random variable. Indeed, one could write the equation as:</p>
+<p><span class="math display">\[y^{*} = X\beta + \epsilon\]</span></p>
+<p>where <span class="math inline">\(\epsilon\)</span> is assumed to have a logistic distribution but this is otherwise just a linear regression. Indeed, the direct interpretation of the slopes is the effect of a one-unit change in X on that logistic random variable.</p>
+</section>
+<section id="what-to-replicate" class="level3">
+<h3 class="anchored" data-anchor-id="what-to-replicate">What to Replicate</h3>
+<p>The table of estimates is presented in the paper; I will copy it here.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./data/Screen%20Shot%202022-09-19%20at%2010.24.19%20AM.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Results Table</figcaption><p></p>
+</figure>
+</div>
+<p>I will choose two of a few models estimated in the paper. First, let us have a look at Model 1.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>li.mod1 <span class="ot">&lt;-</span> <span class="fu">polr</span>(generositygF <span class="sc">~</span> law00log <span class="sc">+</span> transition, <span class="at">data=</span>Li.Data)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(li.mod1)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Re-fitting to get Hessian</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+polr(formula = generositygF ~ law00log + transition, data = Li.Data)
+
+Coefficients:
+             Value Std. Error t value
+law00log   -0.6192     0.4756 -1.3019
+transition -0.5161     0.7126 -0.7243
+
+Intercepts:
+    Value   Std. Error t value
+0|1 -1.3617  0.3768    -3.6144
+1|2 -0.4888  0.3323    -1.4707
+2|3  1.1785  0.3668     3.2133
+3|4  2.3771  0.5361     4.4339
+4|5  3.1160  0.7325     4.2541
+5|6  3.8252  1.0183     3.7565
+
+Residual Deviance: 164.3701 
+AIC: 180.3701 </code></pre>
+</div>
+</div>
+<p>We can read these by stars. There is nothing that is clearly different from zero as a slope or 1 as an odds-ratio. The authors deploy a common strategy for adjusting standard errors that, in this case, is necessary to find a relationship with statistical confidence. That’s a diversion. To the story. In general, the sign of the rule of law indicator is negative, so as rule of law increases, incentives decrease though we cannot rule out no effect. Transitions also have a negative sign; regime changes have no clear influence on incentives. There is additional information that is commonly given short-shrift. What do the cutpoints separating the categories imply? Let’s think this through recongizing that the estimates have an underlying t/normal distribution. <code>4|5</code> is within one standard error of both <code>3|4</code> and <code>5|6</code>. The model cannot really tell these values apart. Things do improve in the lower part of the scale but we should note that this is where the vast majority of the data are actually observed.</p>
+<p>Next, I will turn the estimates into odds-ratios by exponentiating the estimates.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(li.mod1<span class="sc">$</span>coefficients)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  law00log transition 
+ 0.5384016  0.5968309 </code></pre>
+</div>
+</div>
+<p>For Kawika, this is one of the many cases that I am familiar with where <code>robust</code> is necessary to find something. Note neither effect can be differentiated from zero with much confidence at all. To further examine the claims, I will also replicate the right-most column.</p>
+</section>
+<section id="column-4-estimates" class="level3">
+<h3 class="anchored" data-anchor-id="column-4-estimates">Column 4 Estimates</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>li.mod4 <span class="ot">&lt;-</span> <span class="fu">polr</span>(generositygF <span class="sc">~</span> law00log <span class="sc">+</span> transition <span class="sc">+</span> fdiinf <span class="sc">+</span> democfdi <span class="sc">+</span> democ <span class="sc">+</span> autocfdi2 <span class="sc">+</span> autocfdir <span class="sc">+</span> reggengl <span class="sc">+</span> reggengl2 <span class="sc">+</span> gdppclog <span class="sc">+</span> gdplog, <span class="at">data=</span>Li.Data)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(li.mod4)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Re-fitting to get Hessian</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+polr(formula = generositygF ~ law00log + transition + fdiinf + 
+    democfdi + democ + autocfdi2 + autocfdir + reggengl + reggengl2 + 
+    gdppclog + gdplog, data = Li.Data)
+
+Coefficients:
+              Value Std. Error t value
+law00log   -0.89148    0.66806 -1.3344
+transition -0.57123    0.94945 -0.6016
+fdiinf      0.37605    0.18055  2.0828
+democfdi   -0.39969    0.18228 -2.1927
+democ      -1.23307    0.77661 -1.5878
+autocfdi2   1.24932    1.94198  0.6433
+autocfdir  -3.17796    1.95351 -1.6268
+reggengl    1.81476    0.44754  4.0550
+reggengl2  -0.05777    0.01444 -4.0007
+gdppclog    0.20891    0.43867  0.4762
+gdplog      0.15754    0.18138  0.8686
+
+Intercepts:
+    Value    Std. Error t value 
+0|1  13.7773   0.1020   135.0542
+1|2  14.7314   0.3048    48.3349
+2|3  16.9740   0.5230    32.4561
+3|4  18.7911   0.8027    23.4107
+4|5  20.0387   1.1590    17.2900
+5|6  23.2947   4.7216     4.9336
+
+Residual Deviance: 134.2212 
+AIC: 168.2212 
+(2 observations deleted due to missingness)</code></pre>
+</div>
+</div>
+<p>Measured via odds-ratios, we can obtain those:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(li.mod4<span class="sc">$</span>coefficients)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  law00log transition     fdiinf   democfdi      democ  autocfdi2  autocfdir 
+0.41004648 0.56483013 1.45651991 0.67052543 0.29139805 3.48796970 0.04167039 
+  reggengl  reggengl2   gdppclog     gdplog 
+6.13958891 0.94386864 1.23232943 1.17063051 </code></pre>
+</div>
+</div>
+</section>
+<section id="diagnostics-and-commentary" class="level3">
+<h3 class="anchored" data-anchor-id="diagnostics-and-commentary">Diagnostics and Commentary</h3>
+<p>Goodness of Fit:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">PseudoR2</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  li.mod1, </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">which =</span> <span class="fu">c</span>(<span class="st">"McFadden"</span>, <span class="st">"CoxSnell"</span>, <span class="st">"Nagelkerke"</span>, <span class="st">"AIC"</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">PseudoR2</span>(</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  li.mod4, </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">which =</span> <span class="fu">c</span>(<span class="st">"McFadden"</span>, <span class="st">"CoxSnell"</span>, <span class="st">"Nagelkerke"</span>, <span class="st">"AIC"</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    McFadden     CoxSnell   Nagelkerke          AIC 
+  0.01104919   0.03405653   0.03560378 180.37009764 
+   McFadden    CoxSnell  Nagelkerke         AIC 
+  0.1649728   0.4054507   0.4235700 168.2212440 </code></pre>
+</div>
+</div>
+<p>The last model is clearly better than the first by any of these measures. That said, there are a lot of additional predictors that add much complexity to the model and the difference in AIC is not very large.</p>
+<p>What about the others?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># lipsitz test </span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># generalhoslem::lipsitz.test(li.mod1)</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># generalhoslem::lipsitz.test(li.mod4)</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>They fail to work because of sparseness.</p>
+</section>
+<section id="testing-proportional-odds" class="level3">
+<h3 class="anchored" data-anchor-id="testing-proportional-odds">Testing Proportional-Odds</h3>
+<p>The text cites a test that owes to Brant on examining proportionality. It turns out that I know a bit about this; I published a purely theoretical stats paper showing that it is not at all clear what the alternative hypothesis embodied in this test actually means because the only model with a proper probability distribution for <span class="math inline">\(y^{*}\)</span> is this proportional-odds model.</p>
+<p>I will follow the text with this caveat in mind:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>brant<span class="sc">::</span><span class="fu">brant</span>(li.mod1)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>-------------------------------------------- 
+Test for    X2  df  probability 
+-------------------------------------------- 
+Omnibus     13.51   10  0.2
+law00log    8.64    5   0.12
+transition  4.28    5   0.51
+-------------------------------------------- 
+
+H0: Parallel Regression Assumption holds</code></pre>
+</div>
+</div>
+</section>
+<section id="how-well-does-the-model-predict" class="level3">
+<h3 class="anchored" data-anchor-id="how-well-does-the-model-predict">How Well Does the Model Predict?</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>Mat.Fit <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">fitted</span>(li.mod4))</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+✔ tibble  3.1.8     ✔ dplyr   1.0.9
+✔ tidyr   1.2.0     ✔ stringr 1.4.1
+✔ readr   2.1.2     ✔ forcats 0.5.2
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+✖ dplyr::select() masks MASS::select()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="sc">-</span><span class="dv">999</span>, <span class="dv">51</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X6] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X6] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X6] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X6] <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X6] <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X5] <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>Pred.Data <span class="ot">&lt;-</span> Li.Data[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">28</span>,<span class="dv">30</span><span class="sc">:</span><span class="dv">41</span>,<span class="dv">43</span><span class="sc">:</span><span class="dv">53</span>),]</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Pred.Data<span class="sc">$</span>generosityg,Mat.Fit<span class="sc">$</span>pred.val)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   
+     0  2  3  6
+  0  6  7  0  0
+  1  5  4  0  0
+  2  5 12  1  0
+  3  1  2  4  0
+  4  0  1  1  0
+  5  0  1  0  0
+  6  0  0  0  1</code></pre>
+</div>
+</div>
+<p>So <code>6+12+4+1</code> or 23 of 51 are correctly predicted with a rather big and complicated model.</p>
+</section>
+<section id="on-aic" class="level3">
+<h3 class="anchored" data-anchor-id="on-aic">On AIC</h3>
+<p>The AIC [and BIC] are built around the idea of likelihood presented last time. The formal definition, <a href="https://en.wikipedia.org/wiki/Akaike_information_criterion">which is correct on Wikipedia</a> explains the following:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./data/Screen%20Shot%202022-09-19%20at%2012.06.24%20PM.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">AIC</figcaption><p></p>
+</figure>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
