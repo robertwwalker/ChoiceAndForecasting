@@ -123,7 +123,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <link rel="stylesheet" href="../../styles.css">
 <meta name="twitter:title" content="Models of Choice and Forecasting - Week 4: Ordered and Multinomial Logistic Regression">
-<meta name="twitter:description" content="The slides are here.">
+<meta name="twitter:description" content="The slides are here..">
 <meta name="twitter:image" content="https://quartopub.com/sites/rww/models-of-choice-and-forecasting/posts/week-4/image.png">
 <meta name="twitter:creator" content="@PieRatio">
 <meta name="twitter:image-height" content="576">
@@ -204,16 +204,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#the-skinny" id="toc-the-skinny" class="nav-link active" data-scroll-target="#the-skinny">The Skinny</a></li>
-  <li><a href="#multinomial-models" id="toc-multinomial-models" class="nav-link" data-scroll-target="#multinomial-models">Multinomial Models</a>
-  <ul class="collapse">
+  <li><a href="#multinomial-models" id="toc-multinomial-models" class="nav-link" data-scroll-target="#multinomial-models">Multinomial Models</a></li>
+  <li><a href="#a-bit-on-random-utility" id="toc-a-bit-on-random-utility" class="nav-link" data-scroll-target="#a-bit-on-random-utility">A Bit on Random Utility</a></li>
+  <li><a href="#a-bit-on-model-specification" id="toc-a-bit-on-model-specification" class="nav-link" data-scroll-target="#a-bit-on-model-specification">A Bit On Model Specification</a></li>
+  <li><a href="#one-key-assumption-to-mcfaddens-approach" id="toc-one-key-assumption-to-mcfaddens-approach" class="nav-link" data-scroll-target="#one-key-assumption-to-mcfaddens-approach">One Key Assumption to McFadden’s Approach</a></li>
+  <li><a href="#multinomial-unordered-outcomes" id="toc-multinomial-unordered-outcomes" class="nav-link" data-scroll-target="#multinomial-unordered-outcomes">Multinomial [Unordered] Outcomes</a></li>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">The data</a></li>
+  <li><a href="#loading-the-data" id="toc-loading-the-data" class="nav-link" data-scroll-target="#loading-the-data">Loading the Data</a></li>
+  <li><a href="#a-model" id="toc-a-model" class="nav-link" data-scroll-target="#a-model">A Model</a></li>
+  <li><a href="#result" id="toc-result" class="nav-link" data-scroll-target="#result">Result</a></li>
+  <li><a href="#a-bit-of-interpretation" id="toc-a-bit-of-interpretation" class="nav-link" data-scroll-target="#a-bit-of-interpretation">A Bit of Interpretation</a></li>
+  <li><a href="#a-plot" id="toc-a-plot" class="nav-link" data-scroll-target="#a-plot">A Plot</a></li>
+  <li><a href="#a-picture" id="toc-a-picture" class="nav-link" data-scroll-target="#a-picture">A Picture</a></li>
+  <li><a href="#a-plot-1" id="toc-a-plot-1" class="nav-link" data-scroll-target="#a-plot-1">A Plot</a></li>
+  <li><a href="#a-picture-1" id="toc-a-picture-1" class="nav-link" data-scroll-target="#a-picture-1">A Picture</a></li>
+  <li><a href="#a-plot-2" id="toc-a-plot-2" class="nav-link" data-scroll-target="#a-plot-2">A Plot</a></li>
+  <li><a href="#a-picture-2" id="toc-a-picture-2" class="nav-link" data-scroll-target="#a-picture-2">A Picture</a></li>
+  <li><a href="#goodness-of-fit" id="toc-goodness-of-fit" class="nav-link" data-scroll-target="#goodness-of-fit">Goodness of Fit</a></li>
+  <li><a href="#simpler" id="toc-simpler" class="nav-link" data-scroll-target="#simpler">Simpler</a></li>
+  <li><a href="#comparisons" id="toc-comparisons" class="nav-link" data-scroll-target="#comparisons">Comparisons</a></li>
+  <li><a href="#the-best-model-is-the-one-presented" id="toc-the-best-model-is-the-one-presented" class="nav-link" data-scroll-target="#the-best-model-is-the-one-presented">The Best Model is the One Presented</a></li>
   <li><a href="#ordered-models" id="toc-ordered-models" class="nav-link" data-scroll-target="#ordered-models">Ordered Models</a></li>
   <li><a href="#the-outcome" id="toc-the-outcome" class="nav-link" data-scroll-target="#the-outcome">The Outcome</a></li>
   <li><a href="#inputs" id="toc-inputs" class="nav-link" data-scroll-target="#inputs">Inputs</a></li>
-  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">The Data</a></li>
+  <li><a href="#the-data-1" id="toc-the-data-1" class="nav-link" data-scroll-target="#the-data-1">The Data</a></li>
   <li><a href="#motivating-the-model" id="toc-motivating-the-model" class="nav-link" data-scroll-target="#motivating-the-model">Motivating the Model</a></li>
-  <li><a href="#what-to-replicate" id="toc-what-to-replicate" class="nav-link" data-scroll-target="#what-to-replicate">What to Replicate</a></li>
+  <li><a href="#what-to-replicate" id="toc-what-to-replicate" class="nav-link" data-scroll-target="#what-to-replicate">What to Replicate</a>
+  <ul class="collapse">
+  <li><a href="#odds-ratios" id="toc-odds-ratios" class="nav-link" data-scroll-target="#odds-ratios">Odds Ratios</a></li>
+  </ul></li>
   <li><a href="#column-4-estimates" id="toc-column-4-estimates" class="nav-link" data-scroll-target="#column-4-estimates">Column 4 Estimates</a></li>
-  <li><a href="#diagnostics-and-commentary" id="toc-diagnostics-and-commentary" class="nav-link" data-scroll-target="#diagnostics-and-commentary">Diagnostics and Commentary</a></li>
+  <li><a href="#diagnostics-and-commentary" id="toc-diagnostics-and-commentary" class="nav-link" data-scroll-target="#diagnostics-and-commentary">Diagnostics and Commentary</a>
+  <ul class="collapse">
   <li><a href="#testing-proportional-odds" id="toc-testing-proportional-odds" class="nav-link" data-scroll-target="#testing-proportional-odds">Testing Proportional-Odds</a></li>
   <li><a href="#how-well-does-the-model-predict" id="toc-how-well-does-the-model-predict" class="nav-link" data-scroll-target="#how-well-does-the-model-predict">How Well Does the Model Predict?</a></li>
   <li><a href="#on-aic" id="toc-on-aic" class="nav-link" data-scroll-target="#on-aic">On AIC</a></li>
@@ -227,7 +249,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<p>The slides <a href="https://robertwwalker.github.io/xaringan/CMF-Week-4/">are here.</a></p>
+<p>The slides <a href="https://robertwwalker.github.io/xaringan/CMF-Week-4/">are here.</a>.</p>
 <p>Our fourth class meeting will focus on <a href="https://peopleanalytics-regression-book.org/multinomial-logistic-regression-for-nominal-category-outcomes.html">Chapter 6</a> and <a href="https://peopleanalytics-regression-book.org/ord-reg.html">Chapter 7</a> of <strong>Handbook of Regression Modeling in People Analytics</strong>. The video will be on youtube.</p>
 <section id="the-skinny" class="level2">
 <h2 class="anchored" data-anchor-id="the-skinny">The Skinny</h2>
@@ -235,8 +257,510 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="multinomial-models" class="level2">
 <h2 class="anchored" data-anchor-id="multinomial-models">Multinomial Models</h2>
-<section id="ordered-models" class="level3">
-<h3 class="anchored" data-anchor-id="ordered-models">Ordered Models</h3>
+</section>
+<section id="a-bit-on-random-utility" class="level2">
+<h2 class="anchored" data-anchor-id="a-bit-on-random-utility">A Bit on Random Utility</h2>
+<p>There’s a great <a href="https://khakieconomics.github.io/2019/03/17/The-logit-choice-model.html">blog post</a> that I found that details this. In a classic paper for which [among many others], Daniel L. McFadden was awarded the Nobel Prize in Economics, he develops a multinomial/conditional logistic regression model for the study of nominal outcomes. The core statistics demonstration is that, if random utility for options is described by a Gumbel/Type I extreme value distribution, then the difference in utility has a logistic distribution. From this observation, one can develop random utility models for unordered choices that follows from utility maximization. In short, we can use microeconomic foundations to motivate the models that follow.</p>
+</section>
+<section id="a-bit-on-model-specification" class="level2">
+<h2 class="anchored" data-anchor-id="a-bit-on-model-specification">A Bit On Model Specification</h2>
+<p>There are two ways to think about such models. They can be motivated by choice-specific covariates or by chooser specific covariates [or a combination of both]. In general, if the covariates are chooser-specific, we call it a multinomial logit model while, if the covariates are choice specific, we call it conditional logit or conditional logistic regression. McFadden’s paper is built around transportation choices.</p>
+</section>
+<section id="one-key-assumption-to-mcfaddens-approach" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="one-key-assumption-to-mcfaddens-approach">One Key Assumption to McFadden’s Approach</h2>
+<p>The <strong>independence of irrelevant alternatives</strong> contends that, when people choose among a set of alternatives, the odds of choosing option A over option B should not depend on the presence or absence of unchosen alternative C. Paul Allison, a famous emeritus sociologist at the University of Pennsylvania, has <a href="https://statisticalhorizons.com/iia/">a nice blog post on this</a> that is well worth the time.</p>
+<p>Imagine the following scenario; you are out to dinner and you are given menus. One of your companions is excited to choose a steak from the menu. The server arrives and announces the specials of the day; your companion then decides that a pork chop option from the menu is preferable. Perhaps they were originally indifferent between the steak and the pork chop. Nevertheless, it would appear as though the presentation of irrelevant alternatives – the specials – had a nontrivial effect on your companion’s choices.</p>
+</section>
+<section id="multinomial-unordered-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="multinomial-unordered-outcomes">Multinomial [Unordered] Outcomes</h2>
+<p>An example: exchange rate regimes and the vanishing middle.</p>
+<p>There is a sizable literature on how countries structure markets for currency exchange. There are two polar approaches:</p>
+<ol type="1">
+<li>Fixed: the price is fixed and central banks offer the needed quantities to maintain a given price.</li>
+<li>Flexible: the quantities are fixed and the price adjusts.</li>
+</ol>
+<p>but there is also a third: <strong>intermediate regimes</strong>; things like floating pegs, the ERM snake, and others that are mixtures of the two. The literature in international monetary economics highlights these as prone to instability.</p>
+</section>
+<section id="the-data" class="level2">
+<h2 class="anchored" data-anchor-id="the-data">The data</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./img/Screen%20Shot%202022-09-19%20at%201.46.14%20PM.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">The Data</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="loading-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="loading-the-data">Loading the Data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message=FALSE, warning=FALSE}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(foreign); <span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>EXRT.data <span class="ot">&lt;-</span> <span class="fu">read.dta</span>(<span class="st">"./data/rr_dal_try1.dta"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(EXRT.data<span class="sc">$</span>regime2a)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>EXRT.data<span class="sc">$</span>regime2aF <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(EXRT.data<span class="sc">$</span>regime2a)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>EXRT.data<span class="sc">$</span>regime2aF <span class="ot">&lt;-</span> <span class="fu">relevel</span>(EXRT.data<span class="sc">$</span>regime2aF, <span class="at">ref =</span> <span class="st">"1"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+   0    1    2 
+1016  240  206 </code></pre>
+</div>
+</div>
+<ul>
+<li>0 is fixed.</li>
+<li>1 is intermediate</li>
+<li>2 is flexible/floating</li>
+</ul>
+</section>
+<section id="a-model" class="level2">
+<h2 class="anchored" data-anchor-id="a-model">A Model</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, results="hide", message=FALSE, warning=FALSE}</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nnet); <span class="fu">library</span>(stargazer)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>multi_model <span class="ot">&lt;-</span> <span class="fu">multinom</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> regime2aF <span class="sc">~</span> probirch <span class="sc">+</span> dumirch <span class="sc">+</span>  fix_l <span class="sc">+</span>float_l, <span class="at">maxit=</span><span class="dv">500</span>, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> EXRT.data</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="result" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="result">Result</h2>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, results="asis", message=FALSE, warning=FALSE}</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(multi_model, <span class="at">type =</span> <span class="st">"html"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<table style="text-align:center">
+<tbody><tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+0
+</td>
+<td>
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+probirch
+</td>
+<td>
+18.003<sup>***</sup>
+</td>
+<td>
+15.319<sup>**</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(5.632)
+</td>
+<td>
+(5.982)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+dumirch
+</td>
+<td>
+-23.831<sup>***</sup>
+</td>
+<td>
+-9.226
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(7.078)
+</td>
+<td>
+(7.483)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+fix_l
+</td>
+<td>
+6.076<sup>***</sup>
+</td>
+<td>
+3.347<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.368)
+</td>
+<td>
+(0.431)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+float_l
+</td>
+<td>
+2.763<sup>***</sup>
+</td>
+<td>
+4.992<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.443)
+</td>
+<td>
+(0.424)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+-2.945<sup>***</sup>
+</td>
+<td>
+-3.277<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.343)
+</td>
+<td>
+(0.385)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Akaike Inf. Crit.
+</td>
+<td>
+967.448
+</td>
+<td>
+967.448
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="2" style="text-align:right">
+<sup><em></em></sup><em>p&lt;0.1; <sup><strong></strong></sup><strong>p&lt;0.05; <sup></sup></strong></em>p&lt;0.01
+</td>
+</tr>
+
+</tbody></table>
+</section>
+<section id="a-bit-of-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="a-bit-of-interpretation">A Bit of Interpretation</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message=FALSE, warning=FALSE}</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>EXRT.data <span class="ot">&lt;-</span> EXRT.data <span class="sc">%&gt;%</span> <span class="fu">select</span>(regime2aF,probirch, dumirch,fix_l,float_l)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(EXRT.data)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> regime2aF    probirch          dumirch            fix_l       
+ 1: 240    Min.   :0.00000   Min.   :0.00000   Min.   :0.0000  
+ 0:1016    1st Qu.:0.01000   1st Qu.:0.00000   1st Qu.:0.0000  
+ 2: 206    Median :0.04000   Median :0.00000   Median :1.0000  
+           Mean   :0.04034   Mean   :0.00754   Mean   :0.7175  
+           3rd Qu.:0.05000   3rd Qu.:0.01000   3rd Qu.:1.0000  
+           Max.   :0.34000   Max.   :0.16000   Max.   :1.0000  
+           NA's   :150       NA's   :150                       
+    float_l      
+ Min.   :0.0000  
+ 1st Qu.:0.0000  
+ Median :0.0000  
+ Mean   :0.1327  
+ 3rd Qu.:0.0000  
+ Max.   :1.0000  
+                 </code></pre>
+</div>
+</div>
+</section>
+<section id="a-plot" class="level2">
+<h2 class="anchored" data-anchor-id="a-plot">A Plot</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pred.data.I <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fix_l =</span> <span class="dv">0</span>, <span class="at">float_l =</span> <span class="dv">0</span>, <span class="at">probirch =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">0.34</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">dumirch =</span> <span class="dv">0</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>Preds<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">predict</span>(multi_model, <span class="at">newdata=</span>pred.data.I, <span class="at">type=</span><span class="st">"p"</span>))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>Preds<span class="fl">.1</span><span class="sc">$</span>Irregular <span class="ot">&lt;-</span> pred.data.I<span class="sc">$</span>probirch</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>Preds.<span class="fl">1.</span>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Preds<span class="fl">.1</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>Graph<span class="fl">.1</span> <span class="ot">&lt;-</span> Preds.<span class="fl">1.</span>df <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(., <span class="at">cols=</span><span class="fu">c</span>(X1,X2,X0)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(.) <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x=</span>Irregular, <span class="at">y=</span>value, <span class="at">color=</span>name) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>pred.data.I <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fix_l =</span> <span class="dv">0</span>, <span class="at">float_l =</span> <span class="dv">0</span>, <span class="at">probirch =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">0.34</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">dumirch =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">0.34</span>, <span class="at">by=</span><span class="fl">0.01</span>))</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>Preds<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">predict</span>(multi_model, <span class="at">newdata=</span>pred.data.I, <span class="at">type=</span><span class="st">"p"</span>))</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>Preds.<span class="fl">1.</span>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Preds<span class="fl">.1</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>Preds.<span class="fl">1.</span>df<span class="sc">$</span>Irregular <span class="ot">&lt;-</span> pred.data.I<span class="sc">$</span>probirch</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>Graph<span class="fl">.2</span> <span class="ot">&lt;-</span> Preds.<span class="fl">1.</span>df <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(., <span class="at">cols=</span><span class="fu">c</span>(X1,X2,X0)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(.) <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x=</span>Irregular, <span class="at">y=</span>value, <span class="at">color=</span>name) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="a-picture" class="level2">
+<h2 class="anchored" data-anchor-id="a-picture">A Picture</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Graph<span class="fl">.1</span> <span class="sc">+</span> Graph<span class="fl">.2</span> <span class="sc">+</span> <span class="fu">plot_annotation</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">'Intermediates'</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="a-plot-1" class="level2">
+<h2 class="anchored" data-anchor-id="a-plot-1">A Plot</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>pred.data.I <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fix_l =</span> <span class="dv">1</span>, <span class="at">float_l =</span> <span class="dv">0</span>, <span class="at">probirch =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">0.34</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">dumirch =</span> <span class="dv">0</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Preds<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">predict</span>(multi_model, <span class="at">newdata=</span>pred.data.I, <span class="at">type=</span><span class="st">"p"</span>))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>Preds<span class="fl">.1</span><span class="sc">$</span>Irregular <span class="ot">&lt;-</span> pred.data.I<span class="sc">$</span>probirch</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>Preds.<span class="fl">1.</span>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Preds<span class="fl">.1</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>Graph<span class="fl">.1</span> <span class="ot">&lt;-</span> Preds.<span class="fl">1.</span>df <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(., <span class="at">cols=</span><span class="fu">c</span>(X1,X2,X0)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(.) <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x=</span>Irregular, <span class="at">y=</span>value, <span class="at">color=</span>name) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>pred.data.I <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fix_l =</span> <span class="dv">1</span>, <span class="at">float_l =</span> <span class="dv">0</span>, <span class="at">probirch =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">0.34</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">dumirch =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">0.34</span>, <span class="at">by=</span><span class="fl">0.01</span>))</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>Preds<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">predict</span>(multi_model, <span class="at">newdata=</span>pred.data.I, <span class="at">type=</span><span class="st">"p"</span>))</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>Preds.<span class="fl">1.</span>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Preds<span class="fl">.1</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>Preds.<span class="fl">1.</span>df<span class="sc">$</span>Irregular <span class="ot">&lt;-</span> pred.data.I<span class="sc">$</span>probirch</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>Graph<span class="fl">.2</span> <span class="ot">&lt;-</span> Preds.<span class="fl">1.</span>df <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(., <span class="at">cols=</span><span class="fu">c</span>(X1,X2,X0)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(.) <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x=</span>Irregular, <span class="at">y=</span>value, <span class="at">color=</span>name) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="a-picture-1" class="level2">
+<h2 class="anchored" data-anchor-id="a-picture-1">A Picture</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Graph<span class="fl">.1</span> <span class="sc">+</span> Graph<span class="fl">.2</span> <span class="sc">+</span> <span class="fu">plot_annotation</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">'Fixes'</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="a-plot-2" class="level2">
+<h2 class="anchored" data-anchor-id="a-plot-2">A Plot</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>pred.data.I <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fix_l =</span> <span class="dv">0</span>, <span class="at">float_l =</span> <span class="dv">1</span>, <span class="at">probirch =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">0.34</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">dumirch =</span> <span class="dv">0</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>Preds<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">predict</span>(multi_model, <span class="at">newdata=</span>pred.data.I, <span class="at">type=</span><span class="st">"p"</span>))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>Preds<span class="fl">.1</span><span class="sc">$</span>Irregular <span class="ot">&lt;-</span> pred.data.I<span class="sc">$</span>probirch</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>Preds.<span class="fl">1.</span>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Preds<span class="fl">.1</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>Graph<span class="fl">.1</span> <span class="ot">&lt;-</span> Preds.<span class="fl">1.</span>df <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(., <span class="at">cols=</span><span class="fu">c</span>(X1,X2,X0)) <span class="sc">%&gt;%</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(.) <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x=</span>Irregular, <span class="at">y=</span>value, <span class="at">color=</span>name) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>pred.data.I <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fix_l =</span> <span class="dv">0</span>, <span class="at">float_l =</span> <span class="dv">1</span>, <span class="at">probirch =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">0.34</span>, <span class="at">by=</span><span class="fl">0.01</span>), <span class="at">dumirch =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="fl">0.34</span>, <span class="at">by=</span><span class="fl">0.01</span>))</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>Preds<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">predict</span>(multi_model, <span class="at">newdata=</span>pred.data.I, <span class="at">type=</span><span class="st">"p"</span>))</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>Preds.<span class="fl">1.</span>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Preds<span class="fl">.1</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>Preds.<span class="fl">1.</span>df<span class="sc">$</span>Irregular <span class="ot">&lt;-</span> pred.data.I<span class="sc">$</span>probirch</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>Graph<span class="fl">.2</span> <span class="ot">&lt;-</span> Preds.<span class="fl">1.</span>df <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(., <span class="at">cols=</span><span class="fu">c</span>(X1,X2,X0)) <span class="sc">%&gt;%</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(.) <span class="sc">+</span> <span class="fu">aes</span>(<span class="at">x=</span>Irregular, <span class="at">y=</span>value, <span class="at">color=</span>name) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="a-picture-2" class="level2">
+<h2 class="anchored" data-anchor-id="a-picture-2">A Picture</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>Graph<span class="fl">.1</span> <span class="sc">+</span> Graph<span class="fl">.2</span> <span class="sc">+</span> <span class="fu">plot_annotation</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">'Floats'</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="goodness-of-fit" class="level2">
+<h2 class="anchored" data-anchor-id="goodness-of-fit">Goodness of Fit</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">PseudoR2</span>(multi_model, </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">which =</span> <span class="fu">c</span>(<span class="st">"McFadden"</span>, <span class="st">"CoxSnell"</span>, <span class="st">"Nagelkerke"</span>,<span class="st">"AIC"</span>))</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in DescTools::PseudoR2(multi_model, which = c("McFadden", "CoxSnell", :
+Could not find model or data element of multinom object for evaluating PseudoR2
+null model. Will fit null model with new evaluation of 'EXRT.data'. Ensure
+object has not changed since initial call, or try running multinom with 'model =
+TRUE'</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   McFadden    CoxSnell  Nagelkerke         AIC 
+  0.5676473   0.6125299   0.7545319 967.4475199 </code></pre>
+</div>
+</div>
+</section>
+<section id="simpler" class="level2">
+<h2 class="anchored" data-anchor-id="simpler">Simpler</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message=FALSE, warning=FALSE}</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>multi_model<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">multinom</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> regime2aF <span class="sc">~</span> fix_l <span class="sc">+</span>float_l, <span class="at">maxit=</span><span class="dv">500</span>, </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> EXRT.data</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>multi_model<span class="fl">.3</span> <span class="ot">&lt;-</span> <span class="fu">multinom</span>(</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> regime2aF <span class="sc">~</span> probirch <span class="sc">+</span>  fix_l <span class="sc">+</span>float_l, <span class="at">maxit=</span><span class="dv">500</span>, </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> EXRT.data</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># weights:  12 (6 variable)
+initial  value 1606.171166 
+iter  10 value 532.176055
+iter  20 value 531.979184
+iter  20 value 531.979183
+iter  20 value 531.979183
+final  value 531.979183 
+converged
+# weights:  15 (8 variable)
+initial  value 1441.379323 
+iter  10 value 482.863574
+iter  20 value 480.237337
+iter  30 value 480.208852
+final  value 480.208838 
+converged</code></pre>
+</div>
+</div>
+</section>
+<section id="comparisons" class="level2">
+<h2 class="anchored" data-anchor-id="comparisons">Comparisons</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">PseudoR2</span>(multi_model<span class="fl">.2</span>, </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">which =</span> <span class="fu">c</span>(<span class="st">"McFadden"</span>, <span class="st">"CoxSnell"</span>, <span class="st">"Nagelkerke"</span>,<span class="st">"AIC"</span>))</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in DescTools::PseudoR2(multi_model.2, which = c("McFadden",
+"CoxSnell", : Could not find model or data element of multinom object for
+evaluating PseudoR2 null model. Will fit null model with new evaluation of
+'EXRT.data'. Ensure object has not changed since initial call, or try running
+multinom with 'model = TRUE'</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">PseudoR2</span>(multi_model<span class="fl">.3</span>, </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">which =</span> <span class="fu">c</span>(<span class="st">"McFadden"</span>, <span class="st">"CoxSnell"</span>, <span class="st">"Nagelkerke"</span>, <span class="st">"AIC"</span>))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in DescTools::PseudoR2(multi_model.3, which = c("McFadden",
+"CoxSnell", : Could not find model or data element of multinom object for
+evaluating PseudoR2 null model. Will fit null model with new evaluation of
+'EXRT.data'. Ensure object has not changed since initial call, or try running
+multinom with 'model = TRUE'</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    McFadden     CoxSnell   Nagelkerke          AIC 
+   0.5592956    0.6029024    0.7459794 1075.9583656 
+   McFadden    CoxSnell  Nagelkerke         AIC 
+  0.5617286   0.6086804   0.7497900 976.4176765 </code></pre>
+</div>
+</div>
+</section>
+<section id="the-best-model-is-the-one-presented" class="level2">
+<h2 class="anchored" data-anchor-id="the-best-model-is-the-one-presented">The Best Model is the One Presented</h2>
+<p>It minimizes AIC.</p>
+</section>
+<section id="ordered-models" class="level2">
+<h2 class="anchored" data-anchor-id="ordered-models">Ordered Models</h2>
 <p>My preferred method of thinking about ordered regression involves latent variables. So what is a latent variable? It is something that is unobservable, hence latent, and we only observe coarse realizations in the form of qualitative categories. Consider the example from <a href="https://www.journals.uchicago.edu/doi/abs/10.1111/j.1468-2508.2006.00370.x">Li in the <em>Journal of Politics</em></a>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -245,8 +769,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </figure>
 </div>
 </section>
-<section id="the-outcome" class="level3">
-<h3 class="anchored" data-anchor-id="the-outcome">The Outcome</h3>
+<section id="the-outcome" class="level2">
+<h2 class="anchored" data-anchor-id="the-outcome">The Outcome</h2>
 <p>The outcome is summed from six individual types of incentives. They are explained here.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -262,8 +786,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </figure>
 </div>
 </section>
-<section id="inputs" class="level3">
-<h3 class="anchored" data-anchor-id="inputs">Inputs</h3>
+<section id="inputs" class="level2">
+<h2 class="anchored" data-anchor-id="inputs">Inputs</h2>
 <p>There are two parts to the data description for the inputs.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -287,16 +811,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </figure>
 </div>
 </section>
-<section id="the-data" class="level3">
-<h3 class="anchored" data-anchor-id="the-data">The Data</h3>
+<section id="the-data-1" class="level2">
+<h2 class="anchored" data-anchor-id="the-data-1">The Data</h2>
 <p>This should give us an idea of what is going on. The data come in Stata format; we can read these via the <code>foreign</code> or <code>haven</code> libraries in R.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS); <span class="fu">library</span>(foreign)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Li.Data <span class="ot">&lt;-</span> <span class="fu">read.dta</span>(<span class="st">"./data/li-replication.dta"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Li.Data<span class="sc">$</span>generosityg)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Li.Data<span class="sc">$</span>generositygF <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(Li.Data<span class="sc">$</span>generosityg)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS); <span class="fu">library</span>(foreign)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'MASS'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:patchwork':
+
+    area</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    select</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>Li.Data <span class="ot">&lt;-</span> <span class="fu">read.dta</span>(<span class="st">"./data/li-replication.dta"</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Li.Data<span class="sc">$</span>generosityg)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>Li.Data<span class="sc">$</span>generositygF <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(Li.Data<span class="sc">$</span>generosityg)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  0  1  2  3  4  5  6 
@@ -313,24 +853,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Without careful attention to normalization, China is a clear <code>x-y</code> outlier.</p>
 </section>
-<section id="motivating-the-model" class="level3">
-<h3 class="anchored" data-anchor-id="motivating-the-model">Motivating the Model</h3>
+<section id="motivating-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="motivating-the-model">Motivating the Model</h2>
 <p>Suppose there is some unobserved continuous variable, call it <span class="math inline">\(y^{*}\)</span> that measures the willingness/utility to be derived from tax incentives to FDI. Unfortunately, this latent quantity is unobservable; we instead observe how many incentives are offered and posit that the number of incentives is a manifestation of increasing utility with unknown points of separation – cutpoints – that separate these latent utilities into a mutually exclusive and exhaustive partition. In a simplified example, consider this.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rlogis</span>(<span class="dv">1000</span>)))</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">4</span>))</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">rlogis</span>(<span class="dv">1000</span>)))</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="sc">-</span><span class="dv">2</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">4</span>))</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>So anything below -3 is zero incentives; anything between -3 and -2 is one incentive, … , and anything above 4 should be all six incentives. What we have is a regression problem but the outcome is unobserved and takes the form of a logistic random variable. Indeed, one could write the equation as:</p>
 <p><span class="math display">\[y^{*} = X\beta + \epsilon\]</span></p>
 <p>where <span class="math inline">\(\epsilon\)</span> is assumed to have a logistic distribution but this is otherwise just a linear regression. Indeed, the direct interpretation of the slopes is the effect of a one-unit change in X on that logistic random variable.</p>
 </section>
-<section id="what-to-replicate" class="level3">
-<h3 class="anchored" data-anchor-id="what-to-replicate">What to Replicate</h3>
+<section id="what-to-replicate" class="level2">
+<h2 class="anchored" data-anchor-id="what-to-replicate">What to Replicate</h2>
 <p>The table of estimates is presented in the paper; I will copy it here.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -340,10 +880,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>I will choose two of a few models estimated in the paper. First, let us have a look at Model 1.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>li.mod1 <span class="ot">&lt;-</span> <span class="fu">polr</span>(generositygF <span class="sc">~</span> law00log <span class="sc">+</span> transition, <span class="at">data=</span>Li.Data)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(li.mod1)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>li.mod1 <span class="ot">&lt;-</span> <span class="fu">polr</span>(generositygF <span class="sc">~</span> law00log <span class="sc">+</span> transition, <span class="at">data=</span>Li.Data)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(li.mod1)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Re-fitting to get Hessian</code></pre>
@@ -371,11 +911,13 @@ AIC: 180.3701 </code></pre>
 </div>
 </div>
 <p>We can read these by stars. There is nothing that is clearly different from zero as a slope or 1 as an odds-ratio. The authors deploy a common strategy for adjusting standard errors that, in this case, is necessary to find a relationship with statistical confidence. That’s a diversion. To the story. In general, the sign of the rule of law indicator is negative, so as rule of law increases, incentives decrease though we cannot rule out no effect. Transitions also have a negative sign; regime changes have no clear influence on incentives. There is additional information that is commonly given short-shrift. What do the cutpoints separating the categories imply? Let’s think this through recongizing that the estimates have an underlying t/normal distribution. <code>4|5</code> is within one standard error of both <code>3|4</code> and <code>5|6</code>. The model cannot really tell these values apart. Things do improve in the lower part of the scale but we should note that this is where the vast majority of the data are actually observed.</p>
+<section id="odds-ratios" class="level3">
+<h3 class="anchored" data-anchor-id="odds-ratios">Odds Ratios</h3>
 <p>Next, I will turn the estimates into odds-ratios by exponentiating the estimates.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(li.mod1<span class="sc">$</span>coefficients)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(li.mod1<span class="sc">$</span>coefficients)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  law00log transition 
  0.5384016  0.5968309 </code></pre>
@@ -383,13 +925,14 @@ AIC: 180.3701 </code></pre>
 </div>
 <p>For Kawika, this is one of the many cases that I am familiar with where <code>robust</code> is necessary to find something. Note neither effect can be differentiated from zero with much confidence at all. To further examine the claims, I will also replicate the right-most column.</p>
 </section>
-<section id="column-4-estimates" class="level3">
-<h3 class="anchored" data-anchor-id="column-4-estimates">Column 4 Estimates</h3>
+</section>
+<section id="column-4-estimates" class="level2">
+<h2 class="anchored" data-anchor-id="column-4-estimates">Column 4 Estimates</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>li.mod4 <span class="ot">&lt;-</span> <span class="fu">polr</span>(generositygF <span class="sc">~</span> law00log <span class="sc">+</span> transition <span class="sc">+</span> fdiinf <span class="sc">+</span> democfdi <span class="sc">+</span> democ <span class="sc">+</span> autocfdi2 <span class="sc">+</span> autocfdir <span class="sc">+</span> reggengl <span class="sc">+</span> reggengl2 <span class="sc">+</span> gdppclog <span class="sc">+</span> gdplog, <span class="at">data=</span>Li.Data)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(li.mod4)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>li.mod4 <span class="ot">&lt;-</span> <span class="fu">polr</span>(generositygF <span class="sc">~</span> law00log <span class="sc">+</span> transition <span class="sc">+</span> fdiinf <span class="sc">+</span> democfdi <span class="sc">+</span> democ <span class="sc">+</span> autocfdi2 <span class="sc">+</span> autocfdir <span class="sc">+</span> reggengl <span class="sc">+</span> reggengl2 <span class="sc">+</span> gdppclog <span class="sc">+</span> gdplog, <span class="at">data=</span>Li.Data)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(li.mod4)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Re-fitting to get Hessian</code></pre>
@@ -430,9 +973,9 @@ AIC: 168.2212
 </div>
 <p>Measured via odds-ratios, we can obtain those:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(li.mod4<span class="sc">$</span>coefficients)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(li.mod4<span class="sc">$</span>coefficients)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  law00log transition     fdiinf   democfdi      democ  autocfdi2  autocfdir 
 0.41004648 0.56483013 1.45651991 0.67052543 0.29139805 3.48796970 0.04167039 
@@ -441,20 +984,20 @@ AIC: 168.2212
 </div>
 </div>
 </section>
-<section id="diagnostics-and-commentary" class="level3">
-<h3 class="anchored" data-anchor-id="diagnostics-and-commentary">Diagnostics and Commentary</h3>
+<section id="diagnostics-and-commentary" class="level2">
+<h2 class="anchored" data-anchor-id="diagnostics-and-commentary">Diagnostics and Commentary</h2>
 <p>Goodness of Fit:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">PseudoR2</span>(</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  li.mod1, </span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">which =</span> <span class="fu">c</span>(<span class="st">"McFadden"</span>, <span class="st">"CoxSnell"</span>, <span class="st">"Nagelkerke"</span>, <span class="st">"AIC"</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">PseudoR2</span>(</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  li.mod4, </span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">which =</span> <span class="fu">c</span>(<span class="st">"McFadden"</span>, <span class="st">"CoxSnell"</span>, <span class="st">"Nagelkerke"</span>, <span class="st">"AIC"</span>)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">PseudoR2</span>(</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  li.mod1, </span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">which =</span> <span class="fu">c</span>(<span class="st">"McFadden"</span>, <span class="st">"CoxSnell"</span>, <span class="st">"Nagelkerke"</span>, <span class="st">"AIC"</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">PseudoR2</span>(</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  li.mod4, </span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">which =</span> <span class="fu">c</span>(<span class="st">"McFadden"</span>, <span class="st">"CoxSnell"</span>, <span class="st">"Nagelkerke"</span>, <span class="st">"AIC"</span>)</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    McFadden     CoxSnell   Nagelkerke          AIC 
   0.01104919   0.03405653   0.03560378 180.37009764 
@@ -465,22 +1008,21 @@ AIC: 168.2212
 <p>The last model is clearly better than the first by any of these measures. That said, there are a lot of additional predictors that add much complexity to the model and the difference in AIC is not very large.</p>
 <p>What about the others?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># lipsitz test </span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># generalhoslem::lipsitz.test(li.mod1)</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># generalhoslem::lipsitz.test(li.mod4)</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co"># lipsitz test </span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># generalhoslem::lipsitz.test(li.mod1)</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co"># generalhoslem::lipsitz.test(li.mod4)</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>They fail to work because of sparseness.</p>
-</section>
 <section id="testing-proportional-odds" class="level3">
 <h3 class="anchored" data-anchor-id="testing-proportional-odds">Testing Proportional-Odds</h3>
 <p>The text cites a test that owes to Brant on examining proportionality. It turns out that I know a bit about this; I published a purely theoretical stats paper showing that it is not at all clear what the alternative hypothesis embodied in this test actually means because the only model with a proper probability distribution for <span class="math inline">\(y^{*}\)</span> is this proportional-odds model.</p>
 <p>I will follow the text with this caveat in mind:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>brant<span class="sc">::</span><span class="fu">brant</span>(li.mod1)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>brant<span class="sc">::</span><span class="fu">brant</span>(li.mod1)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>-------------------------------------------- 
 Test for    X2  df  probability 
@@ -497,32 +1039,19 @@ H0: Parallel Regression Assumption holds</code></pre>
 <section id="how-well-does-the-model-predict" class="level3">
 <h3 class="anchored" data-anchor-id="how-well-does-the-model-predict">How Well Does the Model Predict?</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>Mat.Fit <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">fitted</span>(li.mod4))</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-✔ ggplot2 3.3.6     ✔ purrr   0.3.4
-✔ tibble  3.1.8     ✔ dplyr   1.0.9
-✔ tidyr   1.2.0     ✔ stringr 1.4.1
-✔ readr   2.1.2     ✔ forcats 0.5.2
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-✖ dplyr::select() masks MASS::select()</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="sc">-</span><span class="dv">999</span>, <span class="dv">51</span>)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X6] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X6] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X6] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X6] <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X6] <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X5] <span class="ot">&lt;-</span> <span class="dv">6</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>Pred.Data <span class="ot">&lt;-</span> Li.Data[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">28</span>,<span class="dv">30</span><span class="sc">:</span><span class="dv">41</span>,<span class="dv">43</span><span class="sc">:</span><span class="dv">53</span>),]</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Pred.Data<span class="sc">$</span>generosityg,Mat.Fit<span class="sc">$</span>pred.val)</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>Mat.Fit <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">fitted</span>(li.mod4))</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="sc">-</span><span class="dv">999</span>, <span class="dv">51</span>)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X6] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X6] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X6] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X6] <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X5 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X6] <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>Mat.Fit<span class="sc">$</span>pred.val[Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X0 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X1 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X2 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X3 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X4 <span class="sc">&amp;</span> Mat.Fit<span class="sc">$</span>X6 <span class="sc">&gt;</span> Mat.Fit<span class="sc">$</span>X5] <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>Pred.Data <span class="ot">&lt;-</span> Li.Data[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">28</span>,<span class="dv">30</span><span class="sc">:</span><span class="dv">41</span>,<span class="dv">43</span><span class="sc">:</span><span class="dv">53</span>),]</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Pred.Data<span class="sc">$</span>generosityg,Mat.Fit<span class="sc">$</span>pred.val)</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   
      0  2  3  6

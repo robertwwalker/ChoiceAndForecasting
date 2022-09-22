@@ -165,7 +165,7 @@
     "href": "posts/week-3/index.html",
     "title": "Week 3: Binomial Logistic Regression",
     "section": "",
-    "text": "The slides are here.\nOur third class meeting will focus on Chapter 5 of Handbook of Regression Modeling in People Analytics. The video is on youtube."
+    "text": "The slides are here.\nOur third class meeting will focus on Chapter 5 of Handbook of Regression Modeling in People Analytics."
   },
   {
     "objectID": "posts/week-3/index.html#overview-and-comments",
@@ -235,7 +235,7 @@
     "href": "posts/week-4/index.html",
     "title": "Week 4: Ordered and Multinomial Logistic Regression",
     "section": "",
-    "text": "The slides are here.\nOur fourth class meeting will focus on Chapter 6 and Chapter 7 of Handbook of Regression Modeling in People Analytics. The video will be on youtube."
+    "text": "The slides are here..\nOur fourth class meeting will focus on Chapter 6 and Chapter 7 of Handbook of Regression Modeling in People Analytics. The video will be on youtube."
   },
   {
     "objectID": "posts/week-4/index.html#the-skinny",
@@ -249,6 +249,195 @@
     "href": "posts/week-4/index.html#multinomial-models",
     "title": "Week 4: Ordered and Multinomial Logistic Regression",
     "section": "Multinomial Models",
-    "text": "Multinomial Models\n\nOrdered Models\nMy preferred method of thinking about ordered regression involves latent variables. So what is a latent variable? It is something that is unobservable, hence latent, and we only observe coarse realizations in the form of qualitative categories. Consider the example from Li in the Journal of Politics.\n\n\n\nLi Abstract\n\n\n\n\nThe Outcome\nThe outcome is summed from six individual types of incentives. They are explained here.\n\n\n\nTax Incentives to FDI\n\n\nand\n\n\n\nTax Incentives Part 2\n\n\n\n\nInputs\nThere are two parts to the data description for the inputs.\n\n\n\nPart 1\n\n\nand \nand there is a further description of other variables that are deployed.\n\n\n\nControls: Part 1\n\n\nand\n\n\n\nControls: Part 2\n\n\n\n\nThe Data\nThis should give us an idea of what is going on. The data come in Stata format; we can read these via the foreign or haven libraries in R.\n\n```{r}\nlibrary(MASS); library(foreign)\nLi.Data <- read.dta(\"./data/li-replication.dta\")\ntable(Li.Data$generosityg)\nLi.Data$generositygF <- as.factor(Li.Data$generosityg)\n```\n\n\n 0  1  2  3  4  5  6 \n13 10 19  7  2  1  1 \n\n\nIt is worthwhile to notice that the top of the scale is rather sparse.\nThere is also a concern about FDI and economies of scale. The following is a plot of the relationship between FDI and size of the economy in the sample.\n\n\n\nFD-Size\n\n\nWithout careful attention to normalization, China is a clear x-y outlier.\n\n\nMotivating the Model\nSuppose there is some unobserved continuous variable, call it \\(y^{*}\\) that measures the willingness/utility to be derived from tax incentives to FDI. Unfortunately, this latent quantity is unobservable; we instead observe how many incentives are offered and posit that the number of incentives is a manifestation of increasing utility with unknown points of separation – cutpoints – that separate these latent utilities into a mutually exclusive and exhaustive partition. In a simplified example, consider this.\n\n```{r}\nplot(density(rlogis(1000)))\nabline(v=c(-3,-2,-1,0,2,4))\n```\n\n\n\n\nSo anything below -3 is zero incentives; anything between -3 and -2 is one incentive, … , and anything above 4 should be all six incentives. What we have is a regression problem but the outcome is unobserved and takes the form of a logistic random variable. Indeed, one could write the equation as:\n\\[y^{*} = X\\beta + \\epsilon\\]\nwhere \\(\\epsilon\\) is assumed to have a logistic distribution but this is otherwise just a linear regression. Indeed, the direct interpretation of the slopes is the effect of a one-unit change in X on that logistic random variable.\n\n\nWhat to Replicate\nThe table of estimates is presented in the paper; I will copy it here.\n\n\n\nResults Table\n\n\nI will choose two of a few models estimated in the paper. First, let us have a look at Model 1.\n\n```{r}\nli.mod1 <- polr(generositygF ~ law00log + transition, data=Li.Data)\nsummary(li.mod1)\n```\n\n\nRe-fitting to get Hessian\n\n\nCall:\npolr(formula = generositygF ~ law00log + transition, data = Li.Data)\n\nCoefficients:\n             Value Std. Error t value\nlaw00log   -0.6192     0.4756 -1.3019\ntransition -0.5161     0.7126 -0.7243\n\nIntercepts:\n    Value   Std. Error t value\n0|1 -1.3617  0.3768    -3.6144\n1|2 -0.4888  0.3323    -1.4707\n2|3  1.1785  0.3668     3.2133\n3|4  2.3771  0.5361     4.4339\n4|5  3.1160  0.7325     4.2541\n5|6  3.8252  1.0183     3.7565\n\nResidual Deviance: 164.3701 \nAIC: 180.3701 \n\n\nWe can read these by stars. There is nothing that is clearly different from zero as a slope or 1 as an odds-ratio. The authors deploy a common strategy for adjusting standard errors that, in this case, is necessary to find a relationship with statistical confidence. That’s a diversion. To the story. In general, the sign of the rule of law indicator is negative, so as rule of law increases, incentives decrease though we cannot rule out no effect. Transitions also have a negative sign; regime changes have no clear influence on incentives. There is additional information that is commonly given short-shrift. What do the cutpoints separating the categories imply? Let’s think this through recongizing that the estimates have an underlying t/normal distribution. 4|5 is within one standard error of both 3|4 and 5|6. The model cannot really tell these values apart. Things do improve in the lower part of the scale but we should note that this is where the vast majority of the data are actually observed.\nNext, I will turn the estimates into odds-ratios by exponentiating the estimates.\n\n```{r}\nexp(li.mod1$coefficients)\n```\n\n  law00log transition \n 0.5384016  0.5968309 \n\n\nFor Kawika, this is one of the many cases that I am familiar with where robust is necessary to find something. Note neither effect can be differentiated from zero with much confidence at all. To further examine the claims, I will also replicate the right-most column.\n\n\nColumn 4 Estimates\n\n```{r}\nli.mod4 <- polr(generositygF ~ law00log + transition + fdiinf + democfdi + democ + autocfdi2 + autocfdir + reggengl + reggengl2 + gdppclog + gdplog, data=Li.Data)\nsummary(li.mod4)\n```\n\n\nRe-fitting to get Hessian\n\n\nCall:\npolr(formula = generositygF ~ law00log + transition + fdiinf + \n    democfdi + democ + autocfdi2 + autocfdir + reggengl + reggengl2 + \n    gdppclog + gdplog, data = Li.Data)\n\nCoefficients:\n              Value Std. Error t value\nlaw00log   -0.89148    0.66806 -1.3344\ntransition -0.57123    0.94945 -0.6016\nfdiinf      0.37605    0.18055  2.0828\ndemocfdi   -0.39969    0.18228 -2.1927\ndemoc      -1.23307    0.77661 -1.5878\nautocfdi2   1.24932    1.94198  0.6433\nautocfdir  -3.17796    1.95351 -1.6268\nreggengl    1.81476    0.44754  4.0550\nreggengl2  -0.05777    0.01444 -4.0007\ngdppclog    0.20891    0.43867  0.4762\ngdplog      0.15754    0.18138  0.8686\n\nIntercepts:\n    Value    Std. Error t value \n0|1  13.7773   0.1020   135.0542\n1|2  14.7314   0.3048    48.3349\n2|3  16.9740   0.5230    32.4561\n3|4  18.7911   0.8027    23.4107\n4|5  20.0387   1.1590    17.2900\n5|6  23.2947   4.7216     4.9336\n\nResidual Deviance: 134.2212 \nAIC: 168.2212 \n(2 observations deleted due to missingness)\n\n\nMeasured via odds-ratios, we can obtain those:\n\n```{r}\nexp(li.mod4$coefficients)\n```\n\n  law00log transition     fdiinf   democfdi      democ  autocfdi2  autocfdir \n0.41004648 0.56483013 1.45651991 0.67052543 0.29139805 3.48796970 0.04167039 \n  reggengl  reggengl2   gdppclog     gdplog \n6.13958891 0.94386864 1.23232943 1.17063051 \n\n\n\n\nDiagnostics and Commentary\nGoodness of Fit:\n\n```{r}\nDescTools::PseudoR2(\n  li.mod1, \n  which = c(\"McFadden\", \"CoxSnell\", \"Nagelkerke\", \"AIC\")\n)\nDescTools::PseudoR2(\n  li.mod4, \n  which = c(\"McFadden\", \"CoxSnell\", \"Nagelkerke\", \"AIC\")\n)\n```\n\n    McFadden     CoxSnell   Nagelkerke          AIC \n  0.01104919   0.03405653   0.03560378 180.37009764 \n   McFadden    CoxSnell  Nagelkerke         AIC \n  0.1649728   0.4054507   0.4235700 168.2212440 \n\n\nThe last model is clearly better than the first by any of these measures. That said, there are a lot of additional predictors that add much complexity to the model and the difference in AIC is not very large.\nWhat about the others?\n\n```{r}\n# lipsitz test \n# generalhoslem::lipsitz.test(li.mod1)\n# generalhoslem::lipsitz.test(li.mod4)\n```\n\nThey fail to work because of sparseness.\n\n\nTesting Proportional-Odds\nThe text cites a test that owes to Brant on examining proportionality. It turns out that I know a bit about this; I published a purely theoretical stats paper showing that it is not at all clear what the alternative hypothesis embodied in this test actually means because the only model with a proper probability distribution for \\(y^{*}\\) is this proportional-odds model.\nI will follow the text with this caveat in mind:\n\n```{r}\nbrant::brant(li.mod1)\n```\n\n-------------------------------------------- \nTest for    X2  df  probability \n-------------------------------------------- \nOmnibus     13.51   10  0.2\nlaw00log    8.64    5   0.12\ntransition  4.28    5   0.51\n-------------------------------------------- \n\nH0: Parallel Regression Assumption holds\n\n\n\n\nHow Well Does the Model Predict?\n\n```{r}\nMat.Fit <- data.frame(fitted(li.mod4))\nlibrary(tidyverse)\n```\n\n── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──\n✔ ggplot2 3.3.6     ✔ purrr   0.3.4\n✔ tibble  3.1.8     ✔ dplyr   1.0.9\n✔ tidyr   1.2.0     ✔ stringr 1.4.1\n✔ readr   2.1.2     ✔ forcats 0.5.2\n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\n✖ dplyr::select() masks MASS::select()\n\n```{r}\nMat.Fit$pred.val <- rep(-999, 51)\nMat.Fit$pred.val[Mat.Fit$X0 > Mat.Fit$X1 & Mat.Fit$X0 > Mat.Fit$X2 & Mat.Fit$X0 > Mat.Fit$X3 & Mat.Fit$X0 > Mat.Fit$X4 & Mat.Fit$X0 > Mat.Fit$X5 & Mat.Fit$X0 > Mat.Fit$X6] <- 0\nMat.Fit$pred.val[Mat.Fit$X1 > Mat.Fit$X0 & Mat.Fit$X1 > Mat.Fit$X2 & Mat.Fit$X1 > Mat.Fit$X3 & Mat.Fit$X1 > Mat.Fit$X4 & Mat.Fit$X1 > Mat.Fit$X5 & Mat.Fit$X1 > Mat.Fit$X6] <- 1\nMat.Fit$pred.val[Mat.Fit$X2 > Mat.Fit$X0 & Mat.Fit$X2 > Mat.Fit$X1 & Mat.Fit$X2 > Mat.Fit$X3 & Mat.Fit$X2 > Mat.Fit$X4 & Mat.Fit$X2 > Mat.Fit$X5 & Mat.Fit$X2 > Mat.Fit$X6] <- 2\nMat.Fit$pred.val[Mat.Fit$X3 > Mat.Fit$X0 & Mat.Fit$X3 > Mat.Fit$X1 & Mat.Fit$X3 > Mat.Fit$X2 & Mat.Fit$X3 > Mat.Fit$X4 & Mat.Fit$X3 > Mat.Fit$X5 & Mat.Fit$X3 > Mat.Fit$X6] <- 3\nMat.Fit$pred.val[Mat.Fit$X5 > Mat.Fit$X0 & Mat.Fit$X5 > Mat.Fit$X1 & Mat.Fit$X5 > Mat.Fit$X2 & Mat.Fit$X5 > Mat.Fit$X3 & Mat.Fit$X5 > Mat.Fit$X4 & Mat.Fit$X5 > Mat.Fit$X6] <- 5\nMat.Fit$pred.val[Mat.Fit$X6 > Mat.Fit$X0 & Mat.Fit$X6 > Mat.Fit$X1 & Mat.Fit$X6 > Mat.Fit$X2 & Mat.Fit$X6 > Mat.Fit$X3 & Mat.Fit$X6 > Mat.Fit$X4 & Mat.Fit$X6 > Mat.Fit$X5] <- 6\nPred.Data <- Li.Data[c(1:28,30:41,43:53),]\ntable(Pred.Data$generosityg,Mat.Fit$pred.val)\n```\n\n   \n     0  2  3  6\n  0  6  7  0  0\n  1  5  4  0  0\n  2  5 12  1  0\n  3  1  2  4  0\n  4  0  1  1  0\n  5  0  1  0  0\n  6  0  0  0  1\n\n\nSo 6+12+4+1 or 23 of 51 are correctly predicted with a rather big and complicated model.\n\n\nOn AIC\nThe AIC [and BIC] are built around the idea of likelihood presented last time. The formal definition, which is correct on Wikipedia explains the following:\n\n\n\nAIC"
+    "text": "Multinomial Models"
+  },
+  {
+    "objectID": "posts/week-4/index.html#a-bit-on-random-utility",
+    "href": "posts/week-4/index.html#a-bit-on-random-utility",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "A Bit on Random Utility",
+    "text": "A Bit on Random Utility\nThere’s a great blog post that I found that details this. In a classic paper for which [among many others], Daniel L. McFadden was awarded the Nobel Prize in Economics, he develops a multinomial/conditional logistic regression model for the study of nominal outcomes. The core statistics demonstration is that, if random utility for options is described by a Gumbel/Type I extreme value distribution, then the difference in utility has a logistic distribution. From this observation, one can develop random utility models for unordered choices that follows from utility maximization. In short, we can use microeconomic foundations to motivate the models that follow."
+  },
+  {
+    "objectID": "posts/week-4/index.html#a-bit-on-model-specification",
+    "href": "posts/week-4/index.html#a-bit-on-model-specification",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "A Bit On Model Specification",
+    "text": "A Bit On Model Specification\nThere are two ways to think about such models. They can be motivated by choice-specific covariates or by chooser specific covariates [or a combination of both]. In general, if the covariates are chooser-specific, we call it a multinomial logit model while, if the covariates are choice specific, we call it conditional logit or conditional logistic regression. McFadden’s paper is built around transportation choices."
+  },
+  {
+    "objectID": "posts/week-4/index.html#one-key-assumption-to-mcfaddens-approach",
+    "href": "posts/week-4/index.html#one-key-assumption-to-mcfaddens-approach",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "One Key Assumption to McFadden’s Approach",
+    "text": "One Key Assumption to McFadden’s Approach\nThe independence of irrelevant alternatives contends that, when people choose among a set of alternatives, the odds of choosing option A over option B should not depend on the presence or absence of unchosen alternative C. Paul Allison, a famous emeritus sociologist at the University of Pennsylvania, has a nice blog post on this that is well worth the time.\nImagine the following scenario; you are out to dinner and you are given menus. One of your companions is excited to choose a steak from the menu. The server arrives and announces the specials of the day; your companion then decides that a pork chop option from the menu is preferable. Perhaps they were originally indifferent between the steak and the pork chop. Nevertheless, it would appear as though the presentation of irrelevant alternatives – the specials – had a nontrivial effect on your companion’s choices."
+  },
+  {
+    "objectID": "posts/week-4/index.html#multinomial-unordered-outcomes",
+    "href": "posts/week-4/index.html#multinomial-unordered-outcomes",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "Multinomial [Unordered] Outcomes",
+    "text": "Multinomial [Unordered] Outcomes\nAn example: exchange rate regimes and the vanishing middle.\nThere is a sizable literature on how countries structure markets for currency exchange. There are two polar approaches:\n\nFixed: the price is fixed and central banks offer the needed quantities to maintain a given price.\nFlexible: the quantities are fixed and the price adjusts.\n\nbut there is also a third: intermediate regimes; things like floating pegs, the ERM snake, and others that are mixtures of the two. The literature in international monetary economics highlights these as prone to instability."
+  },
+  {
+    "objectID": "posts/week-4/index.html#the-data",
+    "href": "posts/week-4/index.html#the-data",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "The data",
+    "text": "The data\n\n\n\nThe Data"
+  },
+  {
+    "objectID": "posts/week-4/index.html#loading-the-data",
+    "href": "posts/week-4/index.html#loading-the-data",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "Loading the Data",
+    "text": "Loading the Data\n\n```{r, message=FALSE, warning=FALSE}\nlibrary(foreign); library(tidyverse)\nEXRT.data <- read.dta(\"./data/rr_dal_try1.dta\")\ntable(EXRT.data$regime2a)\nEXRT.data$regime2aF <- as.factor(EXRT.data$regime2a)\nEXRT.data$regime2aF <- relevel(EXRT.data$regime2aF, ref = \"1\")\n```\n\n\n   0    1    2 \n1016  240  206 \n\n\n\n0 is fixed.\n1 is intermediate\n2 is flexible/floating"
+  },
+  {
+    "objectID": "posts/week-4/index.html#a-model",
+    "href": "posts/week-4/index.html#a-model",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "A Model",
+    "text": "A Model\n\n```{r, results=\"hide\", message=FALSE, warning=FALSE}\nlibrary(nnet); library(stargazer)\nmulti_model <- multinom(\n  formula = regime2aF ~ probirch + dumirch +  fix_l +float_l, maxit=500, \n  data = EXRT.data\n)\n```"
+  },
+  {
+    "objectID": "posts/week-4/index.html#result",
+    "href": "posts/week-4/index.html#result",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "Result",
+    "text": "Result\n```{r, results=\"asis\", message=FALSE, warning=FALSE}\nstargazer(multi_model, type = \"html\")\n```\n\n\n\n\n\n\n\n\n\n\nDependent variable:\n\n\n\n\n\n\n\n\n\n\n\n\n0\n\n\n2\n\n\n\n\n\n\n(1)\n\n\n(2)\n\n\n\n\n\n\n\n\nprobirch\n\n\n18.003***\n\n\n15.319**\n\n\n\n\n\n\n(5.632)\n\n\n(5.982)\n\n\n\n\n\n\n\n\n\n\n\n\ndumirch\n\n\n-23.831***\n\n\n-9.226\n\n\n\n\n\n\n(7.078)\n\n\n(7.483)\n\n\n\n\n\n\n\n\n\n\n\n\nfix_l\n\n\n6.076***\n\n\n3.347***\n\n\n\n\n\n\n(0.368)\n\n\n(0.431)\n\n\n\n\n\n\n\n\n\n\n\n\nfloat_l\n\n\n2.763***\n\n\n4.992***\n\n\n\n\n\n\n(0.443)\n\n\n(0.424)\n\n\n\n\n\n\n\n\n\n\n\n\nConstant\n\n\n-2.945***\n\n\n-3.277***\n\n\n\n\n\n\n(0.343)\n\n\n(0.385)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAkaike Inf. Crit.\n\n\n967.448\n\n\n967.448\n\n\n\n\n\n\n\n\nNote:\n\n\np<0.1; p<0.05; p<0.01"
+  },
+  {
+    "objectID": "posts/week-4/index.html#a-bit-of-interpretation",
+    "href": "posts/week-4/index.html#a-bit-of-interpretation",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "A Bit of Interpretation",
+    "text": "A Bit of Interpretation\n\n```{r, message=FALSE, warning=FALSE}\nEXRT.data <- EXRT.data %>% select(regime2aF,probirch, dumirch,fix_l,float_l)\nsummary(EXRT.data)\n```\n\n regime2aF    probirch          dumirch            fix_l       \n 1: 240    Min.   :0.00000   Min.   :0.00000   Min.   :0.0000  \n 0:1016    1st Qu.:0.01000   1st Qu.:0.00000   1st Qu.:0.0000  \n 2: 206    Median :0.04000   Median :0.00000   Median :1.0000  \n           Mean   :0.04034   Mean   :0.00754   Mean   :0.7175  \n           3rd Qu.:0.05000   3rd Qu.:0.01000   3rd Qu.:1.0000  \n           Max.   :0.34000   Max.   :0.16000   Max.   :1.0000  \n           NA's   :150       NA's   :150                       \n    float_l      \n Min.   :0.0000  \n 1st Qu.:0.0000  \n Median :0.0000  \n Mean   :0.1327  \n 3rd Qu.:0.0000  \n Max.   :1.0000"
+  },
+  {
+    "objectID": "posts/week-4/index.html#a-plot",
+    "href": "posts/week-4/index.html#a-plot",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "A Plot",
+    "text": "A Plot\n\n```{r}\npred.data.I <- data.frame(fix_l = 0, float_l = 0, probirch = seq(0,0.34, by=0.01), dumirch = 0)\nPreds.1 <- data.frame(predict(multi_model, newdata=pred.data.I, type=\"p\"))\nPreds.1$Irregular <- pred.data.I$probirch\nPreds.1.df <- data.frame(Preds.1)\nGraph.1 <- Preds.1.df %>% pivot_longer(., cols=c(X1,X2,X0)) %>%\nggplot(.) + aes(x=Irregular, y=value, color=name) + geom_point() + theme_minimal()\npred.data.I <- data.frame(fix_l = 0, float_l = 0, probirch = seq(0,0.34, by=0.01), dumirch = seq(0,0.34, by=0.01))\nPreds.1 <- data.frame(predict(multi_model, newdata=pred.data.I, type=\"p\"))\nPreds.1.df <- data.frame(Preds.1)\nPreds.1.df$Irregular <- pred.data.I$probirch\nGraph.2 <- Preds.1.df %>% pivot_longer(., cols=c(X1,X2,X0)) %>%\nggplot(.) + aes(x=Irregular, y=value, color=name) + geom_point() + theme_minimal()\nlibrary(patchwork)\n```"
+  },
+  {
+    "objectID": "posts/week-4/index.html#a-picture",
+    "href": "posts/week-4/index.html#a-picture",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "A Picture",
+    "text": "A Picture\n\n```{r}\nGraph.1 + Graph.2 + plot_annotation(\n  title = 'Intermediates')\n```"
+  },
+  {
+    "objectID": "posts/week-4/index.html#a-plot-1",
+    "href": "posts/week-4/index.html#a-plot-1",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "A Plot",
+    "text": "A Plot\n\n```{r}\npred.data.I <- data.frame(fix_l = 1, float_l = 0, probirch = seq(0,0.34, by=0.01), dumirch = 0)\nPreds.1 <- data.frame(predict(multi_model, newdata=pred.data.I, type=\"p\"))\nPreds.1$Irregular <- pred.data.I$probirch\nPreds.1.df <- data.frame(Preds.1)\nGraph.1 <- Preds.1.df %>% pivot_longer(., cols=c(X1,X2,X0)) %>%\nggplot(.) + aes(x=Irregular, y=value, color=name) + geom_point() + theme_minimal()\npred.data.I <- data.frame(fix_l = 1, float_l = 0, probirch = seq(0,0.34, by=0.01), dumirch = seq(0,0.34, by=0.01))\nPreds.1 <- data.frame(predict(multi_model, newdata=pred.data.I, type=\"p\"))\nPreds.1.df <- data.frame(Preds.1)\nPreds.1.df$Irregular <- pred.data.I$probirch\nGraph.2 <- Preds.1.df %>% pivot_longer(., cols=c(X1,X2,X0)) %>%\nggplot(.) + aes(x=Irregular, y=value, color=name) + geom_point() + theme_minimal()\nlibrary(patchwork)\n```"
+  },
+  {
+    "objectID": "posts/week-4/index.html#a-picture-1",
+    "href": "posts/week-4/index.html#a-picture-1",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "A Picture",
+    "text": "A Picture\n\n```{r}\nGraph.1 + Graph.2 + plot_annotation(\n  title = 'Fixes')\n```"
+  },
+  {
+    "objectID": "posts/week-4/index.html#a-plot-2",
+    "href": "posts/week-4/index.html#a-plot-2",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "A Plot",
+    "text": "A Plot\n\n```{r}\npred.data.I <- data.frame(fix_l = 0, float_l = 1, probirch = seq(0,0.34, by=0.01), dumirch = 0)\nPreds.1 <- data.frame(predict(multi_model, newdata=pred.data.I, type=\"p\"))\nPreds.1$Irregular <- pred.data.I$probirch\nPreds.1.df <- data.frame(Preds.1)\nGraph.1 <- Preds.1.df %>% pivot_longer(., cols=c(X1,X2,X0)) %>%\nggplot(.) + aes(x=Irregular, y=value, color=name) + geom_point() + theme_minimal()\npred.data.I <- data.frame(fix_l = 0, float_l = 1, probirch = seq(0,0.34, by=0.01), dumirch = seq(0,0.34, by=0.01))\nPreds.1 <- data.frame(predict(multi_model, newdata=pred.data.I, type=\"p\"))\nPreds.1.df <- data.frame(Preds.1)\nPreds.1.df$Irregular <- pred.data.I$probirch\nGraph.2 <- Preds.1.df %>% pivot_longer(., cols=c(X1,X2,X0)) %>%\nggplot(.) + aes(x=Irregular, y=value, color=name) + geom_point() + theme_minimal()\nlibrary(patchwork)\n```"
+  },
+  {
+    "objectID": "posts/week-4/index.html#a-picture-2",
+    "href": "posts/week-4/index.html#a-picture-2",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "A Picture",
+    "text": "A Picture\n\n```{r}\nGraph.1 + Graph.2 + plot_annotation(\n  title = 'Floats')\n```"
+  },
+  {
+    "objectID": "posts/week-4/index.html#goodness-of-fit",
+    "href": "posts/week-4/index.html#goodness-of-fit",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "Goodness of Fit",
+    "text": "Goodness of Fit\n\n```{r}\nDescTools::PseudoR2(multi_model, \n                    which = c(\"McFadden\", \"CoxSnell\", \"Nagelkerke\",\"AIC\"))\n```\n\nWarning in DescTools::PseudoR2(multi_model, which = c(\"McFadden\", \"CoxSnell\", :\nCould not find model or data element of multinom object for evaluating PseudoR2\nnull model. Will fit null model with new evaluation of 'EXRT.data'. Ensure\nobject has not changed since initial call, or try running multinom with 'model =\nTRUE'\n\n\n   McFadden    CoxSnell  Nagelkerke         AIC \n  0.5676473   0.6125299   0.7545319 967.4475199"
+  },
+  {
+    "objectID": "posts/week-4/index.html#simpler",
+    "href": "posts/week-4/index.html#simpler",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "Simpler",
+    "text": "Simpler\n\n```{r, message=FALSE, warning=FALSE}\nmulti_model.2 <- multinom(\n  formula = regime2aF ~ fix_l +float_l, maxit=500, \n  data = EXRT.data\n)\nmulti_model.3 <- multinom(\n  formula = regime2aF ~ probirch +  fix_l +float_l, maxit=500, \n  data = EXRT.data\n)\n```\n\n# weights:  12 (6 variable)\ninitial  value 1606.171166 \niter  10 value 532.176055\niter  20 value 531.979184\niter  20 value 531.979183\niter  20 value 531.979183\nfinal  value 531.979183 \nconverged\n# weights:  15 (8 variable)\ninitial  value 1441.379323 \niter  10 value 482.863574\niter  20 value 480.237337\niter  30 value 480.208852\nfinal  value 480.208838 \nconverged"
+  },
+  {
+    "objectID": "posts/week-4/index.html#comparisons",
+    "href": "posts/week-4/index.html#comparisons",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "Comparisons",
+    "text": "Comparisons\n\n```{r}\nDescTools::PseudoR2(multi_model.2, \n                    which = c(\"McFadden\", \"CoxSnell\", \"Nagelkerke\",\"AIC\"))\n```\n\nWarning in DescTools::PseudoR2(multi_model.2, which = c(\"McFadden\",\n\"CoxSnell\", : Could not find model or data element of multinom object for\nevaluating PseudoR2 null model. Will fit null model with new evaluation of\n'EXRT.data'. Ensure object has not changed since initial call, or try running\nmultinom with 'model = TRUE'\n\n```{r}\nDescTools::PseudoR2(multi_model.3, \n                    which = c(\"McFadden\", \"CoxSnell\", \"Nagelkerke\", \"AIC\"))\n```\n\nWarning in DescTools::PseudoR2(multi_model.3, which = c(\"McFadden\",\n\"CoxSnell\", : Could not find model or data element of multinom object for\nevaluating PseudoR2 null model. Will fit null model with new evaluation of\n'EXRT.data'. Ensure object has not changed since initial call, or try running\nmultinom with 'model = TRUE'\n\n\n    McFadden     CoxSnell   Nagelkerke          AIC \n   0.5592956    0.6029024    0.7459794 1075.9583656 \n   McFadden    CoxSnell  Nagelkerke         AIC \n  0.5617286   0.6086804   0.7497900 976.4176765"
+  },
+  {
+    "objectID": "posts/week-4/index.html#the-best-model-is-the-one-presented",
+    "href": "posts/week-4/index.html#the-best-model-is-the-one-presented",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "The Best Model is the One Presented",
+    "text": "The Best Model is the One Presented\nIt minimizes AIC."
+  },
+  {
+    "objectID": "posts/week-4/index.html#ordered-models",
+    "href": "posts/week-4/index.html#ordered-models",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "Ordered Models",
+    "text": "Ordered Models\nMy preferred method of thinking about ordered regression involves latent variables. So what is a latent variable? It is something that is unobservable, hence latent, and we only observe coarse realizations in the form of qualitative categories. Consider the example from Li in the Journal of Politics.\n\n\n\nLi Abstract"
+  },
+  {
+    "objectID": "posts/week-4/index.html#the-outcome",
+    "href": "posts/week-4/index.html#the-outcome",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "The Outcome",
+    "text": "The Outcome\nThe outcome is summed from six individual types of incentives. They are explained here.\n\n\n\nTax Incentives to FDI\n\n\nand\n\n\n\nTax Incentives Part 2"
+  },
+  {
+    "objectID": "posts/week-4/index.html#inputs",
+    "href": "posts/week-4/index.html#inputs",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "Inputs",
+    "text": "Inputs\nThere are two parts to the data description for the inputs.\n\n\n\nPart 1\n\n\nand \nand there is a further description of other variables that are deployed.\n\n\n\nControls: Part 1\n\n\nand\n\n\n\nControls: Part 2"
+  },
+  {
+    "objectID": "posts/week-4/index.html#the-data-1",
+    "href": "posts/week-4/index.html#the-data-1",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "The Data",
+    "text": "The Data\nThis should give us an idea of what is going on. The data come in Stata format; we can read these via the foreign or haven libraries in R.\n\n```{r}\nlibrary(MASS); library(foreign)\n```\n\n\nAttaching package: 'MASS'\n\n\nThe following object is masked from 'package:patchwork':\n\n    area\n\n\nThe following object is masked from 'package:dplyr':\n\n    select\n\n```{r}\nLi.Data <- read.dta(\"./data/li-replication.dta\")\ntable(Li.Data$generosityg)\nLi.Data$generositygF <- as.factor(Li.Data$generosityg)\n```\n\n\n 0  1  2  3  4  5  6 \n13 10 19  7  2  1  1 \n\n\nIt is worthwhile to notice that the top of the scale is rather sparse.\nThere is also a concern about FDI and economies of scale. The following is a plot of the relationship between FDI and size of the economy in the sample.\n\n\n\nFD-Size\n\n\nWithout careful attention to normalization, China is a clear x-y outlier."
+  },
+  {
+    "objectID": "posts/week-4/index.html#motivating-the-model",
+    "href": "posts/week-4/index.html#motivating-the-model",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "Motivating the Model",
+    "text": "Motivating the Model\nSuppose there is some unobserved continuous variable, call it \\(y^{*}\\) that measures the willingness/utility to be derived from tax incentives to FDI. Unfortunately, this latent quantity is unobservable; we instead observe how many incentives are offered and posit that the number of incentives is a manifestation of increasing utility with unknown points of separation – cutpoints – that separate these latent utilities into a mutually exclusive and exhaustive partition. In a simplified example, consider this.\n\n```{r}\nplot(density(rlogis(1000)))\nabline(v=c(-3,-2,-1,0,2,4))\n```\n\n\n\n\nSo anything below -3 is zero incentives; anything between -3 and -2 is one incentive, … , and anything above 4 should be all six incentives. What we have is a regression problem but the outcome is unobserved and takes the form of a logistic random variable. Indeed, one could write the equation as:\n\\[y^{*} = X\\beta + \\epsilon\\]\nwhere \\(\\epsilon\\) is assumed to have a logistic distribution but this is otherwise just a linear regression. Indeed, the direct interpretation of the slopes is the effect of a one-unit change in X on that logistic random variable."
+  },
+  {
+    "objectID": "posts/week-4/index.html#what-to-replicate",
+    "href": "posts/week-4/index.html#what-to-replicate",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "What to Replicate",
+    "text": "What to Replicate\nThe table of estimates is presented in the paper; I will copy it here.\n\n\n\nResults Table\n\n\nI will choose two of a few models estimated in the paper. First, let us have a look at Model 1.\n\n```{r}\nli.mod1 <- polr(generositygF ~ law00log + transition, data=Li.Data)\nsummary(li.mod1)\n```\n\n\nRe-fitting to get Hessian\n\n\nCall:\npolr(formula = generositygF ~ law00log + transition, data = Li.Data)\n\nCoefficients:\n             Value Std. Error t value\nlaw00log   -0.6192     0.4756 -1.3019\ntransition -0.5161     0.7126 -0.7243\n\nIntercepts:\n    Value   Std. Error t value\n0|1 -1.3617  0.3768    -3.6144\n1|2 -0.4888  0.3323    -1.4707\n2|3  1.1785  0.3668     3.2133\n3|4  2.3771  0.5361     4.4339\n4|5  3.1160  0.7325     4.2541\n5|6  3.8252  1.0183     3.7565\n\nResidual Deviance: 164.3701 \nAIC: 180.3701 \n\n\nWe can read these by stars. There is nothing that is clearly different from zero as a slope or 1 as an odds-ratio. The authors deploy a common strategy for adjusting standard errors that, in this case, is necessary to find a relationship with statistical confidence. That’s a diversion. To the story. In general, the sign of the rule of law indicator is negative, so as rule of law increases, incentives decrease though we cannot rule out no effect. Transitions also have a negative sign; regime changes have no clear influence on incentives. There is additional information that is commonly given short-shrift. What do the cutpoints separating the categories imply? Let’s think this through recongizing that the estimates have an underlying t/normal distribution. 4|5 is within one standard error of both 3|4 and 5|6. The model cannot really tell these values apart. Things do improve in the lower part of the scale but we should note that this is where the vast majority of the data are actually observed.\n\nOdds Ratios\nNext, I will turn the estimates into odds-ratios by exponentiating the estimates.\n\n```{r}\nexp(li.mod1$coefficients)\n```\n\n  law00log transition \n 0.5384016  0.5968309 \n\n\nFor Kawika, this is one of the many cases that I am familiar with where robust is necessary to find something. Note neither effect can be differentiated from zero with much confidence at all. To further examine the claims, I will also replicate the right-most column."
+  },
+  {
+    "objectID": "posts/week-4/index.html#column-4-estimates",
+    "href": "posts/week-4/index.html#column-4-estimates",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "Column 4 Estimates",
+    "text": "Column 4 Estimates\n\n```{r}\nli.mod4 <- polr(generositygF ~ law00log + transition + fdiinf + democfdi + democ + autocfdi2 + autocfdir + reggengl + reggengl2 + gdppclog + gdplog, data=Li.Data)\nsummary(li.mod4)\n```\n\n\nRe-fitting to get Hessian\n\n\nCall:\npolr(formula = generositygF ~ law00log + transition + fdiinf + \n    democfdi + democ + autocfdi2 + autocfdir + reggengl + reggengl2 + \n    gdppclog + gdplog, data = Li.Data)\n\nCoefficients:\n              Value Std. Error t value\nlaw00log   -0.89148    0.66806 -1.3344\ntransition -0.57123    0.94945 -0.6016\nfdiinf      0.37605    0.18055  2.0828\ndemocfdi   -0.39969    0.18228 -2.1927\ndemoc      -1.23307    0.77661 -1.5878\nautocfdi2   1.24932    1.94198  0.6433\nautocfdir  -3.17796    1.95351 -1.6268\nreggengl    1.81476    0.44754  4.0550\nreggengl2  -0.05777    0.01444 -4.0007\ngdppclog    0.20891    0.43867  0.4762\ngdplog      0.15754    0.18138  0.8686\n\nIntercepts:\n    Value    Std. Error t value \n0|1  13.7773   0.1020   135.0542\n1|2  14.7314   0.3048    48.3349\n2|3  16.9740   0.5230    32.4561\n3|4  18.7911   0.8027    23.4107\n4|5  20.0387   1.1590    17.2900\n5|6  23.2947   4.7216     4.9336\n\nResidual Deviance: 134.2212 \nAIC: 168.2212 \n(2 observations deleted due to missingness)\n\n\nMeasured via odds-ratios, we can obtain those:\n\n```{r}\nexp(li.mod4$coefficients)\n```\n\n  law00log transition     fdiinf   democfdi      democ  autocfdi2  autocfdir \n0.41004648 0.56483013 1.45651991 0.67052543 0.29139805 3.48796970 0.04167039 \n  reggengl  reggengl2   gdppclog     gdplog \n6.13958891 0.94386864 1.23232943 1.17063051"
+  },
+  {
+    "objectID": "posts/week-4/index.html#diagnostics-and-commentary",
+    "href": "posts/week-4/index.html#diagnostics-and-commentary",
+    "title": "Week 4: Ordered and Multinomial Logistic Regression",
+    "section": "Diagnostics and Commentary",
+    "text": "Diagnostics and Commentary\nGoodness of Fit:\n\n```{r}\nDescTools::PseudoR2(\n  li.mod1, \n  which = c(\"McFadden\", \"CoxSnell\", \"Nagelkerke\", \"AIC\")\n)\nDescTools::PseudoR2(\n  li.mod4, \n  which = c(\"McFadden\", \"CoxSnell\", \"Nagelkerke\", \"AIC\")\n)\n```\n\n    McFadden     CoxSnell   Nagelkerke          AIC \n  0.01104919   0.03405653   0.03560378 180.37009764 \n   McFadden    CoxSnell  Nagelkerke         AIC \n  0.1649728   0.4054507   0.4235700 168.2212440 \n\n\nThe last model is clearly better than the first by any of these measures. That said, there are a lot of additional predictors that add much complexity to the model and the difference in AIC is not very large.\nWhat about the others?\n\n```{r}\n# lipsitz test \n# generalhoslem::lipsitz.test(li.mod1)\n# generalhoslem::lipsitz.test(li.mod4)\n```\n\nThey fail to work because of sparseness.\n\nTesting Proportional-Odds\nThe text cites a test that owes to Brant on examining proportionality. It turns out that I know a bit about this; I published a purely theoretical stats paper showing that it is not at all clear what the alternative hypothesis embodied in this test actually means because the only model with a proper probability distribution for \\(y^{*}\\) is this proportional-odds model.\nI will follow the text with this caveat in mind:\n\n```{r}\nbrant::brant(li.mod1)\n```\n\n-------------------------------------------- \nTest for    X2  df  probability \n-------------------------------------------- \nOmnibus     13.51   10  0.2\nlaw00log    8.64    5   0.12\ntransition  4.28    5   0.51\n-------------------------------------------- \n\nH0: Parallel Regression Assumption holds\n\n\n\n\nHow Well Does the Model Predict?\n\n```{r}\nMat.Fit <- data.frame(fitted(li.mod4))\nlibrary(tidyverse)\nMat.Fit$pred.val <- rep(-999, 51)\nMat.Fit$pred.val[Mat.Fit$X0 > Mat.Fit$X1 & Mat.Fit$X0 > Mat.Fit$X2 & Mat.Fit$X0 > Mat.Fit$X3 & Mat.Fit$X0 > Mat.Fit$X4 & Mat.Fit$X0 > Mat.Fit$X5 & Mat.Fit$X0 > Mat.Fit$X6] <- 0\nMat.Fit$pred.val[Mat.Fit$X1 > Mat.Fit$X0 & Mat.Fit$X1 > Mat.Fit$X2 & Mat.Fit$X1 > Mat.Fit$X3 & Mat.Fit$X1 > Mat.Fit$X4 & Mat.Fit$X1 > Mat.Fit$X5 & Mat.Fit$X1 > Mat.Fit$X6] <- 1\nMat.Fit$pred.val[Mat.Fit$X2 > Mat.Fit$X0 & Mat.Fit$X2 > Mat.Fit$X1 & Mat.Fit$X2 > Mat.Fit$X3 & Mat.Fit$X2 > Mat.Fit$X4 & Mat.Fit$X2 > Mat.Fit$X5 & Mat.Fit$X2 > Mat.Fit$X6] <- 2\nMat.Fit$pred.val[Mat.Fit$X3 > Mat.Fit$X0 & Mat.Fit$X3 > Mat.Fit$X1 & Mat.Fit$X3 > Mat.Fit$X2 & Mat.Fit$X3 > Mat.Fit$X4 & Mat.Fit$X3 > Mat.Fit$X5 & Mat.Fit$X3 > Mat.Fit$X6] <- 3\nMat.Fit$pred.val[Mat.Fit$X5 > Mat.Fit$X0 & Mat.Fit$X5 > Mat.Fit$X1 & Mat.Fit$X5 > Mat.Fit$X2 & Mat.Fit$X5 > Mat.Fit$X3 & Mat.Fit$X5 > Mat.Fit$X4 & Mat.Fit$X5 > Mat.Fit$X6] <- 5\nMat.Fit$pred.val[Mat.Fit$X6 > Mat.Fit$X0 & Mat.Fit$X6 > Mat.Fit$X1 & Mat.Fit$X6 > Mat.Fit$X2 & Mat.Fit$X6 > Mat.Fit$X3 & Mat.Fit$X6 > Mat.Fit$X4 & Mat.Fit$X6 > Mat.Fit$X5] <- 6\nPred.Data <- Li.Data[c(1:28,30:41,43:53),]\ntable(Pred.Data$generosityg,Mat.Fit$pred.val)\n```\n\n   \n     0  2  3  6\n  0  6  7  0  0\n  1  5  4  0  0\n  2  5 12  1  0\n  3  1  2  4  0\n  4  0  1  1  0\n  5  0  1  0  0\n  6  0  0  0  1\n\n\nSo 6+12+4+1 or 23 of 51 are correctly predicted with a rather big and complicated model.\n\n\nOn AIC\nThe AIC [and BIC] are built around the idea of likelihood presented last time. The formal definition, which is correct on Wikipedia explains the following:\n\n\n\nAIC"
   }
 ]

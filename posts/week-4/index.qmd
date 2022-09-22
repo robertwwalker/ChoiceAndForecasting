@@ -9,7 +9,7 @@ execute:
   echo: fenced
 ---
 
-The slides [are here.](https://robertwwalker.github.io/xaringan/CMF-Week-4/)
+The slides [are here.](https://robertwwalker.github.io/xaringan/CMF-Week-4/).
 
 Our fourth class meeting will focus on [Chapter 6](https://peopleanalytics-regression-book.org/multinomial-logistic-regression-for-nominal-category-outcomes.html) and [Chapter 7](https://peopleanalytics-regression-book.org/ord-reg.html)  of __Handbook of Regression Modeling in People Analytics__.  The video will be on youtube.
 
@@ -19,9 +19,179 @@ With qualitative outcomes that are nominal (Chapter 6) or ordered (Chapter 7); l
 
 ## Multinomial Models
 
+## A Bit on Random Utility
 
+There's a great [blog post](https://khakieconomics.github.io/2019/03/17/The-logit-choice-model.html) that I found that details this.  In a classic paper for which [among many others], Daniel L. McFadden was awarded the Nobel Prize in Economics, he develops a multinomial/conditional logistic regression model for the study of nominal outcomes.  The core statistics demonstration is that, if random utility for options is described by a Gumbel/Type I extreme value distribution, then the difference in utility has a logistic distribution.  From this observation, one can develop random utility models for unordered choices that follows from utility maximization.  In short, we can use microeconomic foundations to motivate the models that follow.
 
-### Ordered Models
+## A Bit On Model Specification
+
+There are two ways to think about such models.  They can be motivated by choice-specific covariates or by chooser specific covariates [or a combination of both].  In general, if the covariates are chooser-specific, we call it a multinomial logit model while, if the covariates are choice specific, we call it conditional logit or conditional logistic regression.  McFadden's paper is built around transportation choices.
+
+## One Key Assumption to McFadden's Approach {.smaller}
+
+The **independence of irrelevant alternatives** contends that, when people choose among a set of alternatives, the odds of choosing option A over option B should not depend on the presence or absence of unchosen alternative C.  Paul Allison, a famous emeritus sociologist at the University of Pennsylvania, has [a nice blog post on this](https://statisticalhorizons.com/iia/) that is well worth the time.
+
+Imagine the following scenario; you are out to dinner and you are given menus.  One of your companions is excited to choose a steak from the menu.  The server arrives and announces the specials of the day; your companion then decides that a pork chop option from the menu is preferable.  Perhaps they were originally indifferent between the steak and the pork chop.  Nevertheless, it would appear as though the presentation of irrelevant alternatives -- the specials -- had a nontrivial effect on your companion's choices.
+
+## Multinomial [Unordered] Outcomes
+
+An example: exchange rate regimes and the vanishing middle.
+
+There is a sizable literature on how countries structure markets for currency exchange.  There are two polar approaches: 
+
+1. Fixed: the price is fixed and central banks offer the needed quantities to maintain a given price.
+2. Flexible: the quantities are fixed and the price adjusts.
+
+but there is also a third: **intermediate regimes**; things like floating pegs, the ERM snake, and others that are mixtures of the two.  The literature in international monetary economics highlights these as prone to instability.
+
+## The data
+
+![The Data](./img/Screen Shot 2022-09-19 at 1.46.14 PM.png)
+
+## Loading the Data
+
+```{r, message=FALSE, warning=FALSE}
+library(foreign); library(tidyverse)
+EXRT.data <- read.dta("./data/rr_dal_try1.dta")
+table(EXRT.data$regime2a)
+EXRT.data$regime2aF <- as.factor(EXRT.data$regime2a)
+EXRT.data$regime2aF <- relevel(EXRT.data$regime2aF, ref = "1")
+```
+- 0 is fixed.
+- 1 is intermediate
+- 2 is flexible/floating
+
+## A Model
+
+```{r, results="hide", message=FALSE, warning=FALSE}
+library(nnet); library(stargazer)
+multi_model <- multinom(
+  formula = regime2aF ~ probirch + dumirch +  fix_l +float_l, maxit=500, 
+  data = EXRT.data
+)
+```
+
+## Result {.smaller}
+
+```{r, results="asis", message=FALSE, warning=FALSE}
+stargazer(multi_model, type = "html")
+```
+
+## A Bit of Interpretation
+
+```{r, message=FALSE, warning=FALSE}
+EXRT.data <- EXRT.data %>% select(regime2aF,probirch, dumirch,fix_l,float_l)
+summary(EXRT.data)
+```
+
+## A Plot
+
+```{r}
+pred.data.I <- data.frame(fix_l = 0, float_l = 0, probirch = seq(0,0.34, by=0.01), dumirch = 0)
+Preds.1 <- data.frame(predict(multi_model, newdata=pred.data.I, type="p"))
+Preds.1$Irregular <- pred.data.I$probirch
+Preds.1.df <- data.frame(Preds.1)
+Graph.1 <- Preds.1.df %>% pivot_longer(., cols=c(X1,X2,X0)) %>%
+ggplot(.) + aes(x=Irregular, y=value, color=name) + geom_point() + theme_minimal()
+pred.data.I <- data.frame(fix_l = 0, float_l = 0, probirch = seq(0,0.34, by=0.01), dumirch = seq(0,0.34, by=0.01))
+Preds.1 <- data.frame(predict(multi_model, newdata=pred.data.I, type="p"))
+Preds.1.df <- data.frame(Preds.1)
+Preds.1.df$Irregular <- pred.data.I$probirch
+Graph.2 <- Preds.1.df %>% pivot_longer(., cols=c(X1,X2,X0)) %>%
+ggplot(.) + aes(x=Irregular, y=value, color=name) + geom_point() + theme_minimal()
+library(patchwork)
+```
+
+## A Picture
+
+```{r}
+Graph.1 + Graph.2 + plot_annotation(
+  title = 'Intermediates')
+```
+
+## A Plot
+
+```{r}
+pred.data.I <- data.frame(fix_l = 1, float_l = 0, probirch = seq(0,0.34, by=0.01), dumirch = 0)
+Preds.1 <- data.frame(predict(multi_model, newdata=pred.data.I, type="p"))
+Preds.1$Irregular <- pred.data.I$probirch
+Preds.1.df <- data.frame(Preds.1)
+Graph.1 <- Preds.1.df %>% pivot_longer(., cols=c(X1,X2,X0)) %>%
+ggplot(.) + aes(x=Irregular, y=value, color=name) + geom_point() + theme_minimal()
+pred.data.I <- data.frame(fix_l = 1, float_l = 0, probirch = seq(0,0.34, by=0.01), dumirch = seq(0,0.34, by=0.01))
+Preds.1 <- data.frame(predict(multi_model, newdata=pred.data.I, type="p"))
+Preds.1.df <- data.frame(Preds.1)
+Preds.1.df$Irregular <- pred.data.I$probirch
+Graph.2 <- Preds.1.df %>% pivot_longer(., cols=c(X1,X2,X0)) %>%
+ggplot(.) + aes(x=Irregular, y=value, color=name) + geom_point() + theme_minimal()
+library(patchwork)
+```
+
+## A Picture
+
+```{r}
+Graph.1 + Graph.2 + plot_annotation(
+  title = 'Fixes')
+```
+
+## A Plot
+
+```{r}
+pred.data.I <- data.frame(fix_l = 0, float_l = 1, probirch = seq(0,0.34, by=0.01), dumirch = 0)
+Preds.1 <- data.frame(predict(multi_model, newdata=pred.data.I, type="p"))
+Preds.1$Irregular <- pred.data.I$probirch
+Preds.1.df <- data.frame(Preds.1)
+Graph.1 <- Preds.1.df %>% pivot_longer(., cols=c(X1,X2,X0)) %>%
+ggplot(.) + aes(x=Irregular, y=value, color=name) + geom_point() + theme_minimal()
+pred.data.I <- data.frame(fix_l = 0, float_l = 1, probirch = seq(0,0.34, by=0.01), dumirch = seq(0,0.34, by=0.01))
+Preds.1 <- data.frame(predict(multi_model, newdata=pred.data.I, type="p"))
+Preds.1.df <- data.frame(Preds.1)
+Preds.1.df$Irregular <- pred.data.I$probirch
+Graph.2 <- Preds.1.df %>% pivot_longer(., cols=c(X1,X2,X0)) %>%
+ggplot(.) + aes(x=Irregular, y=value, color=name) + geom_point() + theme_minimal()
+library(patchwork)
+```
+
+## A Picture
+
+```{r}
+Graph.1 + Graph.2 + plot_annotation(
+  title = 'Floats')
+```
+
+## Goodness of Fit
+
+```{r}
+DescTools::PseudoR2(multi_model, 
+                    which = c("McFadden", "CoxSnell", "Nagelkerke","AIC"))
+```
+
+## Simpler
+
+```{r, message=FALSE, warning=FALSE}
+multi_model.2 <- multinom(
+  formula = regime2aF ~ fix_l +float_l, maxit=500, 
+  data = EXRT.data
+)
+multi_model.3 <- multinom(
+  formula = regime2aF ~ probirch +  fix_l +float_l, maxit=500, 
+  data = EXRT.data
+)
+```
+
+## Comparisons
+
+```{r}
+DescTools::PseudoR2(multi_model.2, 
+                    which = c("McFadden", "CoxSnell", "Nagelkerke","AIC"))
+DescTools::PseudoR2(multi_model.3, 
+                    which = c("McFadden", "CoxSnell", "Nagelkerke", "AIC"))
+```
+## The Best Model is the One Presented
+
+It minimizes AIC.
+
+## Ordered Models
 
 My preferred method of thinking about ordered regression involves latent variables.  So what is a latent variable?  It is something that is unobservable, hence latent, and we only observe coarse realizations in the form of qualitative categories.  Consider the example from [Li in the *Journal of Politics*](https://www.journals.uchicago.edu/doi/abs/10.1111/j.1468-2508.2006.00370.x).
 
@@ -29,7 +199,7 @@ My preferred method of thinking about ordered regression involves latent variabl
 
 
 
-### The Outcome
+## The Outcome
 
 The outcome is summed from six individual types of incentives.  They are explained here.
 
@@ -39,7 +209,7 @@ and
 
 ![Tax Incentives Part 2](./data/Screen Shot 2022-09-19 at 10.10.30 AM.png)
 
-### Inputs
+## Inputs
 
 There are two parts to the data description for the inputs.
 
@@ -55,7 +225,7 @@ and
 
 ![Controls: Part 2](./data/Screen Shot 2022-09-19 at 10.18.53 AM.png)
 
-### The Data
+## The Data
 
 This should give us an idea of what is going on.  The data come in Stata format; we can read these via the `foreign` or `haven` libraries in R.
 
@@ -73,7 +243,7 @@ There is also a concern about FDI and economies of scale.  The following is a pl
 
 Without careful attention to normalization, China is a clear `x-y` outlier.
 
-### Motivating the Model
+## Motivating the Model
 
 Suppose there is some unobserved continuous variable, call it $y^{*}$ that measures the willingness/utility to be derived from tax incentives to FDI.  Unfortunately, this latent quantity is unobservable; we instead observe how many incentives are offered and posit that the number of incentives is a manifestation of increasing utility with unknown points of separation -- cutpoints -- that separate these latent utilities into a mutually exclusive and exhaustive partition.  In a simplified example, consider this.
 
@@ -87,7 +257,7 @@ So anything below -3 is zero incentives; anything between -3 and -2 is one incen
 $$y^{*} = X\beta + \epsilon$$
 where $\epsilon$ is assumed to have a logistic distribution but this is otherwise just a linear regression.  Indeed, the direct interpretation of the slopes is the effect of a one-unit change in X on that logistic random variable.
 
-### What to Replicate
+## What to Replicate
 
 The table of estimates is presented in the paper; I will copy it here.
 
@@ -102,6 +272,8 @@ summary(li.mod1)
 
 We can read these by stars.  There is nothing that is clearly different from zero as a slope or 1 as an odds-ratio.  The authors deploy a common strategy for adjusting standard errors that, in this case, is necessary to find a relationship with statistical confidence.  That's a diversion.  To the story.  In general, the sign of the rule of law indicator is negative, so as rule of law increases, incentives decrease though we cannot rule out no effect.  Transitions also have a negative sign; regime changes have no clear influence on incentives.  There is additional information that is commonly given short-shrift.  What do the cutpoints separating the categories imply?  Let's think this through recongizing that the estimates have an underlying t/normal distribution.  `4|5` is within one standard error of both `3|4` and `5|6`.  The model cannot really tell these values apart.  Things do improve in the lower part of the scale but we should note that this is where the vast majority of the data are actually observed.
 
+### Odds Ratios
+
 Next, I will turn the estimates into odds-ratios by exponentiating the estimates.
 
 ```{r}
@@ -110,7 +282,7 @@ exp(li.mod1$coefficients)
 
 For Kawika, this is one of the many cases that I am familiar with where `robust` is necessary to find something.  Note neither effect can be differentiated from zero with much confidence at all.  To further examine the claims, I will also replicate the right-most column.
 
-### Column 4 Estimates
+## Column 4 Estimates
 
 ```{r}
 li.mod4 <- polr(generositygF ~ law00log + transition + fdiinf + democfdi + democ + autocfdi2 + autocfdir + reggengl + reggengl2 + gdppclog + gdplog, data=Li.Data)
@@ -123,7 +295,7 @@ Measured via odds-ratios, we can obtain those:
 exp(li.mod4$coefficients)
 ```
 
-### Diagnostics and Commentary
+## Diagnostics and Commentary
 
 Goodness of Fit:
 
