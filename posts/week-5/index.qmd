@@ -1,0 +1,182 @@
+---
+title: "Week 4: Hierarchical Data"
+author: "Robert W. Walker"
+date: "2022-09-26"
+categories: [R]
+image: "image.png"
+toc: true
+execute: 
+  echo: fenced
+---
+
+The slides [are here.](https://robertwwalker.github.io/xaringan/CMF-Week-5/).
+
+Our fifth class meeting will focus on [Chapter 8](https://peopleanalytics-regression-book.org/gitbook/modeling-explicit-and-latent-hierarchy-in-data.html) of __Handbook of Regression Modeling in People Analytics__. 
+
+## The Skinny
+
+Hierarchical models represent an advance on more standard linear and generalized linear models with the recognition that data have hierarchical forms of organization with varying degrees of freedom for the predictors.
+
+## Ordered Models
+
+My preferred method of thinking about ordered regression involves latent variables.  So what is a latent variable?  It is something that is unobservable, hence latent, and we only observe coarse realizations in the form of qualitative categories.  Consider the example from [Li in the *Journal of Politics*](https://www.journals.uchicago.edu/doi/abs/10.1111/j.1468-2508.2006.00370.x).
+
+![Li Abstract](./data/Screen Shot 2022-09-19 at 9.59.09 AM.png)
+
+
+
+## The Outcome
+
+The outcome is summed from six individual types of incentives.  They are explained here.
+
+![Tax Incentives to FDI](./data/Screen Shot 2022-09-19 at 10.09.08 AM.png)
+
+and
+
+![Tax Incentives Part 2](./data/Screen Shot 2022-09-19 at 10.10.30 AM.png)
+
+## Inputs
+
+There are two parts to the data description for the inputs.
+
+![Part 1](./data/Screen Shot 2022-09-19 at 10.01.12 AM.png)
+
+and ![Part 2](./data/Screen Shot 2022-09-19 at 10.01.32 AM.png)
+
+and there is a further description of other variables that are deployed.
+
+![Controls: Part 1](./data/Screen Shot 2022-09-19 at 10.17.41 AM.png)
+
+and
+
+![Controls: Part 2](./data/Screen Shot 2022-09-19 at 10.18.53 AM.png)
+
+## The Data
+
+This should give us an idea of what is going on.  The data come in Stata format; we can read these via the `foreign` or `haven` libraries in R.
+
+```{r}
+library(MASS); library(foreign)
+Li.Data <- read.dta("./data/li-replication.dta")
+table(Li.Data$generosityg)
+Li.Data$generositygF <- as.factor(Li.Data$generosityg)
+```
+It is worthwhile to notice that the top of the scale is rather sparse.
+
+There is also a concern about FDI and economies of scale.  The following is a plot of the relationship between FDI and size of the economy in the sample.
+
+![FD-Size](./data/size-fdi.png)
+
+Without careful attention to normalization, China is a clear `x-y` outlier.
+
+## Motivating the Model
+
+Suppose there is some unobserved continuous variable, call it $y^{*}$ that measures the willingness/utility to be derived from tax incentives to FDI.  Unfortunately, this latent quantity is unobservable; we instead observe how many incentives are offered and posit that the number of incentives is a manifestation of increasing utility with unknown points of separation -- cutpoints -- that separate these latent utilities into a mutually exclusive and exhaustive partition.  In a simplified example, consider this.
+
+```{r}
+plot(density(rlogis(1000)))
+abline(v=c(-3,-2,-1,0,2,4))
+```
+
+So anything below -3 is zero incentives; anything between -3 and -2 is one incentive, ... , and anything above 4 should be all six incentives.  What we have is a regression problem but the outcome is unobserved and takes the form of a logistic random variable.  Indeed, one could write the equation as:
+
+$$y^{*} = X\beta + \epsilon$$
+where $\epsilon$ is assumed to have a logistic distribution but this is otherwise just a linear regression.  Indeed, the direct interpretation of the slopes is the effect of a one-unit change in X on that logistic random variable.
+
+## What to Replicate
+
+The table of estimates is presented in the paper; I will copy it here.
+
+![Results Table](./data/Screen Shot 2022-09-19 at 10.24.19 AM.png)
+
+I will choose two of a few models estimated in the paper.  First, let us have a look at Model 1.
+
+```{r}
+li.mod1 <- polr(generositygF ~ law00log + transition, data=Li.Data)
+summary(li.mod1)
+```
+
+We can read these by stars.  There is nothing that is clearly different from zero as a slope or 1 as an odds-ratio.  The authors deploy a common strategy for adjusting standard errors that, in this case, is necessary to find a relationship with statistical confidence.  That's a diversion.  To the story.  In general, the sign of the rule of law indicator is negative, so as rule of law increases, incentives decrease though we cannot rule out no effect.  Transitions also have a negative sign; regime changes have no clear influence on incentives.  There is additional information that is commonly given short-shrift.  What do the cutpoints separating the categories imply?  Let's think this through recongizing that the estimates have an underlying t/normal distribution.  `4|5` is within one standard error of both `3|4` and `5|6`.  The model cannot really tell these values apart.  Things do improve in the lower part of the scale but we should note that this is where the vast majority of the data are actually observed.
+
+### Odds Ratios
+
+Next, I will turn the estimates into odds-ratios by exponentiating the estimates.
+
+```{r}
+exp(li.mod1$coefficients)
+```
+
+For Kawika, this is one of the many cases that I am familiar with where `robust` is necessary to find something.  Note neither effect can be differentiated from zero with much confidence at all.  To further examine the claims, I will also replicate the right-most column.
+
+## Column 4 Estimates
+
+```{r}
+li.mod4 <- polr(generositygF ~ law00log + transition + fdiinf + democfdi + democ + autocfdi2 + autocfdir + reggengl + reggengl2 + gdppclog + gdplog, data=Li.Data)
+summary(li.mod4)
+```
+
+Measured via odds-ratios, we can obtain those:
+
+```{r}
+exp(li.mod4$coefficients)
+```
+
+## Diagnostics and Commentary
+
+Goodness of Fit:
+
+```{r}
+DescTools::PseudoR2(
+  li.mod1, 
+  which = c("McFadden", "CoxSnell", "Nagelkerke", "AIC")
+)
+DescTools::PseudoR2(
+  li.mod4, 
+  which = c("McFadden", "CoxSnell", "Nagelkerke", "AIC")
+)
+```
+The last model is clearly better than the first by any of these measures.  That said, there are a lot of additional predictors that add much complexity to the model and the difference in AIC is not very large.
+
+What about the others?
+
+```{r}
+# lipsitz test 
+# generalhoslem::lipsitz.test(li.mod1)
+# generalhoslem::lipsitz.test(li.mod4)
+```
+
+They fail to work because of sparseness.
+
+### Testing Proportional-Odds
+
+The text cites a test that owes to Brant on examining proportionality.  It turns out that I know a bit about this; I published a purely theoretical stats paper showing that it is not at all clear what the alternative hypothesis embodied in this test actually means because the only model with a proper probability distribution for $y^{*}$ is this proportional-odds model.
+
+I will follow the text with this caveat in mind:
+
+```{r}
+brant::brant(li.mod1)
+```
+
+### How Well Does the Model Predict?
+
+```{r}
+Mat.Fit <- data.frame(fitted(li.mod4))
+library(tidyverse)
+Mat.Fit$pred.val <- rep(-999, 51)
+Mat.Fit$pred.val[Mat.Fit$X0 > Mat.Fit$X1 & Mat.Fit$X0 > Mat.Fit$X2 & Mat.Fit$X0 > Mat.Fit$X3 & Mat.Fit$X0 > Mat.Fit$X4 & Mat.Fit$X0 > Mat.Fit$X5 & Mat.Fit$X0 > Mat.Fit$X6] <- 0
+Mat.Fit$pred.val[Mat.Fit$X1 > Mat.Fit$X0 & Mat.Fit$X1 > Mat.Fit$X2 & Mat.Fit$X1 > Mat.Fit$X3 & Mat.Fit$X1 > Mat.Fit$X4 & Mat.Fit$X1 > Mat.Fit$X5 & Mat.Fit$X1 > Mat.Fit$X6] <- 1
+Mat.Fit$pred.val[Mat.Fit$X2 > Mat.Fit$X0 & Mat.Fit$X2 > Mat.Fit$X1 & Mat.Fit$X2 > Mat.Fit$X3 & Mat.Fit$X2 > Mat.Fit$X4 & Mat.Fit$X2 > Mat.Fit$X5 & Mat.Fit$X2 > Mat.Fit$X6] <- 2
+Mat.Fit$pred.val[Mat.Fit$X3 > Mat.Fit$X0 & Mat.Fit$X3 > Mat.Fit$X1 & Mat.Fit$X3 > Mat.Fit$X2 & Mat.Fit$X3 > Mat.Fit$X4 & Mat.Fit$X3 > Mat.Fit$X5 & Mat.Fit$X3 > Mat.Fit$X6] <- 3
+Mat.Fit$pred.val[Mat.Fit$X5 > Mat.Fit$X0 & Mat.Fit$X5 > Mat.Fit$X1 & Mat.Fit$X5 > Mat.Fit$X2 & Mat.Fit$X5 > Mat.Fit$X3 & Mat.Fit$X5 > Mat.Fit$X4 & Mat.Fit$X5 > Mat.Fit$X6] <- 5
+Mat.Fit$pred.val[Mat.Fit$X6 > Mat.Fit$X0 & Mat.Fit$X6 > Mat.Fit$X1 & Mat.Fit$X6 > Mat.Fit$X2 & Mat.Fit$X6 > Mat.Fit$X3 & Mat.Fit$X6 > Mat.Fit$X4 & Mat.Fit$X6 > Mat.Fit$X5] <- 6
+Pred.Data <- Li.Data[c(1:28,30:41,43:53),]
+table(Pred.Data$generosityg,Mat.Fit$pred.val)
+```
+
+So `6+12+4+1` or 23 of 51 are correctly predicted with a rather big and complicated model.
+
+### On AIC
+
+The AIC [and BIC] are built around the idea of likelihood presented last time.  The formal definition, [which is correct on Wikipedia](https://en.wikipedia.org/wiki/Akaike_information_criterion) explains the following:
+
+![AIC](./data/Screen Shot 2022-09-19 at 12.06.24 PM.png)
