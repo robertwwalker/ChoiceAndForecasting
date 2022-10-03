@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.167">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Robert W. Walker">
+<meta name="dcterms.date" content="2022-10-03">
+
+<title>Models of Choice and Forecasting - Week 6: Measurement and Survival</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="../../site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="../../site_libs/viz-1.8.2/viz.js"></script>
+<link href="../../site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+<script src="../../site_libs/grViz-binding-1.0.9/grViz.js"></script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta name="twitter:title" content="Models of Choice and Forecasting - Week 6: Measurement and Survival">
+<meta name="twitter:description" content="The slides are here..">
+<meta name="twitter:image" content="https://quartopub.com/sites/rww/models-of-choice-and-forecasting/posts/week-6/image.png">
+<meta name="twitter:creator" content="@PieRatio">
+<meta name="twitter:image-height" content="618">
+<meta name="twitter:image-width" content="1143">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Models of Choice and Forecasting</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/robertwwalker/ChoiceAndForecasting"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/PieRatio"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Week 6: Measurement and Survival</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Robert W. Walker </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 3, 2022</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-skinny" id="toc-the-skinny" class="nav-link active" data-scroll-target="#the-skinny">The Skinny</a></li>
+  <li><a href="#hierarchical-models-and-sem" id="toc-hierarchical-models-and-sem" class="nav-link" data-scroll-target="#hierarchical-models-and-sem">Hierarchical Models and SEM</a>
+  <ul class="collapse">
+  <li><a href="#hierarchical-models" id="toc-hierarchical-models" class="nav-link" data-scroll-target="#hierarchical-models">Hierarchical Models</a></li>
+  <li><a href="#load-the-data" id="toc-load-the-data" class="nav-link" data-scroll-target="#load-the-data">Load the data</a></li>
+  <li><a href="#a-summary" id="toc-a-summary" class="nav-link" data-scroll-target="#a-summary">A Summary</a></li>
+  <li><a href="#a-plot-of-the-relationship-of-interest" id="toc-a-plot-of-the-relationship-of-interest" class="nav-link" data-scroll-target="#a-plot-of-the-relationship-of-interest">A plot of the relationship of interest</a></li>
+  <li><a href="#with-the-lines" id="toc-with-the-lines" class="nav-link" data-scroll-target="#with-the-lines">With the lines</a></li>
+  <li><a href="#a-regression" id="toc-a-regression" class="nav-link" data-scroll-target="#a-regression">A regression</a></li>
+  <li><a href="#random-slopes" id="toc-random-slopes" class="nav-link" data-scroll-target="#random-slopes">Random slopes</a></li>
+  <li><a href="#examining-the-model" id="toc-examining-the-model" class="nav-link" data-scroll-target="#examining-the-model">Examining the Model</a></li>
+  <li><a href="#a-crossed-effects-model" id="toc-a-crossed-effects-model" class="nav-link" data-scroll-target="#a-crossed-effects-model">A Crossed-Effects Model</a></li>
+  <li><a href="#a-picture" id="toc-a-picture" class="nav-link" data-scroll-target="#a-picture">A Picture</a></li>
+  </ul></li>
+  <li><a href="#structural-equations-models" id="toc-structural-equations-models" class="nav-link" data-scroll-target="#structural-equations-models">Structural Equations Models</a>
+  <ul class="collapse">
+  <li><a href="#agentic" id="toc-agentic" class="nav-link" data-scroll-target="#agentic">Agentic</a></li>
+  <li><a href="#communal" id="toc-communal" class="nav-link" data-scroll-target="#communal">Communal</a></li>
+  <li><a href="#mentoring" id="toc-mentoring" class="nav-link" data-scroll-target="#mentoring">Mentoring</a></li>
+  <li><a href="#social-influence" id="toc-social-influence" class="nav-link" data-scroll-target="#social-influence">Social Influence</a></li>
+  <li><a href="#an-sem" id="toc-an-sem" class="nav-link" data-scroll-target="#an-sem">An SEM</a></li>
+  </ul></li>
+  <li><a href="#some-examples-from-survival-time" id="toc-some-examples-from-survival-time" class="nav-link" data-scroll-target="#some-examples-from-survival-time">Some Examples from Survival Time</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>The slides <a href="https://robertwwalker.github.io/xaringan/CMF-Week-6/">are here.</a>.</p>
+<p>Our sixth class meeting will focus on <a href="https://peopleanalytics-regression-book.org/gitbook/modeling-explicit-and-latent-hierarchy-in-data.html">Chapter 8</a> and <a href="https://peopleanalytics-regression-book.org/gitbook/survival.html">Chapter 9</a> of <strong>Handbook of Regression Modeling in People Analytics</strong>.</p>
+<section id="the-skinny" class="level2">
+<h2 class="anchored" data-anchor-id="the-skinny">The Skinny</h2>
+<p>Hierarchical models represent an advance on more standard linear and generalized linear models with the recognition that data have hierarchical forms of organization with varying degrees of freedom for the predictors. These models can, generically, be combined with techniques that we have already learned to expand the range of our toolkit. Since we left last week off with ordered models, they will first occupy our attention.</p>
+</section>
+<section id="hierarchical-models-and-sem" class="level2">
+<h2 class="anchored" data-anchor-id="hierarchical-models-and-sem">Hierarchical Models and SEM</h2>
+<section id="hierarchical-models" class="level3">
+<h3 class="anchored" data-anchor-id="hierarchical-models">Hierarchical Models</h3>
+<p>To examine a hierarchical model, I am going to choose some interesting data on popularity. A description appears below; these data come from an Intro to Multilevel Analysis.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./data/Screen Shot 2022-09-26 at 2.13.53 PM.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Popularity Data</figcaption><p></p>
+</figure>
+</div>
+<p>Though the data are technically ordered, this feature is not exploited to build a hierarchical ordered regression model, though it could be done. Instead, the outcome of interest is an average of <em>ordered scales</em>.</p>
+</section>
+<section id="load-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-data">Load the data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+✔ tibble  3.1.8     ✔ dplyr   1.0.9
+✔ tidyr   1.2.0     ✔ stringr 1.4.1
+✔ readr   2.1.2     ✔ forcats 0.5.2
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>popular2data <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(<span class="at">file =</span><span class="st">"https://github.com/MultiLevelAnalysis/Datasets-third-edition-Multilevel-book/blob/master/chapter%202/popularity/SPSS/popular2.sav?raw=true"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>popular2data <span class="ot">&lt;-</span> popular2data <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(pupil, class, extrav, sex, texp, popular)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="a-summary" class="level3">
+<h3 class="anchored" data-anchor-id="a-summary">A Summary</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(popular2data)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(popular2data)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     pupil           class            extrav            sex        
+ Min.   : 1.00   Min.   :  1.00   Min.   : 1.000   Min.   :0.0000  
+ 1st Qu.: 6.00   1st Qu.: 25.00   1st Qu.: 4.000   1st Qu.:0.0000  
+ Median :11.00   Median : 51.00   Median : 5.000   Median :1.0000  
+ Mean   :10.65   Mean   : 50.37   Mean   : 5.215   Mean   :0.5055  
+ 3rd Qu.:16.00   3rd Qu.: 76.00   3rd Qu.: 6.000   3rd Qu.:1.0000  
+ Max.   :26.00   Max.   :100.00   Max.   :10.000   Max.   :1.0000  
+      texp          popular     
+ Min.   : 2.00   Min.   :0.000  
+ 1st Qu.: 8.00   1st Qu.:4.100  
+ Median :15.00   Median :5.100  
+ Mean   :14.26   Mean   :5.076  
+ 3rd Qu.:20.00   3rd Qu.:6.000  
+ Max.   :25.00   Max.   :9.500  
+# A tibble: 6 × 6
+  pupil class extrav sex        texp popular
+  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl+lbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+1     1     1      5 1 [girl]     24     6.3
+2     2     1      7 0 [boy]      24     4.9
+3     3     1      4 1 [girl]     24     5.3
+4     4     1      3 1 [girl]     24     4.7
+5     5     1      5 1 [girl]     24     6  
+6     6     1      4 0 [boy]      24     4.7</code></pre>
+</div>
+</div>
+</section>
+<section id="a-plot-of-the-relationship-of-interest" class="level3">
+<h3 class="anchored" data-anchor-id="a-plot-of-the-relationship-of-interest">A plot of the relationship of interest</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data    =</span> popular2data,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x   =</span> extrav,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">y   =</span> popular,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">col =</span> class))<span class="sc">+</span> <span class="co">#to add the colours for different classes</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size     =</span> <span class="fl">0.8</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha    =</span> .<span class="dv">8</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">position =</span> <span class="st">"jitter"</span>)<span class="sc">+</span> <span class="co">#to add some random noise for plotting purposes</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)<span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_gradientn</span>(<span class="at">colours =</span> <span class="fu">rainbow</span>(<span class="dv">100</span>))<span class="sc">+</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title    =</span> <span class="st">"Popularity vs. Extraversion"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"add colours for different classes"</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Extroversion"</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Average Popularity"</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="with-the-lines" class="level3">
+<h3 class="anchored" data-anchor-id="with-the-lines">With the lines</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data      =</span> popular2data,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x     =</span> extrav,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">y     =</span> popular,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">col   =</span> class,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">group =</span> class))<span class="sc">+</span> <span class="co">#to add the colours for different classes</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size     =</span> <span class="fl">1.2</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha    =</span> .<span class="dv">8</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">position =</span> <span class="st">"jitter"</span>)<span class="sc">+</span> <span class="co">#to add some random noise for plotting purposes</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)<span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_gradientn</span>(<span class="at">colours =</span> <span class="fu">rainbow</span>(<span class="dv">100</span>))<span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">se     =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>              <span class="at">size   =</span> .<span class="dv">5</span>, </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha  =</span> .<span class="dv">8</span>)<span class="sc">+</span> <span class="co"># to add regression line</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title    =</span> <span class="st">"Popularity vs. Extraversion"</span>,</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"add colours for different classes and regression lines"</span>,</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Extroversion"</span>,</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Average Popularity"</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="a-regression" class="level3">
+<h3 class="anchored" data-anchor-id="a-regression">A regression</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> popular2data, </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x   =</span> extrav,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">y   =</span> popular, </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">col =</span> <span class="fu">as.factor</span>(sex)))<span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size     =</span> <span class="dv">1</span>, </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha    =</span> .<span class="dv">7</span>, </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">position =</span> <span class="st">"jitter"</span>)<span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method   =</span> lm,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">se       =</span> T, </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">size     =</span> <span class="fl">1.5</span>, </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">linetype =</span> <span class="dv">1</span>, </span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha    =</span> .<span class="dv">7</span>)<span class="sc">+</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title    =</span> <span class="st">"Popularity and Extraversion for 2 Genders"</span>, </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"The linear relationship between the two is similar for both genders"</span>)<span class="sc">+</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name   =</span><span class="st">" Gender"</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Boys"</span>, <span class="st">"Girls"</span>),</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>                     <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"lightblue"</span>, <span class="st">"pink"</span>))</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>A model with random intercepts</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, warning=FALSE, message=FALSE}</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">7</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="at">formula =</span> popular <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> sex <span class="sc">+</span> extrav <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>class), </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">data    =</span> popular2data)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: popular ~ 1 + sex + extrav + (1 | class)
+   Data: popular2data
+
+REML criterion at convergence: 4948.3
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.2091 -0.6575 -0.0044  0.6732  2.9755 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ class    (Intercept) 0.6272   0.7919  
+ Residual             0.5921   0.7695  
+Number of obs: 2000, groups:  class, 100
+
+Fixed effects:
+              Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)    2.14096    0.11729  390.76822   18.25   &lt;2e-16 ***
+sex            1.25300    0.03743 1926.69933   33.48   &lt;2e-16 ***
+extrav         0.44161    0.01616 1956.77498   27.33   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+       (Intr) sex   
+sex    -0.100       
+extrav -0.705 -0.085</code></pre>
+</div>
+</div>
+<p>Though in this case, we probably do not need them but p-values can be obtained from <code>lmerTest</code>. The standard <code>lme4</code> summary does not have them.</p>
+<p>Now let’s add a <strong>second-level</strong> predictor. Teacher experience does not vary within a given classroom, only across the 100 classrooms. Let’s look at this model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>model2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(popular <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> sex <span class="sc">+</span> extrav <span class="sc">+</span> texp <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> class), <span class="at">data=</span>popular2data)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: popular ~ 1 + sex + extrav + texp + (1 | class)
+   Data: popular2data
+
+REML criterion at convergence: 4885
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.1745 -0.6491 -0.0075  0.6705  3.0078 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ class    (Intercept) 0.2954   0.5435  
+ Residual             0.5920   0.7694  
+Number of obs: 2000, groups:  class, 100
+
+Fixed effects:
+               Estimate  Std. Error          df t value  Pr(&gt;|t|)    
+(Intercept)    0.809766    0.169993  226.431473   4.764 0.0000034 ***
+sex            1.253800    0.037290 1948.303018  33.623   &lt; 2e-16 ***
+extrav         0.454431    0.016165 1954.889209  28.112   &lt; 2e-16 ***
+texp           0.088407    0.008764  101.627424  10.087   &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+       (Intr) sex    extrav
+sex    -0.040              
+extrav -0.589 -0.090       
+texp   -0.802 -0.036  0.139</code></pre>
+</div>
+</div>
+<p>More experienced teachers lead to higher reported average popularity.</p>
+</section>
+<section id="random-slopes" class="level3">
+<h3 class="anchored" data-anchor-id="random-slopes">Random slopes</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message=FALSE, warning=FALSE}</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>model3 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="at">formula =</span> popular <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> sex <span class="sc">+</span> extrav <span class="sc">+</span> texp <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> sex <span class="sc">+</span> extrav <span class="sc">|</span> class),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">data    =</span> popular2data, <span class="at">control=</span><span class="fu">lmerControl</span>(<span class="at">optCtrl=</span><span class="fu">list</span>(<span class="at">maxfun=</span><span class="dv">100000</span>) ))</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model3)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: popular ~ 1 + sex + extrav + texp + (1 + sex + extrav | class)
+   Data: popular2data
+Control: lmerControl(optCtrl = list(maxfun = 100000))
+
+REML criterion at convergence: 4833.3
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.1643 -0.6554 -0.0246  0.6711  2.9570 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr       
+ class    (Intercept) 1.342020 1.15846             
+          sex         0.002404 0.04903  -0.39      
+          extrav      0.034742 0.18639  -0.88 -0.09
+ Residual             0.551435 0.74259             
+Number of obs: 2000, groups:  class, 100
+
+Fixed effects:
+              Estimate Std. Error         df t value Pr(&gt;|t|)    
+(Intercept)   0.758511   0.197316 181.050469   3.844 0.000167 ***
+sex           1.250810   0.036942 986.050567  33.859  &lt; 2e-16 ***
+extrav        0.452854   0.024645  96.208501  18.375  &lt; 2e-16 ***
+texp          0.089520   0.008618 101.321705  10.388  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+       (Intr) sex    extrav
+sex    -0.062              
+extrav -0.718 -0.066       
+texp   -0.684 -0.039  0.089
+optimizer (nloptwrap) convergence code: 0 (OK)
+Model failed to converge with max|grad| = 0.00597328 (tol = 0.002, component 1)</code></pre>
+</div>
+</div>
+</section>
+<section id="examining-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="examining-the-model">Examining the Model</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ranova</span>(model3)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>boundary (singular) fit: see help('isSingular')</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ANOVA-like table for random-effects: Single term deletions
+
+Model:
+popular ~ sex + extrav + texp + (1 + sex + extrav | class)
+                                     npar  logLik    AIC    LRT Df
+&lt;none&gt;                                 11 -2416.6 4855.3          
+sex in (1 + sex + extrav | class)       8 -2417.4 4850.8  1.513  3
+extrav in (1 + sex + extrav | class)    8 -2441.9 4899.8 50.507  3
+                                           Pr(&gt;Chisq)    
+&lt;none&gt;                                                   
+sex in (1 + sex + extrav | class)              0.6792    
+extrav in (1 + sex + extrav | class) 0.00000000006232 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>The random effect associated with <code>sex</code> is not close to significance.</p>
+</section>
+<section id="a-crossed-effects-model" class="level3">
+<h3 class="anchored" data-anchor-id="a-crossed-effects-model">A Crossed-Effects Model</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>model5<span class="ot">&lt;-</span><span class="fu">lmer</span>(<span class="at">formula =</span> popular <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> sex <span class="sc">+</span> extrav <span class="sc">+</span> texp<span class="sc">+</span> extrav<span class="sc">*</span>texp <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> extrav <span class="sc">|</span> class), </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">data    =</span> popular2data)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model5)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: popular ~ 1 + sex + extrav + texp + extrav * texp + (1 + extrav |  
+    class)
+   Data: popular2data
+
+REML criterion at convergence: 4780.5
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-3.12872 -0.63857 -0.01129  0.67916  3.05006 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr 
+ class    (Intercept) 0.478639 0.69184       
+          extrav      0.005409 0.07355  -0.64
+ Residual             0.552769 0.74348       
+Number of obs: 2000, groups:  class, 100
+
+Fixed effects:
+               Estimate  Std. Error          df t value Pr(&gt;|t|)    
+(Intercept)   -1.209607    0.271901  109.345831  -4.449 2.09e-05 ***
+sex            1.240698    0.036233 1941.077365  34.243  &lt; 2e-16 ***
+extrav         0.803578    0.040117   72.070164  20.031  &lt; 2e-16 ***
+texp           0.226197    0.016807   98.507109  13.458  &lt; 2e-16 ***
+extrav:texp   -0.024728    0.002555   71.986847  -9.679 1.15e-14 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) sex    extrav texp  
+sex          0.002                     
+extrav      -0.867 -0.065              
+texp        -0.916 -0.047  0.801       
+extrav:texp  0.773  0.033 -0.901 -0.859</code></pre>
+</div>
+</div>
+</section>
+<section id="a-picture" class="level3">
+<h3 class="anchored" data-anchor-id="a-picture">A Picture</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> popular2data,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> extrav, </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> popular, </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">col =</span> <span class="fu">as.factor</span>(texp)))<span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  viridis<span class="sc">::</span><span class="fu">scale_color_viridis</span>(<span class="at">discrete =</span> <span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size     =</span> .<span class="dv">7</span>,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha    =</span> .<span class="dv">8</span>, </span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">position =</span> <span class="st">"jitter"</span>)<span class="sc">+</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">se     =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">size   =</span> <span class="dv">1</span>,</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha  =</span> .<span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title    =</span> <span class="st">"Interaction btw. Experience and Extraversion"</span>, </span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"The relationship changes"</span>, </span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">col      =</span> <span class="st">"Years of</span><span class="sc">\n</span><span class="st">Teacher</span><span class="sc">\n</span><span class="st">Experience"</span>)</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="structural-equations-models" class="level2">
+<h2 class="anchored" data-anchor-id="structural-equations-models">Structural Equations Models</h2>
+<p>A few weeks ago, Jack mentioned the use of principal components as a means for combining collinear variables. There is a more general language for describing models of this sort. The following example will play off of work I am currently finishing up with Elliot Maltz and a co-author.</p>
+<p>First, the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaan)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is lavaan 0.6-12
+lavaan is FREE software! Please report any bugs.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="fu">url</span>(<span class="st">"https://github.com/robertwwalker/ChoiceAndForecasting/raw/main/posts/week-5/data/EMData.RData"</span>))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There is a ton of data in here. Let me pay particular attention to specific parts we are interested in.</p>
+<section id="agentic" class="level3">
+<h3 class="anchored" data-anchor-id="agentic">Agentic</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(EMData)[[<span class="dv">76</span>]]</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(EMData.Anonymous<span class="sc">$</span>...<span class="dv">76</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(EMData)[[<span class="dv">77</span>]]</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(EMData.Anonymous<span class="sc">$</span>...<span class="dv">77</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(EMData)[[<span class="dv">78</span>]]</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(EMData.Anonymous<span class="sc">$</span>...<span class="dv">78</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(EMData)[[<span class="dv">79</span>]]</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(EMData.Anonymous<span class="sc">$</span>...<span class="dv">79</span>)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>AB <span class="ot">&lt;-</span> <span class="fu">cfa</span>(<span class="st">'Agentic =~ ...76 + ...77 + ...78 + ...79'</span>, <span class="at">data=</span>EMData.Anonymous, <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in lav_model_vcov(lavmodel = lavmodel, lavsamplestats = lavsamplestats, : lavaan WARNING:
+    The variance-covariance matrix of the estimated parameters (vcov)
+    does not appear to be positive definite! The smallest eigenvalue
+    (= 6.642114e-18) is close to zero. This may be a symptom that the
+    model is not identified.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(AB, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "28. You lack career guidance and support [People in the community expect you to be a leader]"
+
+ 1  2  3  4  5  6  7 
+22 18 22 21 12 15  5 
+[1] "28. You lack career guidance and support [Your community encourages you to achieve individual success]"
+
+ 1  2  3  4  5  6  7 
+17 19 26 23 18 10  2 
+[1] "28. You lack career guidance and support [You are expected to be assertive in your interactions with others]"
+
+ 1  2  3  4  5  6  7 
+13 27 27 31 11  4  2 
+[1] "28. You lack career guidance and support [You are expected to have strong opinions]"
+
+ 1  2  3  4  5  6  7 
+11 26 19 31 23  3  2 
+lavaan 0.6-12 ended normally after 15 iterations
+
+  Estimator                                       DWLS
+  Optimization method                           NLMINB
+  Number of model parameters                        28
+
+  Number of observations                           115
+
+Model Test User Model:
+                                              Standard      Robust
+  Test Statistic                                 7.422      21.832
+  Degrees of freedom                                 2           2
+  P-value (Chi-square)                           0.024       0.000
+  Scaling correction factor                                  0.341
+  Shift parameter                                            0.087
+    simple second-order correction                                
+
+Model Test Baseline Model:
+
+  Test statistic                              2486.114    1657.812
+  Degrees of freedom                                 6           6
+  P-value                                        0.000       0.000
+  Scaling correction factor                                  1.501
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    0.998       0.988
+  Tucker-Lewis Index (TLI)                       0.993       0.964
+                                                                  
+  Robust Comparative Fit Index (CFI)                            NA
+  Robust Tucker-Lewis Index (TLI)                               NA
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.154       0.295
+  90 Percent confidence interval - lower         0.047       0.191
+  90 Percent confidence interval - upper         0.280       0.412
+  P-value RMSEA &lt;= 0.05                          0.053       0.000
+                                                                  
+  Robust RMSEA                                                  NA
+  90 Percent confidence interval - lower                        NA
+  90 Percent confidence interval - upper                        NA
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.033       0.033
+
+Parameter Estimates:
+
+  Standard errors                           Robust.sem
+  Information                                 Expected
+  Information saturated (h1) model        Unstructured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  Agentic =~                                                            
+    ...76             1.000                               0.853    0.853
+    ...77             1.056    0.051   20.773    0.000    0.901    0.901
+    ...78             1.045    0.042   25.093    0.000    0.891    0.891
+    ...79             0.962    0.044   22.041    0.000    0.820    0.820
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   ....76             0.000                               0.000    0.000
+   ....77             0.000                               0.000    0.000
+   ....78             0.000                               0.000    0.000
+   ....79             0.000                               0.000    0.000
+    Agentic           0.000                               0.000    0.000
+
+Thresholds:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+    ...76|t1         -0.873    0.135   -6.459    0.000   -0.873   -0.873
+    ...76|t2         -0.391    0.121   -3.241    0.001   -0.391   -0.391
+    ...76|t3          0.098    0.118    0.835    0.403    0.098    0.098
+    ...76|t4          0.588    0.125    4.702    0.000    0.588    0.588
+    ...76|t5          0.939    0.138    6.790    0.000    0.939    0.939
+    ...76|t6          1.712    0.207    8.262    0.000    1.712    1.712
+    ...77|t1         -1.046    0.144   -7.264    0.000   -1.046   -1.046
+    ...77|t2         -0.487    0.123   -3.975    0.000   -0.487   -0.487
+    ...77|t3          0.098    0.118    0.835    0.403    0.098    0.098
+    ...77|t4          0.641    0.127    5.062    0.000    0.641    0.641
+    ...77|t5          1.257    0.158    7.948    0.000    1.257    1.257
+    ...77|t6          2.111    0.285    7.411    0.000    2.111    2.111
+    ...78|t1         -1.211    0.155   -7.826    0.000   -1.211   -1.211
+    ...78|t2         -0.391    0.121   -3.241    0.001   -0.391   -0.391
+    ...78|t3          0.209    0.118    1.763    0.078    0.209    0.209
+    ...78|t4          1.046    0.144    7.264    0.000    1.046    1.046
+    ...78|t5          1.624    0.195    8.320    0.000    1.624    1.624
+    ...78|t6          2.111    0.285    7.411    0.000    2.111    2.111
+    ...79|t1         -1.307    0.162   -8.058    0.000   -1.307   -1.307
+    ...79|t2         -0.463    0.122   -3.792    0.000   -0.463   -0.463
+    ...79|t3         -0.033    0.117   -0.279    0.781   -0.033   -0.033
+    ...79|t4          0.695    0.128    5.418    0.000    0.695    0.695
+    ...79|t5          1.712    0.207    8.262    0.000    1.712    1.712
+    ...79|t6          2.111    0.285    7.411    0.000    2.111    2.111
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   ....76             0.273                               0.273    0.273
+   ....77             0.188                               0.188    0.188
+   ....78             0.207                               0.207    0.207
+   ....79             0.327                               0.327    0.327
+    Agentic           0.727    0.051   14.358    0.000    1.000    1.000
+
+Scales y*:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+    ...76             1.000                               1.000    1.000
+    ...77             1.000                               1.000    1.000
+    ...78             1.000                               1.000    1.000
+    ...79             1.000                               1.000    1.000</code></pre>
+</div>
+</div>
+</section>
+<section id="communal" class="level3">
+<h3 class="anchored" data-anchor-id="communal">Communal</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(EMData)[[<span class="dv">80</span>]]</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(EMData.Anonymous<span class="sc">$</span>...<span class="dv">80</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(EMData)[[<span class="dv">81</span>]]</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(EMData.Anonymous<span class="sc">$</span>...<span class="dv">81</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(EMData)[[<span class="dv">84</span>]]</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(EMData.Anonymous<span class="sc">$</span>...<span class="dv">84</span>)</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>CB <span class="ot">&lt;-</span> <span class="fu">cfa</span>(<span class="st">'Communal =~ ...80 + ...81 + ...84'</span>, <span class="at">data=</span>EMData.Anonymous, <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(CB, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "28. You lack career guidance and support [You are expected to be unselfish]"
+
+ 1  2  3  4  5  6  7 
+ 5 13 24 25 25 19  4 
+[1] "28. You lack career guidance and support [In your interactions with others you are expected to consider others opinions over your own]"
+
+ 1  2  3  4  5  6  7 
+ 9 21 32 28 20  4  1 
+[1] "28. You lack career guidance and support [Your community expects you to put others interests ahead of your own]"
+
+ 1  2  3  4  5  6  7 
+12 21 24 25 20 11  2 
+lavaan 0.6-12 ended normally after 13 iterations
+
+  Estimator                                       DWLS
+  Optimization method                           NLMINB
+  Number of model parameters                        21
+
+  Number of observations                           115
+
+Model Test User Model:
+                                              Standard      Robust
+  Test Statistic                                 0.000       0.000
+  Degrees of freedom                                 0           0
+
+Model Test Baseline Model:
+
+  Test statistic                               511.919     427.939
+  Degrees of freedom                                 3           3
+  P-value                                        0.000       0.000
+  Scaling correction factor                                  1.198
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    1.000       1.000
+  Tucker-Lewis Index (TLI)                       1.000       1.000
+                                                                  
+  Robust Comparative Fit Index (CFI)                            NA
+  Robust Tucker-Lewis Index (TLI)                               NA
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.000       0.000
+  90 Percent confidence interval - lower         0.000       0.000
+  90 Percent confidence interval - upper         0.000       0.000
+  P-value RMSEA &lt;= 0.05                             NA          NA
+                                                                  
+  Robust RMSEA                                                  NA
+  90 Percent confidence interval - lower                     0.000
+  90 Percent confidence interval - upper                     0.000
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.000       0.000
+
+Parameter Estimates:
+
+  Standard errors                           Robust.sem
+  Information                                 Expected
+  Information saturated (h1) model        Unstructured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  Communal =~                                                           
+    ...80             1.000                               0.823    0.823
+    ...81             0.908    0.078   11.572    0.000    0.747    0.747
+    ...84             0.983    0.083   11.823    0.000    0.808    0.808
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   ....80             0.000                               0.000    0.000
+   ....81             0.000                               0.000    0.000
+   ....84             0.000                               0.000    0.000
+    Communal          0.000                               0.000    0.000
+
+Thresholds:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+    ...80|t1         -1.712    0.207   -8.262    0.000   -1.712   -1.712
+    ...80|t2         -1.009    0.142   -7.110    0.000   -1.009   -1.009
+    ...80|t3         -0.345    0.120   -2.872    0.004   -0.345   -0.345
+    ...80|t4          0.209    0.118    1.763    0.078    0.209    0.209
+    ...80|t5          0.842    0.134    6.289    0.000    0.842    0.842
+    ...80|t6          1.815    0.223    8.129    0.000    1.815    1.815
+    ...81|t1         -1.417    0.172   -8.235    0.000   -1.417   -1.417
+    ...81|t2         -0.641    0.127   -5.062    0.000   -0.641   -0.641
+    ...81|t3          0.098    0.118    0.835    0.403    0.098    0.098
+    ...81|t4          0.781    0.131    5.945    0.000    0.781    0.781
+    ...81|t5          1.712    0.207    8.262    0.000    1.712    1.712
+    ...81|t6          2.378    0.369    6.451    0.000    2.378    2.378
+    ...84|t1         -1.257    0.158   -7.948    0.000   -1.257   -1.257
+    ...84|t2         -0.562    0.124   -4.521    0.000   -0.562   -0.562
+    ...84|t3         -0.011    0.117   -0.093    0.926   -0.011   -0.011
+    ...84|t4          0.562    0.124    4.521    0.000    0.562    0.562
+    ...84|t5          1.211    0.155    7.826    0.000    1.211    1.211
+    ...84|t6          2.111    0.285    7.411    0.000    2.111    2.111
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   ....80             0.323                               0.323    0.323
+   ....81             0.443                               0.443    0.443
+   ....84             0.347                               0.347    0.347
+    Communal          0.677    0.072    9.442    0.000    1.000    1.000
+
+Scales y*:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+    ...80             1.000                               1.000    1.000
+    ...81             1.000                               1.000    1.000
+    ...84             1.000                               1.000    1.000</code></pre>
+</div>
+</div>
+</section>
+<section id="mentoring" class="level3">
+<h3 class="anchored" data-anchor-id="mentoring">Mentoring</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(EMData)[[<span class="dv">13</span>]]</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(EMData.Anonymous<span class="sc">$</span>...<span class="dv">13</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(EMData)[[<span class="dv">14</span>]]</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(EMData.Anonymous<span class="sc">$</span>...<span class="dv">14</span>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(EMData)[[<span class="dv">15</span>]]</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(EMData.Anonymous<span class="sc">$</span>...<span class="dv">15</span>)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">cfa</span>(<span class="st">'Mentoring =~ ...13 + ...14 + ...15'</span>, <span class="at">data=</span>EMData.Anonymous, <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(M, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "5. On a scale of 7 to 1, with 7 being very regularly and 1 being very rarely, how regularly do you:  [Encourage entrepreneurs to start businesses]"
+
+ 1  2  3  4  5  6  7 
+21 27 12 14 10 26  5 
+[1] "5. On a scale of 7 to 1, with 7 being very regularly and 1 being very rarely, how regularly do you:  [Reassure other entrepreneurs when things are not going well]"
+
+ 1  2  3  4  5  6  7 
+22 21 10 19 33  4  6 
+[1] "5. On a scale of 7 to 1, with 7 being very regularly and 1 being very rarely, how regularly do you:  [Help other entrepreneurs have confidence they can succeed]"
+
+ 1  2  3  4  5  6  7 
+21 29 27 11 21  5  1 
+lavaan 0.6-12 ended normally after 10 iterations
+
+  Estimator                                       DWLS
+  Optimization method                           NLMINB
+  Number of model parameters                        21
+
+  Number of observations                           115
+
+Model Test User Model:
+                                              Standard      Robust
+  Test Statistic                                 0.000       0.000
+  Degrees of freedom                                 0           0
+
+Model Test Baseline Model:
+
+  Test statistic                              1726.590    1624.559
+  Degrees of freedom                                 3           3
+  P-value                                        0.000       0.000
+  Scaling correction factor                                  1.063
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    1.000       1.000
+  Tucker-Lewis Index (TLI)                       1.000       1.000
+                                                                  
+  Robust Comparative Fit Index (CFI)                            NA
+  Robust Tucker-Lewis Index (TLI)                               NA
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.000       0.000
+  90 Percent confidence interval - lower         0.000       0.000
+  90 Percent confidence interval - upper         0.000       0.000
+  P-value RMSEA &lt;= 0.05                             NA          NA
+                                                                  
+  Robust RMSEA                                                  NA
+  90 Percent confidence interval - lower                     0.000
+  90 Percent confidence interval - upper                     0.000
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.000       0.000
+
+Parameter Estimates:
+
+  Standard errors                           Robust.sem
+  Information                                 Expected
+  Information saturated (h1) model        Unstructured
+
+Latent Variables:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  Mentoring =~                                                          
+    ...13             1.000                               0.981    0.981
+    ...14             0.879    0.058   15.193    0.000    0.862    0.862
+    ...15             0.844    0.056   15.063    0.000    0.827    0.827
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   ....13             0.000                               0.000    0.000
+   ....14             0.000                               0.000    0.000
+   ....15             0.000                               0.000    0.000
+    Mentoring         0.000                               0.000    0.000
+
+Thresholds:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+    ...13|t1         -0.905    0.137   -6.626    0.000   -0.905   -0.905
+    ...13|t2         -0.209    0.118   -1.763    0.078   -0.209   -0.209
+    ...13|t3          0.055    0.117    0.464    0.643    0.055    0.055
+    ...13|t4          0.368    0.120    3.057    0.002    0.368    0.368
+    ...13|t5          0.614    0.126    4.882    0.000    0.614    0.614
+    ...13|t6          1.712    0.207    8.262    0.000    1.712    1.712
+    ...14|t1         -0.873    0.135   -6.459    0.000   -0.873   -0.873
+    ...14|t2         -0.322    0.120   -2.688    0.007   -0.322   -0.322
+    ...14|t3         -0.098    0.118   -0.835    0.403   -0.098   -0.098
+    ...14|t4          0.322    0.120    2.688    0.007    0.322    0.322
+    ...14|t5          1.360    0.167    8.155    0.000    1.360    1.360
+    ...14|t6          1.624    0.195    8.320    0.000    1.624    1.624
+    ...15|t1         -0.905    0.137   -6.626    0.000   -0.905   -0.905
+    ...15|t2         -0.164    0.118   -1.392    0.164   -0.164   -0.164
+    ...15|t3          0.439    0.122    3.608    0.000    0.439    0.439
+    ...15|t4          0.723    0.129    5.595    0.000    0.723    0.723
+    ...15|t5          1.624    0.195    8.320    0.000    1.624    1.624
+    ...15|t6          2.378    0.369    6.451    0.000    2.378    2.378
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   ....13             0.039                               0.039    0.039
+   ....14             0.258                               0.258    0.258
+   ....15             0.315                               0.315    0.315
+    Mentoring         0.961    0.077   12.508    0.000    1.000    1.000
+
+Scales y*:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+    ...13             1.000                               1.000    1.000
+    ...14             1.000                               1.000    1.000
+    ...15             1.000                               1.000    1.000</code></pre>
+</div>
+</div>
+</section>
+<section id="social-influence" class="level3">
+<h3 class="anchored" data-anchor-id="social-influence">Social Influence</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(EMData)[[<span class="dv">37</span>]]</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(EMData.Anonymous<span class="sc">$</span>...<span class="dv">37</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(EMData)[[<span class="dv">38</span>]]</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(EMData.Anonymous<span class="sc">$</span>...<span class="dv">38</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(EMData)[[<span class="dv">39</span>]]</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(EMData.Anonymous<span class="sc">$</span>...<span class="dv">39</span>)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>SI <span class="ot">&lt;-</span> <span class="fu">cfa</span>(<span class="st">'Social.Influence =~ ...37 + ...38 + ...39'</span>, <span class="at">data=</span>EMData.Anonymous, <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(SI, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "11. On a scale of 7 to 1, with 7 being strongly agree and 1 being strongly disagree, please indicate your level of agreement with the following items relating to your community:  [The respect you have in the community helps your business]"
+
+ 1  2  3  4  5  6 
+26 38 31  5  8  7 
+[1] "11. On a scale of 7 to 1, with 7 being strongly agree and 1 being strongly disagree, please indicate your level of agreement with the following items relating to your community:  [Your understanding of the community helps your business]"
+
+ 1  2  3  4  5  6 
+27 40 28  6  7  7 
+[1] "11. On a scale of 7 to 1, with 7 being strongly agree and 1 being strongly disagree, please indicate your level of agreement with the following items relating to your community:  [Your influence in the community helps your business]"
+
+ 1  2  3  4  5  6  7 
+30 38 30  4  7  5  1 
+lavaan 0.6-12 ended normally after 12 iterations
+
+  Estimator                                       DWLS
+  Optimization method                           NLMINB
+  Number of model parameters                        19
+
+  Number of observations                           115
+
+Model Test User Model:
+                                              Standard      Robust
+  Test Statistic                                 0.000       0.000
+  Degrees of freedom                                 0           0
+
+Model Test Baseline Model:
+
+  Test statistic                              3636.699    2922.199
+  Degrees of freedom                                 3           3
+  P-value                                        0.000       0.000
+  Scaling correction factor                                  1.245
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    1.000       1.000
+  Tucker-Lewis Index (TLI)                       1.000       1.000
+                                                                  
+  Robust Comparative Fit Index (CFI)                            NA
+  Robust Tucker-Lewis Index (TLI)                               NA
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.000       0.000
+  90 Percent confidence interval - lower         0.000       0.000
+  90 Percent confidence interval - upper         0.000       0.000
+  P-value RMSEA &lt;= 0.05                             NA          NA
+                                                                  
+  Robust RMSEA                                                  NA
+  90 Percent confidence interval - lower                     0.000
+  90 Percent confidence interval - upper                     0.000
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.000       0.000
+
+Parameter Estimates:
+
+  Standard errors                           Robust.sem
+  Information                                 Expected
+  Information saturated (h1) model        Unstructured
+
+Latent Variables:
+                      Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+  Social.Influence =~                                                      
+    ...37                1.000                               0.928    0.928
+    ...38                1.055    0.031   33.595    0.000    0.979    0.979
+    ...39                0.942    0.029   32.441    0.000    0.874    0.874
+
+Intercepts:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   ....37             0.000                               0.000    0.000
+   ....38             0.000                               0.000    0.000
+   ....39             0.000                               0.000    0.000
+    Social.Influnc    0.000                               0.000    0.000
+
+Thresholds:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+    ...37|t1         -0.752    0.130   -5.771    0.000   -0.752   -0.752
+    ...37|t2          0.142    0.118    1.207    0.228    0.142    0.142
+    ...37|t3          0.939    0.138    6.790    0.000    0.939    0.939
+    ...37|t4          1.124    0.149    7.558    0.000    1.124    1.124
+    ...37|t5          1.548    0.186    8.325    0.000    1.548    1.548
+    ...38|t1         -0.723    0.129   -5.595    0.000   -0.723   -0.723
+    ...38|t2          0.209    0.118    1.763    0.078    0.209    0.209
+    ...38|t3          0.939    0.138    6.790    0.000    0.939    0.939
+    ...38|t4          1.166    0.152    7.696    0.000    1.166    1.166
+    ...38|t5          1.548    0.186    8.325    0.000    1.548    1.548
+    ...39|t1         -0.641    0.127   -5.062    0.000   -0.641   -0.641
+    ...39|t2          0.231    0.119    1.948    0.051    0.231    0.231
+    ...39|t3          1.046    0.144    7.264    0.000    1.046    1.046
+    ...39|t4          1.211    0.155    7.826    0.000    1.211    1.211
+    ...39|t5          1.624    0.195    8.320    0.000    1.624    1.624
+    ...39|t6          2.378    0.369    6.451    0.000    2.378    2.378
+
+Variances:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+   ....37             0.139                               0.139    0.139
+   ....38             0.041                               0.041    0.041
+   ....39             0.236                               0.236    0.236
+    Social.Influnc    0.861    0.034   25.088    0.000    1.000    1.000
+
+Scales y*:
+                   Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+    ...37             1.000                               1.000    1.000
+    ...38             1.000                               1.000    1.000
+    ...39             1.000                               1.000    1.000</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lavaanPlot)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lavaanPlot</span>(<span class="at">model =</span> SI, <span class="at">node_options =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="st">"box"</span>, <span class="at">fontname =</span> <span class="st">"Helvetica"</span>), <span class="at">edge_options =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">"grey"</span>), <span class="at">coefs =</span> <span class="cn">TRUE</span>, <span class="at">covs =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-2919ed31510d46c5bd66" style="width:100%;height:464px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2919ed31510d46c5bd66">{"x":{"diagram":" digraph plot { \n graph [ overlap = true, fontsize = 10 ] \n node [ shape = box, fontname = Helvetica ] \n node [shape = box] \n 37; 38; 39 \n node [shape = oval] \n SocialInfluence \n \n edge [ color = grey ] \n  SocialInfluence->37 [label = \"1\"] SocialInfluence->38 [label = \"1.06\"] SocialInfluence->39 [label = \"0.94\"] \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="an-sem" class="level3">
+<h3 class="anchored" data-anchor-id="an-sem">An SEM</h3>
+<p>Now let me combine those <code>measurement</code> models to produce a set of two structural equations. I wish to explain income and employment given these factors.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, warning=FALSE, message=FALSE}</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(EMData)[<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">59</span>)]</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>Struct <span class="ot">&lt;-</span> <span class="fu">sem</span>(<span class="st">'Agentic =~ ...76 + ...77 + ...78 + ...79</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="st">          Communal =~ ...80 + ...81 + ...84</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="st">          Mentoring =~ ...13 + ...14 + ...15</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="st">          Social.Influence =~ ...37 + ...38 + ...39</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="st">          ...59 ~ Agentic + Communal + Mentoring + Social.Influence</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="st">          ...5 ~ Agentic + Communal + Mentoring + Social.Influence'</span>, <span class="at">data=</span>EMData.Anonymous, <span class="at">ordered =</span> <span class="fu">c</span>(<span class="st">"...13"</span>,<span class="st">"...14"</span>, <span class="st">"...15"</span>, <span class="st">"...80"</span>,<span class="st">"...81"</span>, <span class="st">"...84"</span>, <span class="st">"...76"</span>,<span class="st">"...77"</span>, <span class="st">"...78"</span>, <span class="st">"...79"</span>,<span class="st">"...37"</span>, <span class="st">"...38"</span>, <span class="st">"...39"</span>))</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Struct, <span class="at">fit.measures=</span><span class="cn">TRUE</span>, <span class="at">standardized=</span><span class="cn">TRUE</span>)</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "3. What is the current income generated from the business? (USD PM)"
+[2] "20. How many people do you manage in your business?"                
+lavaan 0.6-12 ended normally after 112 iterations
+
+  Estimator                                       DWLS
+  Optimization method                           NLMINB
+  Number of model parameters                       108
+
+  Number of observations                           115
+
+Model Test User Model:
+                                              Standard      Robust
+  Test Statistic                               176.253     255.843
+  Degrees of freedom                                77          77
+  P-value (Chi-square)                           0.000       0.000
+  Scaling correction factor                                  0.804
+  Shift parameter                                           36.682
+    simple second-order correction                                
+
+Model Test Baseline Model:
+
+  Test statistic                              9489.339    3694.019
+  Degrees of freedom                               105         105
+  P-value                                        0.000       0.000
+  Scaling correction factor                                  2.615
+
+User Model versus Baseline Model:
+
+  Comparative Fit Index (CFI)                    0.989       0.950
+  Tucker-Lewis Index (TLI)                       0.986       0.932
+                                                                  
+  Robust Comparative Fit Index (CFI)                            NA
+  Robust Tucker-Lewis Index (TLI)                               NA
+
+Root Mean Square Error of Approximation:
+
+  RMSEA                                          0.106       0.143
+  90 Percent confidence interval - lower         0.086       0.124
+  90 Percent confidence interval - upper         0.127       0.162
+  P-value RMSEA &lt;= 0.05                          0.000       0.000
+                                                                  
+  Robust RMSEA                                                  NA
+  90 Percent confidence interval - lower                        NA
+  90 Percent confidence interval - upper                        NA
+
+Standardized Root Mean Square Residual:
+
+  SRMR                                           0.075       0.075
+
+Parameter Estimates:
+
+  Standard errors                           Robust.sem
+  Information                                 Expected
+  Information saturated (h1) model        Unstructured
+
+Latent Variables:
+                      Estimate   Std.Err  z-value  P(&gt;|z|)   Std.lv   Std.all
+  Agentic =~                                                                 
+    ...76                 1.000                                0.812    0.812
+    ...77                 1.110    0.051   21.573    0.000     0.901    0.901
+    ...78                 1.076    0.044   24.545    0.000     0.873    0.873
+    ...79                 1.097    0.047   23.283    0.000     0.890    0.890
+  Communal =~                                                                
+    ...80                 1.000                                0.715    0.715
+    ...81                 1.233    0.126    9.803    0.000     0.881    0.881
+    ...84                 1.103    0.091   12.190    0.000     0.788    0.788
+  Mentoring =~                                                               
+    ...13                 1.000                                0.961    0.961
+    ...14                 0.908    0.057   15.897    0.000     0.872    0.872
+    ...15                 0.876    0.054   16.228    0.000     0.842    0.842
+  Social.Influence =~                                                        
+    ...37                 1.000                                0.948    0.948
+    ...38                 1.004    0.030   33.882    0.000     0.952    0.952
+    ...39                 0.941    0.029   32.029    0.000     0.892    0.892
+
+Regressions:
+                   Estimate   Std.Err  z-value  P(&gt;|z|)   Std.lv   Std.all
+  ...59 ~                                                                 
+    Agentic           -0.087    0.063   -1.386    0.166    -0.071   -0.052
+    Communal           0.119    0.108    1.100    0.271     0.085    0.062
+    Mentoring          0.166    0.075    2.213    0.027     0.159    0.116
+    Social.Influnc    -0.422    0.055   -7.620    0.000    -0.400   -0.292
+  ...5 ~                                                                  
+    Agentic           51.893   19.705    2.633    0.008    42.118    0.205
+    Communal          -9.427   20.599   -0.458    0.647    -6.736   -0.033
+    Mentoring          1.218   15.046    0.081    0.935     1.170    0.006
+    Social.Influnc    35.014   16.427    2.131    0.033    33.195    0.161
+
+Covariances:
+                   Estimate   Std.Err  z-value  P(&gt;|z|)   Std.lv   Std.all
+  Agentic ~~                                                              
+    Communal           0.259    0.044    5.821    0.000     0.447    0.447
+    Mentoring          0.203    0.062    3.269    0.001     0.261    0.261
+    Social.Influnc     0.247    0.056    4.423    0.000     0.321    0.321
+  Communal ~~                                                             
+    Mentoring          0.134    0.057    2.329    0.020     0.195    0.195
+    Social.Influnc     0.308    0.062    4.963    0.000     0.454    0.454
+  Mentoring ~~                                                            
+    Social.Influnc     0.067    0.074    0.904    0.366     0.074    0.074
+ ....59 ~~                                                                
+   ....5              78.509   19.599    4.006    0.000    78.509    0.304
+
+Intercepts:
+                   Estimate   Std.Err  z-value  P(&gt;|z|)   Std.lv   Std.all
+   ....76              0.000                                0.000    0.000
+   ....77              0.000                                0.000    0.000
+   ....78              0.000                                0.000    0.000
+   ....79              0.000                                0.000    0.000
+   ....80              0.000                                0.000    0.000
+   ....81              0.000                                0.000    0.000
+   ....84              0.000                                0.000    0.000
+   ....13              0.000                                0.000    0.000
+   ....14              0.000                                0.000    0.000
+   ....15              0.000                                0.000    0.000
+   ....37              0.000                                0.000    0.000
+   ....38              0.000                                0.000    0.000
+   ....39              0.000                                0.000    0.000
+   ....59              0.435    0.305    1.427    0.154     0.435    0.317
+   ....5             380.609   23.778   16.007    0.000   380.609    1.849
+    Agentic            0.000                                0.000    0.000
+    Communal           0.000                                0.000    0.000
+    Mentoring          0.000                                0.000    0.000
+    Social.Influnc     0.000                                0.000    0.000
+
+Thresholds:
+                   Estimate   Std.Err  z-value  P(&gt;|z|)   Std.lv   Std.all
+    ...76|t1          -0.873    0.135   -6.459    0.000    -0.873   -0.873
+    ...76|t2          -0.391    0.121   -3.241    0.001    -0.391   -0.391
+    ...76|t3           0.098    0.118    0.835    0.403     0.098    0.098
+    ...76|t4           0.588    0.125    4.702    0.000     0.588    0.588
+    ...76|t5           0.939    0.138    6.790    0.000     0.939    0.939
+    ...76|t6           1.712    0.207    8.262    0.000     1.712    1.712
+    ...77|t1          -1.046    0.144   -7.264    0.000    -1.046   -1.046
+    ...77|t2          -0.487    0.123   -3.975    0.000    -0.487   -0.487
+    ...77|t3           0.098    0.118    0.835    0.403     0.098    0.098
+    ...77|t4           0.641    0.127    5.062    0.000     0.641    0.641
+    ...77|t5           1.257    0.158    7.948    0.000     1.257    1.257
+    ...77|t6           2.111    0.285    7.411    0.000     2.111    2.111
+    ...78|t1          -1.211    0.155   -7.826    0.000    -1.211   -1.211
+    ...78|t2          -0.391    0.121   -3.241    0.001    -0.391   -0.391
+    ...78|t3           0.209    0.118    1.763    0.078     0.209    0.209
+    ...78|t4           1.046    0.144    7.264    0.000     1.046    1.046
+    ...78|t5           1.624    0.195    8.320    0.000     1.624    1.624
+    ...78|t6           2.111    0.285    7.411    0.000     2.111    2.111
+    ...79|t1          -1.307    0.162   -8.058    0.000    -1.307   -1.307
+    ...79|t2          -0.463    0.122   -3.792    0.000    -0.463   -0.463
+    ...79|t3          -0.033    0.117   -0.279    0.781    -0.033   -0.033
+    ...79|t4           0.695    0.128    5.418    0.000     0.695    0.695
+    ...79|t5           1.712    0.207    8.262    0.000     1.712    1.712
+    ...79|t6           2.111    0.285    7.411    0.000     2.111    2.111
+    ...80|t1          -1.712    0.207   -8.262    0.000    -1.712   -1.712
+    ...80|t2          -1.009    0.142   -7.110    0.000    -1.009   -1.009
+    ...80|t3          -0.345    0.120   -2.872    0.004    -0.345   -0.345
+    ...80|t4           0.209    0.118    1.763    0.078     0.209    0.209
+    ...80|t5           0.842    0.134    6.289    0.000     0.842    0.842
+    ...80|t6           1.815    0.223    8.129    0.000     1.815    1.815
+    ...81|t1          -1.417    0.172   -8.235    0.000    -1.417   -1.417
+    ...81|t2          -0.641    0.127   -5.062    0.000    -0.641   -0.641
+    ...81|t3           0.098    0.118    0.835    0.403     0.098    0.098
+    ...81|t4           0.781    0.131    5.945    0.000     0.781    0.781
+    ...81|t5           1.712    0.207    8.262    0.000     1.712    1.712
+    ...81|t6           2.378    0.369    6.451    0.000     2.378    2.378
+    ...84|t1          -1.257    0.158   -7.948    0.000    -1.257   -1.257
+    ...84|t2          -0.562    0.124   -4.521    0.000    -0.562   -0.562
+    ...84|t3          -0.011    0.117   -0.093    0.926    -0.011   -0.011
+    ...84|t4           0.562    0.124    4.521    0.000     0.562    0.562
+    ...84|t5           1.211    0.155    7.826    0.000     1.211    1.211
+    ...84|t6           2.111    0.285    7.411    0.000     2.111    2.111
+    ...13|t1          -0.905    0.137   -6.626    0.000    -0.905   -0.905
+    ...13|t2          -0.209    0.118   -1.763    0.078    -0.209   -0.209
+    ...13|t3           0.055    0.117    0.464    0.643     0.055    0.055
+    ...13|t4           0.368    0.120    3.057    0.002     0.368    0.368
+    ...13|t5           0.614    0.126    4.882    0.000     0.614    0.614
+    ...13|t6           1.712    0.207    8.262    0.000     1.712    1.712
+    ...14|t1          -0.873    0.135   -6.459    0.000    -0.873   -0.873
+    ...14|t2          -0.322    0.120   -2.688    0.007    -0.322   -0.322
+    ...14|t3          -0.098    0.118   -0.835    0.403    -0.098   -0.098
+    ...14|t4           0.322    0.120    2.688    0.007     0.322    0.322
+    ...14|t5           1.360    0.167    8.155    0.000     1.360    1.360
+    ...14|t6           1.624    0.195    8.320    0.000     1.624    1.624
+    ...15|t1          -0.905    0.137   -6.626    0.000    -0.905   -0.905
+    ...15|t2          -0.164    0.118   -1.392    0.164    -0.164   -0.164
+    ...15|t3           0.439    0.122    3.608    0.000     0.439    0.439
+    ...15|t4           0.723    0.129    5.595    0.000     0.723    0.723
+    ...15|t5           1.624    0.195    8.320    0.000     1.624    1.624
+    ...15|t6           2.378    0.369    6.451    0.000     2.378    2.378
+    ...37|t1          -0.752    0.130   -5.771    0.000    -0.752   -0.752
+    ...37|t2           0.142    0.118    1.207    0.228     0.142    0.142
+    ...37|t3           0.939    0.138    6.790    0.000     0.939    0.939
+    ...37|t4           1.124    0.149    7.558    0.000     1.124    1.124
+    ...37|t5           1.548    0.186    8.325    0.000     1.548    1.548
+    ...38|t1          -0.723    0.129   -5.595    0.000    -0.723   -0.723
+    ...38|t2           0.209    0.118    1.763    0.078     0.209    0.209
+    ...38|t3           0.939    0.138    6.790    0.000     0.939    0.939
+    ...38|t4           1.166    0.152    7.696    0.000     1.166    1.166
+    ...38|t5           1.548    0.186    8.325    0.000     1.548    1.548
+    ...39|t1          -0.641    0.127   -5.062    0.000    -0.641   -0.641
+    ...39|t2           0.231    0.119    1.948    0.051     0.231    0.231
+    ...39|t3           1.046    0.144    7.264    0.000     1.046    1.046
+    ...39|t4           1.211    0.155    7.826    0.000     1.211    1.211
+    ...39|t5           1.624    0.195    8.320    0.000     1.624    1.624
+    ...39|t6           2.378    0.369    6.451    0.000     2.378    2.378
+
+Variances:
+                   Estimate   Std.Err  z-value  P(&gt;|z|)   Std.lv   Std.all
+   ....76              0.341                                0.341    0.341
+   ....77              0.188                                0.188    0.188
+   ....78              0.238                                0.238    0.238
+   ....79              0.207                                0.207    0.207
+   ....80              0.489                                0.489    0.489
+   ....81              0.224                                0.224    0.224
+   ....84              0.378                                0.378    0.378
+   ....13              0.077                                0.077    0.077
+   ....14              0.239                                0.239    0.239
+   ....15              0.292                                0.292    0.292
+   ....37              0.101                                0.101    0.101
+   ....38              0.094                                0.094    0.094
+   ....39              0.204                                0.204    0.204
+   ....59              1.711    0.147   11.666    0.000     1.711    0.910
+   ....5           38984.352 4516.263    8.632    0.000 38984.352    0.920
+    Agentic            0.659    0.048   13.761    0.000     1.000    1.000
+    Communal           0.511    0.068    7.492    0.000     1.000    1.000
+    Mentoring          0.923    0.072   12.824    0.000     1.000    1.000
+    Social.Influnc     0.899    0.033   27.070    0.000     1.000    1.000
+
+Scales y*:
+                   Estimate   Std.Err  z-value  P(&gt;|z|)   Std.lv   Std.all
+    ...76              1.000                                1.000    1.000
+    ...77              1.000                                1.000    1.000
+    ...78              1.000                                1.000    1.000
+    ...79              1.000                                1.000    1.000
+    ...80              1.000                                1.000    1.000
+    ...81              1.000                                1.000    1.000
+    ...84              1.000                                1.000    1.000
+    ...13              1.000                                1.000    1.000
+    ...14              1.000                                1.000    1.000
+    ...15              1.000                                1.000    1.000
+    ...37              1.000                                1.000    1.000
+    ...38              1.000                                1.000    1.000
+    ...39              1.000                                1.000    1.000</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lavaanPlot</span>(<span class="at">model=</span>Struct, <span class="at">node_options =</span> <span class="fu">list</span>(<span class="at">shape =</span> <span class="st">"box"</span>, <span class="at">fontname =</span> <span class="st">"Helvetica"</span>), <span class="at">edge_options =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">"grey"</span>), <span class="at">coefs =</span> <span class="cn">TRUE</span>, <span class="at">covs =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-5b278bbc6f11a4412fa0" style="width:100%;height:464px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5b278bbc6f11a4412fa0">{"x":{"diagram":" digraph plot { \n graph [ overlap = true, fontsize = 10 ] \n node [ shape = box, fontname = Helvetica ] \n node [shape = box] \n 59; 5; 76; 77; 78; 79; 80; 81; 84; 13; 14; 15; 37; 38; 39 \n node [shape = oval] \n Agentic; Communal; Mentoring; SocialInfluence \n \n edge [ color = grey ] \n Agentic->59 [label = \"-0.09\"] Communal->59 [label = \"0.12\"] Mentoring->59 [label = \"0.17\"] SocialInfluence->59 [label = \"-0.42\"] Agentic->5 [label = \"51.89\"] Communal->5 [label = \"-9.43\"] Mentoring->5 [label = \"1.22\"] SocialInfluence->5 [label = \"35.01\"] Agentic->76 [label = \"1\"] Agentic->77 [label = \"1.11\"] Agentic->78 [label = \"1.08\"] Agentic->79 [label = \"1.1\"] Communal->80 [label = \"1\"] Communal->81 [label = \"1.23\"] Communal->84 [label = \"1.1\"] Mentoring->13 [label = \"1\"] Mentoring->14 [label = \"0.91\"] Mentoring->15 [label = \"0.88\"] SocialInfluence->37 [label = \"1\"] SocialInfluence->38 [label = \"1\"] SocialInfluence->39 [label = \"0.94\"] Communal -> Agentic [label = \"0.26\", dir = \"both\"] Mentoring -> Agentic [label = \"0.2\", dir = \"both\"] SocialInfluence -> Agentic [label = \"0.25\", dir = \"both\"] Mentoring -> Communal [label = \"0.13\", dir = \"both\"] SocialInfluence -> Communal [label = \"0.31\", dir = \"both\"] SocialInfluence -> Mentoring [label = \"0.07\", dir = \"both\"] 5 -> 59 [label = \"78.51\", dir = \"both\"]\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+</section>
+<section id="some-examples-from-survival-time" class="level2">
+<h2 class="anchored" data-anchor-id="some-examples-from-survival-time">Some Examples from Survival Time</h2>
+<p>Job durations and the duration of interstate peace.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

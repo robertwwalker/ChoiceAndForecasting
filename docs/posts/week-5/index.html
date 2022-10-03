@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.37">
+<meta name="generator" content="quarto-1.2.167">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -13,10 +13,15 @@
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -55,7 +60,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -68,7 +73,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -141,26 +146,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="../../index.html">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Models of Choice and Forecasting</span>
-  </a>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html">About</a>
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/robertwwalker/ChoiceAndForecasting"><i class="bi bi-github" role="img">
 </i> 
- </a>
+ <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://twitter.com/PieRatio"><i class="bi bi-twitter" role="img">
 </i> 
- </a>
+ <span class="menu-text"></span></a>
   </li>  
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
@@ -195,6 +203,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <p class="date">September 26, 2022</p>
       </div>
     </div>
+    
       
     </div>
     
@@ -203,7 +212,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
+        <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
@@ -265,7 +274,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>My preferred method of thinking about ordered regression involves latent variables. So what is a latent variable? It is something that is unobservable, hence latent, and we only observe coarse realizations in the form of qualitative categories. Consider the example from <a href="https://www.journals.uchicago.edu/doi/abs/10.1111/j.1468-2508.2006.00370.x">Li in the <em>Journal of Politics</em></a>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./data/Screen%20Shot%202022-09-19%20at%209.59.09%20AM.png" class="img-fluid figure-img"></p>
+<p><img src="./data/Screen Shot 2022-09-19 at 9.59.09 AM.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">Li Abstract</figcaption><p></p>
 </figure>
 </div>
@@ -275,14 +284,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The outcome is summed from six individual types of incentives. They are explained here.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./data/Screen%20Shot%202022-09-19%20at%2010.09.08%20AM.png" class="img-fluid figure-img"></p>
+<p><img src="./data/Screen Shot 2022-09-19 at 10.09.08 AM.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">Tax Incentives to FDI</figcaption><p></p>
 </figure>
 </div>
 <p>and</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./data/Screen%20Shot%202022-09-19%20at%2010.10.30%20AM.png" class="img-fluid figure-img"></p>
+<p><img src="./data/Screen Shot 2022-09-19 at 10.10.30 AM.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">Tax Incentives Part 2</figcaption><p></p>
 </figure>
 </div>
@@ -292,22 +301,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>There are two parts to the data description for the inputs.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./data/Screen%20Shot%202022-09-19%20at%2010.01.12%20AM.png" class="img-fluid figure-img"></p>
+<p><img src="./data/Screen Shot 2022-09-19 at 10.01.12 AM.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">Part 1</figcaption><p></p>
 </figure>
 </div>
-<p>and <img src="./data/Screen%20Shot%202022-09-19%20at%2010.01.32%20AM.png" class="img-fluid" alt="Part 2"></p>
+<p>and <img src="./data/Screen Shot 2022-09-19 at 10.01.32 AM.png" class="img-fluid" alt="Part 2"></p>
 <p>and there is a further description of other variables that are deployed.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./data/Screen%20Shot%202022-09-19%20at%2010.17.41%20AM.png" class="img-fluid figure-img"></p>
+<p><img src="./data/Screen Shot 2022-09-19 at 10.17.41 AM.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">Controls: Part 1</figcaption><p></p>
 </figure>
 </div>
 <p>and</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./data/Screen%20Shot%202022-09-19%20at%2010.18.53%20AM.png" class="img-fluid figure-img"></p>
+<p><img src="./data/Screen Shot 2022-09-19 at 10.18.53 AM.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">Controls: Part 2</figcaption><p></p>
 </figure>
 </div>
@@ -359,7 +368,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The table of estimates is presented in the paper; I will copy it here.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./data/Screen%20Shot%202022-09-19%20at%2010.24.19%20AM.png" class="img-fluid figure-img"></p>
+<p><img src="./data/Screen Shot 2022-09-19 at 10.24.19 AM.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">Results Table</figcaption><p></p>
 </figure>
 </div>
@@ -569,7 +578,7 @@ H0: Parallel Regression Assumption holds</code></pre>
 <p>The AIC [and BIC] are built around the idea of likelihood presented last time. The formal definition, <a href="https://en.wikipedia.org/wiki/Akaike_information_criterion">which is correct on Wikipedia</a> explains the following:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./data/Screen%20Shot%202022-09-19%20at%2012.06.24%20PM.png" class="img-fluid figure-img"></p>
+<p><img src="./data/Screen Shot 2022-09-19 at 12.06.24 PM.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">AIC</figcaption><p></p>
 </figure>
 </div>
@@ -582,7 +591,7 @@ H0: Parallel Regression Assumption holds</code></pre>
 <p>To examine a hierarchical model, I am going to choose some interesting data on popularity. A description appears below; these data come from an Intro to Multilevel Analysis.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./data/Screen%20Shot%202022-09-26%20at%202.13.53%20PM.png" class="img-fluid figure-img"></p>
+<p><img src="./data/Screen Shot 2022-09-26 at 2.13.53 PM.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">Popularity Data</figcaption><p></p>
 </figure>
 </div>
@@ -1824,7 +1833,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -1852,31 +1878,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>

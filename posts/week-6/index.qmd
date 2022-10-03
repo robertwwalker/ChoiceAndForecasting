@@ -1,0 +1,276 @@
+---
+title: "Week 6: Measurement and Survival"
+author: "Robert W. Walker"
+date: "2022-10-03"
+categories: [R]
+image: "image.png"
+toc: true
+execute: 
+  echo: fenced
+---
+
+The slides [are here.](https://robertwwalker.github.io/xaringan/CMF-Week-6/).
+
+Our sixth class meeting will focus on [Chapter 8](https://peopleanalytics-regression-book.org/gitbook/modeling-explicit-and-latent-hierarchy-in-data.html) and [Chapter 9](https://peopleanalytics-regression-book.org/gitbook/survival.html)  of __Handbook of Regression Modeling in People Analytics__. 
+
+## The Skinny
+
+Hierarchical models represent an advance on more standard linear and generalized linear models with the recognition that data have hierarchical forms of organization with varying degrees of freedom for the predictors.  These models can, generically, be combined with techniques that we have already learned to expand the range of our toolkit.  Since we left last week off with ordered models, they will first occupy our attention.
+
+## Hierarchical Models and SEM
+
+
+### Hierarchical Models
+
+To examine a hierarchical model, I am going to choose some interesting data on popularity.  A description appears below; these data come from an Intro to Multilevel Analysis.
+
+![Popularity Data](./data/Screen Shot 2022-09-26 at 2.13.53 PM.png)
+
+Though the data are technically ordered, this feature is not exploited to build a hierarchical ordered regression model, though it could be done.  Instead, the outcome of interest is an average of *ordered scales*.
+
+### Load the data
+
+```{r}
+library(tidyverse)
+library(haven)
+popular2data <- read_sav(file ="https://github.com/MultiLevelAnalysis/Datasets-third-edition-Multilevel-book/blob/master/chapter%202/popularity/SPSS/popular2.sav?raw=true")
+popular2data <- popular2data %>% dplyr::select(pupil, class, extrav, sex, texp, popular)
+```
+
+
+### A Summary
+
+```{r}
+summary(popular2data)
+head(popular2data)
+```
+
+### A plot of the relationship of interest
+
+```{r}
+ggplot(data    = popular2data,
+       aes(x   = extrav,
+           y   = popular,
+           col = class))+ #to add the colours for different classes
+  geom_point(size     = 0.8,
+             alpha    = .8,
+             position = "jitter")+ #to add some random noise for plotting purposes
+  theme_minimal()+
+  theme(legend.position = "none")+
+  scale_color_gradientn(colours = rainbow(100))+
+  labs(title    = "Popularity vs. Extraversion",
+       subtitle = "add colours for different classes",
+       x = "Extroversion",
+       y = "Average Popularity")
+```
+
+### With the lines
+
+```{r}
+ggplot(data      = popular2data,
+       aes(x     = extrav,
+           y     = popular,
+           col   = class,
+           group = class))+ #to add the colours for different classes
+  geom_point(size     = 1.2,
+             alpha    = .8,
+             position = "jitter")+ #to add some random noise for plotting purposes
+  theme_minimal()+
+  theme(legend.position = "none")+
+  scale_color_gradientn(colours = rainbow(100))+
+  geom_smooth(method = lm,
+              se     = FALSE,
+              size   = .5, 
+              alpha  = .8)+ # to add regression line
+  labs(title    = "Popularity vs. Extraversion",
+       subtitle = "add colours for different classes and regression lines",
+       x = "Extroversion",
+       y = "Average Popularity")
+```
+
+### A regression
+
+```{r}
+ggplot(data = popular2data, 
+       aes(x   = extrav,
+           y   = popular, 
+           col = as.factor(sex)))+
+  geom_point(size     = 1, 
+             alpha    = .7, 
+             position = "jitter")+
+  geom_smooth(method   = lm,
+              se       = T, 
+              size     = 1.5, 
+              linetype = 1, 
+              alpha    = .7)+
+  theme_minimal()+
+  labs(title    = "Popularity and Extraversion for 2 Genders", 
+       subtitle = "The linear relationship between the two is similar for both genders")+
+  scale_color_manual(name   =" Gender",
+                     labels = c("Boys", "Girls"),
+                     values = c("lightblue", "pink"))
+```
+A model with random intercepts
+
+```{r, warning=FALSE, message=FALSE}
+library(lme4)
+options(scipen=7)
+library(lmerTest)
+model1 <- lmer(formula = popular ~ 1 + sex + extrav + (1|class), 
+               data    = popular2data)
+summary(model1)
+```
+
+Though in this case, we probably do not need them but p-values can be obtained from `lmerTest`.  The standard `lme4` summary does not have them.
+
+Now let's add a **second-level** predictor.  Teacher experience does not vary within a given classroom, only across the 100 classrooms.  Let's look at this model.
+
+```{r}
+model2 <- lmer(popular ~ 1 + sex + extrav + texp + (1 | class), data=popular2data)
+summary(model2)
+```
+
+More experienced teachers lead to higher reported average popularity.
+
+### Random slopes
+
+```{r, message=FALSE, warning=FALSE}
+model3 <- lmer(formula = popular ~ 1 + sex + extrav + texp + (1 + sex + extrav | class),
+               data    = popular2data, control=lmerControl(optCtrl=list(maxfun=100000) ))
+summary(model3)
+```
+### Examining the Model
+
+```{r}
+ranova(model3)
+```
+
+The random effect associated with `sex` is not close to significance.
+
+### A Crossed-Effects Model
+
+```{r}
+model5<-lmer(formula = popular ~ 1 + sex + extrav + texp+ extrav*texp + (1 + extrav | class), 
+             data    = popular2data)
+summary(model5)
+```
+### A Picture
+
+```{r}
+ggplot(data = popular2data,
+       aes(x = extrav, 
+           y = popular, 
+           col = as.factor(texp)))+
+  viridis::scale_color_viridis(discrete = TRUE)+
+  geom_point(size     = .7,
+             alpha    = .8, 
+             position = "jitter")+
+  geom_smooth(method = lm,
+              se     = FALSE,
+              size   = 1,
+              alpha  = .4)+
+  theme_minimal()+
+  labs(title    = "Interaction btw. Experience and Extraversion", 
+       subtitle = "The relationship changes", 
+       col      = "Years of\nTeacher\nExperience")
+```
+
+
+## Structural Equations Models
+
+A few weeks ago, Jack mentioned the use of principal components as a means for combining collinear variables.  There is a more general language for describing models of this sort.  The following example will play off of work I am currently finishing up with Elliot Maltz and a co-author.
+
+First, the data.
+
+```{r}
+library(lavaan)
+load(url("https://github.com/robertwwalker/ChoiceAndForecasting/raw/main/posts/week-5/data/EMData.RData"))
+```
+
+There is a ton of data in here.  Let me pay particular attention to specific parts we are interested in.
+
+### Agentic
+
+```{r}
+names(EMData)[[76]]
+table(EMData.Anonymous$...76)
+names(EMData)[[77]]
+table(EMData.Anonymous$...77)
+names(EMData)[[78]]
+table(EMData.Anonymous$...78)
+names(EMData)[[79]]
+table(EMData.Anonymous$...79)
+AB <- cfa('Agentic =~ ...76 + ...77 + ...78 + ...79', data=EMData.Anonymous, ordered = TRUE)
+summary(AB, fit.measures = TRUE, standardized = TRUE)
+```
+
+
+### Communal
+
+```{r}
+names(EMData)[[80]]
+table(EMData.Anonymous$...80)
+names(EMData)[[81]]
+table(EMData.Anonymous$...81)
+names(EMData)[[84]]
+table(EMData.Anonymous$...84)
+CB <- cfa('Communal =~ ...80 + ...81 + ...84', data=EMData.Anonymous, ordered = TRUE)
+summary(CB, fit.measures = TRUE, standardized = TRUE)
+```
+
+
+### Mentoring
+
+```{r}
+names(EMData)[[13]]
+table(EMData.Anonymous$...13)
+names(EMData)[[14]]
+table(EMData.Anonymous$...14)
+names(EMData)[[15]]
+table(EMData.Anonymous$...15)
+M <- cfa('Mentoring =~ ...13 + ...14 + ...15', data=EMData.Anonymous, ordered = TRUE)
+summary(M, fit.measures = TRUE, standardized = TRUE)
+```
+
+
+### Social Influence
+
+```{r}
+names(EMData)[[37]]
+table(EMData.Anonymous$...37)
+names(EMData)[[38]]
+table(EMData.Anonymous$...38)
+names(EMData)[[39]]
+table(EMData.Anonymous$...39)
+SI <- cfa('Social.Influence =~ ...37 + ...38 + ...39', data=EMData.Anonymous, ordered = TRUE)
+summary(SI, fit.measures = TRUE, standardized = TRUE)
+```
+
+```{r}
+library(lavaanPlot)
+lavaanPlot(model = SI, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "grey"), coefs = TRUE, covs = TRUE)
+```
+
+
+### An SEM
+
+Now let me combine those `measurement` models to produce a set of two structural equations.  I wish to explain income and employment given these factors.
+
+```{r, warning=FALSE, message=FALSE}
+names(EMData)[c(5,59)]
+Struct <- sem('Agentic =~ ...76 + ...77 + ...78 + ...79
+          Communal =~ ...80 + ...81 + ...84
+          Mentoring =~ ...13 + ...14 + ...15
+          Social.Influence =~ ...37 + ...38 + ...39
+          ...59 ~ Agentic + Communal + Mentoring + Social.Influence
+          ...5 ~ Agentic + Communal + Mentoring + Social.Influence', data=EMData.Anonymous, ordered = c("...13","...14", "...15", "...80","...81", "...84", "...76","...77", "...78", "...79","...37", "...38", "...39"))
+summary(Struct, fit.measures=TRUE, standardized=TRUE)
+```
+
+```{r}
+lavaanPlot(model=Struct, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "grey"), coefs = TRUE, covs = TRUE)
+```
+
+## Some Examples from Survival Time
+
+Job durations and the duration of interstate peace.
