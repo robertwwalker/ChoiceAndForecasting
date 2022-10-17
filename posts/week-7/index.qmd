@@ -1,0 +1,22 @@
+---
+title: "Week 7: Survival, Power, and Planning"
+author: "Robert W. Walker"
+date: "2022-10-17"
+categories: [R]
+image: "image.png"
+toc: true
+execute: 
+  echo: fenced
+---
+
+The slides [are here.](https://robertwwalker.github.io/xaringan/CMF-Week-7/index.html).
+
+Our seventh class meeting will focus on [Chapter 9](https://peopleanalytics-regression-book.org/gitbook/survival.html) and [Chapter 11](https://peopleanalytics-regression-book.org/power-tests.html)  of __Handbook of Regression Modeling in People Analytics__. 
+
+## The Skinny
+
+Two major topics: survival analysis with some discussion of parametric survival analysis and power and study planning.
+
+## Parametric Survival Analysis
+
+Most of this is typically done using the `flexsurv` package in R.  [There is a great post on parametric survival analysis.](https://devinincerti.com/2019/06/18/parametric_survival.html)  We could use AIC/BIC for comparison of the various distributions.

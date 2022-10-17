@@ -18,7 +18,7 @@
     "href": "index.html",
     "title": "Models of Choice and Forecasting",
     "section": "",
-    "text": "Week 6: Measurement and Survival\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 3, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 5: Hierarchical Data\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 26, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 4: Ordered and Multinomial Logistic Regression\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 19, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 3: Binomial Logistic Regression\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 12, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nA Small Thread on Smart Prediction\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 6, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 2: Inference and Regression: A Review\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 5, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 1: R, Inference, and Regression: A Review\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 29, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome to Models of Choice and Forecasting\n\n\n\nnews\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 26, 2022\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Week 7: Survival, Power, and Planning\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 17, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 6: Measurement and Survival\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 3, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 5: Hierarchical Data\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 26, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 4: Ordered and Multinomial Logistic Regression\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 19, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 3: Binomial Logistic Regression\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 12, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nA Small Thread on Smart Prediction\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 6, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 2: Inference and Regression: A Review\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 5, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 1: R, Inference, and Regression: A Review\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 29, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome to Models of Choice and Forecasting\n\n\n\nnews\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 26, 2022\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/week-1/index.html",
@@ -558,5 +558,26 @@
     "title": "Week 6: Measurement and Survival",
     "section": "Some Examples from Survival Time",
     "text": "Some Examples from Survival Time\nJob durations and the duration of interstate peace."
+  },
+  {
+    "objectID": "posts/week-7/index.html",
+    "href": "posts/week-7/index.html",
+    "title": "Week 7: Survival, Power, and Planning",
+    "section": "",
+    "text": "The slides are here..\nOur seventh class meeting will focus on Chapter 9 and Chapter 11 of Handbook of Regression Modeling in People Analytics."
+  },
+  {
+    "objectID": "posts/week-7/index.html#the-skinny",
+    "href": "posts/week-7/index.html#the-skinny",
+    "title": "Week 7: Survival, Power, and Planning",
+    "section": "The Skinny",
+    "text": "The Skinny\nTwo major topics: survival analysis with some discussion of parametric survival analysis and power and study planning."
+  },
+  {
+    "objectID": "posts/week-7/index.html#parametric-survival-analysis",
+    "href": "posts/week-7/index.html#parametric-survival-analysis",
+    "title": "Week 7: Survival, Power, and Planning",
+    "section": "Parametric Survival Analysis",
+    "text": "Parametric Survival Analysis\nMost of this is typically done using the flexsurv package in R. There is a great post on parametric survival analysis. We could use AIC/BIC for comparison of the various distributions."
   }
 ]
