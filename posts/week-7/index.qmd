@@ -20,3 +20,39 @@ Two major topics: survival analysis with some discussion of parametric survival 
 ## Parametric Survival Analysis
 
 Most of this is typically done using the `flexsurv` package in R.  [There is a great post on parametric survival analysis.](https://devinincerti.com/2019/06/18/parametric_survival.html)  We could use AIC/BIC for comparison of the various distributions.
+
+## Some Models
+
+```{r, message=FALSE, warning=FALSE}
+library(haven)
+library(tidyverse)
+options(scipen=7)
+BKT.Data <- read_dta("https://github.com/robertwwalker/xaringan/raw/master/CMF-Week-6/img/bkt98ajps.dta")
+cloglog_model <- glm(dispute ~ dem + growth+allies+contig+capratio+trade+as.factor(py),
+  data = BKT.Data, family=binomial(link = "cloglog"))
+summary(cloglog_model)
+```
+
+## Onset
+
+```{r}
+cloglog_model <- BKT.Data %>% filter(contdisp!=1) %>% glm(dispute ~ dem + growth+allies+contig+capratio+trade+as.factor(py),
+  data = ., family=binomial(link = "cloglog"))
+summary(cloglog_model)
+```
+# First Disputes
+
+```{r}
+cloglog_model <- BKT.Data %>% filter(prefail<1) %>% glm(dispute ~ dem + growth+allies+contig+capratio+trade+as.factor(py),
+  data = ., family=binomial(link = "cloglog"))
+summary(cloglog_model)
+```
+
+## Taylor Smoothing
+
+```{r}
+cloglog_model <- BKT.Data %>% filter(prefail<1) %>% glm(dispute ~ dem + growth+allies+contig+capratio+trade+poly(py, 3),
+  data = ., family=binomial(link = "cloglog"))
+summary(cloglog_model)
+```
+
