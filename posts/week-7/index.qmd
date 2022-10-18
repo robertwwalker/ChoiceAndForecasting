@@ -55,4 +55,31 @@ cloglog_model <- BKT.Data %>% filter(prefail<1) %>% glm(dispute ~ dem + growth+a
   data = ., family=binomial(link = "cloglog"))
 summary(cloglog_model)
 ```
+A plot of the baseline hazard.
+
+```{r}
+Scenario.1 <- data.frame(dem = 0, growth=0, allies=0, contig=0, capratio=1, trade=0.002, py=seq(1,35))
+Scenario.2 <- data.frame(dem = 0, growth=0, allies=0, contig=1, capratio=1, trade=0.002, py=seq(1,35))
+Res.1 <- predict(cloglog_model, newdata=Scenario.1, type= "response")
+Res.2 <- predict(cloglog_model, newdata=Scenario.2, type= "response")
+data.frame(No = Res.1, Yes = Res.2, Scenario.1) %>% pivot_longer(., cols=c(No, Yes)) %>% ggplot() + aes(x=py, y=value, color=name) + labs(x="Years of Peace", color="Contiguous?") + geom_step() + hrbrthemes::theme_ipsum_rc()
+```
+
+```{r}
+Scenario.1 <- data.frame(dem = 0, growth=0, allies=0, contig=1, capratio=1, trade=0.002, py=seq(1,35))
+Scenario.2 <- data.frame(dem = 0, growth=0, allies=1, contig=1, capratio=1, trade=0.002, py=seq(1,35))
+Res.1 <- predict(cloglog_model, newdata=Scenario.1, type= "response")
+Res.2 <- predict(cloglog_model, newdata=Scenario.2, type= "response")
+data.frame(No = Res.1, Yes = Res.2, Scenario.1) %>% pivot_longer(., cols=c(No, Yes)) %>% ggplot() + aes(x=py, y=value, color=name) + labs(x="Years of Peace", color="Allies?") + geom_step() + hrbrthemes::theme_ipsum_rc()
+```
+
+## `geom_line` smooths it out
+
+```{r}
+Scenario.1 <- data.frame(dem = 0, growth=0, allies=0, contig=1, capratio=1, trade=0.002, py=seq(1,35))
+Scenario.2 <- data.frame(dem = 0, growth=0, allies=1, contig=1, capratio=1, trade=0.002, py=seq(1,35))
+Res.1 <- predict(cloglog_model, newdata=Scenario.1, type= "response")
+Res.2 <- predict(cloglog_model, newdata=Scenario.2, type= "response")
+data.frame(No = Res.1, Yes = Res.2, Scenario.1) %>% pivot_longer(., cols=c(No, Yes)) %>% ggplot() + aes(x=py, y=value, color=name) + labs(x="Years of Peace", color="Allies?") + geom_line() + hrbrthemes::theme_ipsum_rc()
+```
 
