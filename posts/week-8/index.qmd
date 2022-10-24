@@ -1,0 +1,15 @@
+---
+title: "Week 7: Introducing Time"
+author: "Robert W. Walker"
+date: "2022-10-24"
+categories: [R]
+image: "image.png"
+toc: true
+execute: 
+  echo: fenced
+---
+
+The slides [are here.](https://robertwwalker.github.io/xaringan/CMF-Week-8/index.html).
+
+Our eighth class meeting will focus on [Chapter 1](https://otexts.com/fpp3/intro.html) and [Chapter 2](https://otexts.com/fpp3/graphics.html)  of __Forecasting: Principles and Practice [3rd edition]__. 
+

@@ -18,7 +18,7 @@
     "href": "index.html",
     "title": "Models of Choice and Forecasting",
     "section": "",
-    "text": "Week 7: Survival, Power, and Planning\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 17, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 6: Measurement and Survival\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 3, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 5: Hierarchical Data\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 26, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 4: Ordered and Multinomial Logistic Regression\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 19, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 3: Binomial Logistic Regression\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 12, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nA Small Thread on Smart Prediction\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 6, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 2: Inference and Regression: A Review\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 5, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 1: R, Inference, and Regression: A Review\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 29, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome to Models of Choice and Forecasting\n\n\n\nnews\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 26, 2022\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Week 7: Introducing Time\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 24, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 7: Survival, Power, and Planning\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 17, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 6: Measurement and Survival\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 3, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 5: Hierarchical Data\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 26, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 4: Ordered and Multinomial Logistic Regression\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 19, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 3: Binomial Logistic Regression\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 12, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nA Small Thread on Smart Prediction\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 6, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 2: Inference and Regression: A Review\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 5, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 1: R, Inference, and Regression: A Review\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 29, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome to Models of Choice and Forecasting\n\n\n\nnews\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 26, 2022\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/week-1/index.html",
@@ -607,5 +607,12 @@
     "title": "Week 7: Survival, Power, and Planning",
     "section": "geom_line smooths it out",
     "text": "geom_line smooths it out\n\n```{r}\nScenario.1 <- data.frame(dem = 0, growth=0, allies=0, contig=1, capratio=1, trade=0.002, py=seq(1,35))\nScenario.2 <- data.frame(dem = 0, growth=0, allies=1, contig=1, capratio=1, trade=0.002, py=seq(1,35))\nRes.1 <- predict(cloglog_model, newdata=Scenario.1, type= \"response\")\nRes.2 <- predict(cloglog_model, newdata=Scenario.2, type= \"response\")\ndata.frame(No = Res.1, Yes = Res.2, Scenario.1) %>% pivot_longer(., cols=c(No, Yes)) %>% ggplot() + aes(x=py, y=value, color=name) + labs(x=\"Years of Peace\", color=\"Allies?\") + geom_line() + hrbrthemes::theme_ipsum_rc()\n```"
+  },
+  {
+    "objectID": "posts/week-8/index.html",
+    "href": "posts/week-8/index.html",
+    "title": "Week 7: Introducing Time",
+    "section": "",
+    "text": "The slides are here..\nOur eighth class meeting will focus on Chapter 1 and Chapter 2 of Forecasting: Principles and Practice [3rd edition]."
   }
 ]
