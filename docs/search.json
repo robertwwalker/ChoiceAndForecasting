@@ -18,7 +18,7 @@
     "href": "index.html",
     "title": "Models of Choice and Forecasting",
     "section": "",
-    "text": "Week 9: Features and Decomposing Time\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 31, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 8: Introducing Time\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 31, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 7: Survival, Power, and Planning\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 17, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 6: Measurement and Survival\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 3, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 5: Hierarchical Data\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 26, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 4: Ordered and Multinomial Logistic Regression\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 19, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 3: Binomial Logistic Regression\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 12, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nA Small Thread on Smart Prediction\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 6, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 2: Inference and Regression: A Review\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 5, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 1: R, Inference, and Regression: A Review\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 29, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome to Models of Choice and Forecasting\n\n\n\nnews\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 26, 2022\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Week 9: Features and Decomposing Time\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 31, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 8: Introducing Time\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 24, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 7: Survival, Power, and Planning\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 17, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 6: Measurement and Survival\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 3, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 5: Hierarchical Data\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 26, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 4: Ordered and Multinomial Logistic Regression\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 19, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 3: Binomial Logistic Regression\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 12, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nA Small Thread on Smart Prediction\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 6, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 2: Inference and Regression: A Review\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 5, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 1: R, Inference, and Regression: A Review\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 29, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome to Models of Choice and Forecasting\n\n\n\nnews\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 26, 2022\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/week-1/index.html",
@@ -611,15 +611,15 @@
   {
     "objectID": "posts/week-8/index.html",
     "href": "posts/week-8/index.html",
-    "title": "Week 9: Features and Decomposing Time",
+    "title": "Week 8: Introducing Time",
     "section": "",
-    "text": "The slides are here..\nOur ninth class meeting will focus on Chapter 3 and Chapter 4 of Forecasting: Principles and Practice [3rd edition]."
+    "text": "The slides are here..\nOur eighth class meeting will focus on Chapter 1 and Chapter 2 of Forecasting: Principles and Practice [3rd edition]."
   },
   {
     "objectID": "posts/week-9/index.html",
     "href": "posts/week-9/index.html",
-    "title": "Week 8: Introducing Time",
+    "title": "Week 9: Features and Decomposing Time",
     "section": "",
-    "text": "The slides are here..\nOur eighth class meeting will focus on Chapter 1 and Chapter 2 of Forecasting: Principles and Practice [3rd edition]."
+    "text": "The slides are here..\nOur ninth class meeting will focus on Chapter 3 and Chapter 4 of Forecasting: Principles and Practice [3rd edition].\nAll of the data for today, including computations, can be acquired using\nload(url(\"https://github.com/robertwwalker/xaringan/raw/master/CMF-Week-9/data/FullWorkspace.RData\"))"
   }
 ]

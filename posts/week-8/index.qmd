@@ -1,7 +1,7 @@
 ---
-title: "Week 9: Features and Decomposing Time"
+title: "Week 8: Introducing Time"
 author: "Robert W. Walker"
-date: "2022-10-31"
+date: "2022-10-24"
 categories: [R]
 image: "image.png"
 toc: true
@@ -9,7 +9,7 @@ execute:
   echo: fenced
 ---
 
-The slides [are here.](https://robertwwalker.github.io/xaringan/CMF-Week-9/index.html).
+The slides [are here.](https://robertwwalker.github.io/xaringan/CMF-Week-8/index.html).
 
-Our ninth class meeting will focus on [Chapter 3](https://otexts.com/fpp3/decomposition.html) and [Chapter 4](https://otexts.com/fpp3/features.html)  of __Forecasting: Principles and Practice [3rd edition]__. 
+Our eighth class meeting will focus on [Chapter 1](https://otexts.com/fpp3/intro.html) and [Chapter 2](https://otexts.com/fpp3/graphics.html)  of __Forecasting: Principles and Practice [3rd edition]__. 
 
