@@ -22,6 +22,9 @@ All of the data for today, including computations, can be acquired using
 
 ```
 load(url("https://github.com/robertwwalker/xaringan/raw/master/CMF-Week-9/data/FullWorkspace.RData"))
+```
+
+```
 load(url("https://github.com/robertwwalker/ChoiceAndForecasting/raw/main/posts/week-10/data/Week-10.RData"))
 ```
 
