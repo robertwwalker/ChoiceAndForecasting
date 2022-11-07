@@ -18,7 +18,7 @@
     "href": "index.html",
     "title": "Models of Choice and Forecasting",
     "section": "",
-    "text": "Week 9: Features and Decomposing Time\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 31, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 8: Introducing Time\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 24, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 7: Survival, Power, and Planning\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 17, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 6: Measurement and Survival\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 3, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 5: Hierarchical Data\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 26, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 4: Ordered and Multinomial Logistic Regression\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 19, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 3: Binomial Logistic Regression\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 12, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nA Small Thread on Smart Prediction\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 6, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 2: Inference and Regression: A Review\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 5, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 1: R, Inference, and Regression: A Review\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 29, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome to Models of Choice and Forecasting\n\n\n\nnews\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 26, 2022\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Week 10: Finishing Features, the Toolbox and Evaluation\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nNov 7, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 9: Features and Decomposing Time\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 31, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 8: Introducing Time\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 24, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 7: Survival, Power, and Planning\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 17, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 6: Measurement and Survival\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nOct 3, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 5: Hierarchical Data\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 26, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 4: Ordered and Multinomial Logistic Regression\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 19, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 3: Binomial Logistic Regression\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 12, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nA Small Thread on Smart Prediction\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 6, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 2: Inference and Regression: A Review\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nSep 5, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 1: R, Inference, and Regression: A Review\n\n\n\nR\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 29, 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome to Models of Choice and Forecasting\n\n\n\nnews\n\n\n\n\n\n\n\nRobert W. Walker\n\n\nAug 26, 2022\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/week-1/index.html",
@@ -620,6 +620,27 @@
     "href": "posts/week-9/index.html",
     "title": "Week 9: Features and Decomposing Time",
     "section": "",
-    "text": "The slides are here..\nOur ninth class meeting will focus on Chapter 3 and Chapter 4 of Forecasting: Principles and Practice [3rd edition].\nAll of the data for today, including computations, can be acquired using\nload(url(\"https://github.com/robertwwalker/xaringan/raw/master/CMF-Week-9/data/FullWorkspace.RData\"))"
+    "text": "The slides are here..\nOur ninth class meeting will focus on Chapter 3 and Chapter 4 of Forecasting: Principles and Practice [3rd edition].\nAll of the data for today, including computations, can be acquired using"
+  },
+  {
+    "objectID": "posts/week-9/index.html#decompositions",
+    "href": "posts/week-9/index.html#decompositions",
+    "title": "Week 9: Features and Decomposing Time",
+    "section": "Decompositions",
+    "text": "Decompositions\n\nClassical Decomposition\nThe key difference between the two decompositions, and there are others, is the existence [or lack thereof] of a window. In the classical decomposition, there is almost no flexibility.\n\n```{r}\nInflation.Expectations %>% \n  as_tsibble(index=date) %>% \n  model(stl = classical_decomposition(`Median one-year ahead expected inflation rate` ~ season(12))) %>%\n  components() %>% \n  autoplot()\n```\n\n\n\n\n\n\nSTL Decomposition\nThe key new element to the STL decomposition is the window argument. Over how many time periods should the trend/season be calculated. If one wishes to average over all periods, window=\"periodic\" is the necessary syntax.\n\n```{r}\nInflation.Expectations %>% \n  as_tsibble(index=date) %>% \n  model(STL(`Median one-year ahead expected inflation rate`)) %>%\n  components() %>% \n  autoplot()\n```"
+  },
+  {
+    "objectID": "posts/week-10/index.html",
+    "href": "posts/week-10/index.html",
+    "title": "Week 10: Finishing Features, the Toolbox and Evaluation",
+    "section": "",
+    "text": "The slides are here..\nOur tenth class meeting will focus on Chapter 5 and Chapter 6 of Forecasting: Principles and Practice [3rd edition].\nAll of the data for today, including computations, can be acquired using"
+  },
+  {
+    "objectID": "posts/week-10/index.html#decompositions",
+    "href": "posts/week-10/index.html#decompositions",
+    "title": "Week 10: Finishing Features, the Toolbox and Evaluation",
+    "section": "Decompositions",
+    "text": "Decompositions\n\nClassical Decomposition\nThe key difference between the two decompositions, and there are others, is the existence [or lack thereof] of a window. In the classical decomposition, there is almost no flexibility.\n\n```{r}\nInflation.Expectations %>% \n  as_tsibble(index=date) %>% \n  model(stl = classical_decomposition(`Median one-year ahead expected inflation rate` ~ season(12))) %>%\n  components() %>% \n  autoplot()\n```\n\n\n\n\n\n\nSTL Decomposition\nThe key new element to the STL decomposition is the window argument. Over how many time periods should the trend/season be calculated. If one wishes to average over all periods, window=\"periodic\" is the necessary syntax.\n\n```{r}\nInflation.Expectations %>% \n  as_tsibble(index=date) %>% \n  model(STL(`Median one-year ahead expected inflation rate`)) %>%\n  components() %>% \n  autoplot()\n```"
   }
 ]

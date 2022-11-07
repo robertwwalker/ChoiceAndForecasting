@@ -1,7 +1,7 @@
 ---
-title: "Week 9: Features and Decomposing Time"
+title: "Week 10: Finishing Features, the Toolbox and Evaluation"
 author: "Robert W. Walker"
-date: "2022-10-31"
+date: "2022-11-7"
 categories: [R]
 image: "image.png"
 toc: true
@@ -9,9 +9,9 @@ execute:
   echo: fenced
 ---
 
-The slides [are here.](https://robertwwalker.github.io/xaringan/CMF-Week-9/index.html).
+The slides [are here.](https://robertwwalker.github.io/xaringan/CMF-Week-10/index.html).
 
-Our ninth class meeting will focus on [Chapter 3](https://otexts.com/fpp3/decomposition.html) and [Chapter 4](https://otexts.com/fpp3/features.html)  of __Forecasting: Principles and Practice [3rd edition]__. 
+Our tenth class meeting will focus on [Chapter 5](https://otexts.com/fpp3/toolbox.html) and [Chapter 6](https://otexts.com/fpp3/judgmental.html)  of __Forecasting: Principles and Practice [3rd edition]__. 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
