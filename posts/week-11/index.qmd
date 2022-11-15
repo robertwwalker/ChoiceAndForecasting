@@ -1,0 +1,26 @@
+---
+title: "Week 11: Models, Models, Models"
+author: "Robert W. Walker"
+date: "2022-11-14"
+categories: [R]
+image: "image.png"
+toc: true
+execute: 
+  echo: fenced
+---
+
+The slides [are here.](https://robertwwalker.github.io/xaringan/CMF-Week-11/index.html).
+
+Our eleventh class meeting will focus on [Chapter 7](https://otexts.com/fpp3/regression.html) [Chapter 8](https://otexts.com/fpp3/expsmooth.html) and [Chapter 9](https://otexts.com/fpp3/arima.html)  of __Forecasting: Principles and Practice [3rd edition]__. 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
+```
+
+
+All of the data for today can be acquired using 
+
+```{r}
+load(url("https://github.com/robertwwalker/xaringan/raw/main/CMF-Week-11/data/FullWorkspace.RData"))
+```
+

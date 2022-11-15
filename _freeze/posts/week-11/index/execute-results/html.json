@@ -1,0 +1,14 @@
+{
+  "hash": "071ec580e097a5a4213db30f1859a6ef",
+  "result": {
+    "markdown": "---\ntitle: \"Week 11: Models, Models, Models\"\nauthor: \"Robert W. Walker\"\ndate: \"2022-11-14\"\ncategories: [R]\nimage: \"image.png\"\ntoc: true\nexecute: \n  echo: fenced\n---\n\n\nThe slides [are here.](https://robertwwalker.github.io/xaringan/CMF-Week-11/index.html).\n\nOur eleventh class meeting will focus on [Chapter 7](https://otexts.com/fpp3/regression.html) [Chapter 8](https://otexts.com/fpp3/expsmooth.html) and [Chapter 9](https://otexts.com/fpp3/arima.html)  of __Forecasting: Principles and Practice [3rd edition]__. \n\n\n\n\n\n\nAll of the data for today can be acquired using \n\n\n::: {.cell}\n\n````{.cell-code}\n```{{r}}\nload(url(\"https://github.com/robertwwalker/xaringan/raw/main/CMF-Week-11/data/FullWorkspace.RData\"))\n```\n````\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
