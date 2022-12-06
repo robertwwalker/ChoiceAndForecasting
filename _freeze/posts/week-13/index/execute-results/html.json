@@ -1,0 +1,14 @@
+{
+  "hash": "4851f40514eb200f58dddedcd045d6ed",
+  "result": {
+    "markdown": "---\ntitle: \"Week 13: Models, Models, Models, part 2\"\nauthor: \"Robert W. Walker\"\ndate: \"2022-11-28\"\ncategories: [R]\nimage: \"image.png\"\ntoc: true\nexecute: \n  echo: fenced\n---\n\n\nThe slides [are here.](https://robertwwalker.github.io/xaringan/CMF-Week-11/index.html).\n\nOur thirteenth class meeting will focus on the end of [Chapter 9](https://otexts.com/fpp3/arima.html)  of __Forecasting: Principles and Practice [3rd edition]__.  We will then move to [chapter 10](https://robertwwalker.github.io/xaringan/CH10HA) and [chapter 11](https://robertwwalker.github.io/xaringan/CH11HA) and [chapters 12 and 13](https://robertwwalker.github.io/xaringan/CH13HA) to conclude our treatment of models of forecasting.\n\n\n\n\n\n\nAll of the data for today can be acquired using \n\n\n::: {.cell}\n\n````{.cell-code}\n```{{r}}\nload(url(\"https://github.com/robertwwalker/xaringan/raw/main/CMF-Week-11/data/FullWorkspace.RData\"))\n```\n````\n:::\n\n\nThe key topics:\n\n- Seasonal ARIMA models.\n- Regression with ARMA/ARIMA errors\n- Fourier terms [10.5]\n- Lagged predictors [and dependent variables]\n- Hierarchy and grouped time series\n- Bottom-up, top-down and middle-out\n- `reconcile`\n- Complex seasonality\n- Prophet\n- Neural nets\n- Bagging and bootstrapping\n- Weeks/days/sub-days\n- Croston's method and counts\n- Outliers and missing values\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

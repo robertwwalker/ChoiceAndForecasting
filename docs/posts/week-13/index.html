@@ -9,7 +9,7 @@
 <meta name="author" content="Robert W. Walker">
 <meta name="dcterms.date" content="2022-11-28">
 
-<title>Models of Choice and Forecasting - Week 12: Models, Models, Models</title>
+<title>Models of Choice and Forecasting - Week 13: Models, Models, Models, part 2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -126,9 +126,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta name="twitter:title" content="Models of Choice and Forecasting - Week 12: Models, Models, Models">
+<meta name="twitter:title" content="Models of Choice and Forecasting - Week 13: Models, Models, Models, part 2">
 <meta name="twitter:description" content="The slides are here..">
-<meta name="twitter:image" content="https://quartopub.com/sites/rww/models-of-choice-and-forecasting/posts/week-12/image.png">
+<meta name="twitter:image" content="https://quartopub.com/sites/rww/models-of-choice-and-forecasting/posts/week-13/image.png">
 <meta name="twitter:creator" content="@PieRatio">
 <meta name="twitter:image-height" content="413">
 <meta name="twitter:image-width" content="496">
@@ -175,7 +175,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Week 12: Models, Models, Models</h1>
+      <h1 class="title">Week 13: Models, Models, Models, part 2</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">R</div>
               </div>
@@ -216,13 +216,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <p>The slides <a href="https://robertwwalker.github.io/xaringan/CMF-Week-11/index.html">are here.</a>.</p>
-<p>Our twelfth class meeting will focus on <a href="https://otexts.com/fpp3/arima.html">Chapter 9</a> of <strong>Forecasting: Principles and Practice [3rd edition]</strong>. We will then move to <a href="https://robertwwalker.github.io/xaringan/CH10HA">chapter 10</a> and <a href="https://robertwwalker.github.io/xaringan/CH11HA">chapter 11</a> and <a href="https://robertwwalker.github.io/xaringan/CH13HA">chapters 12 and 13</a>.</p>
+<p>Our thirteenth class meeting will focus on the end of <a href="https://otexts.com/fpp3/arima.html">Chapter 9</a> of <strong>Forecasting: Principles and Practice [3rd edition]</strong>. We will then move to <a href="https://robertwwalker.github.io/xaringan/CH10HA">chapter 10</a> and <a href="https://robertwwalker.github.io/xaringan/CH11HA">chapter 11</a> and <a href="https://robertwwalker.github.io/xaringan/CH13HA">chapters 12 and 13</a> to conclude our treatment of models of forecasting.</p>
 <p>All of the data for today can be acquired using</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="fu">url</span>(<span class="st">"https://github.com/robertwwalker/xaringan/raw/main/CMF-Week-11/data/FullWorkspace.RData"</span>))</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>The key topics:</p>
+<ul>
+<li>Seasonal ARIMA models.</li>
+<li>Regression with ARMA/ARIMA errors</li>
+<li>Fourier terms [10.5]</li>
+<li>Lagged predictors [and dependent variables]</li>
+<li>Hierarchy and grouped time series</li>
+<li>Bottom-up, top-down and middle-out</li>
+<li><code>reconcile</code></li>
+<li>Complex seasonality</li>
+<li>Prophet</li>
+<li>Neural nets</li>
+<li>Bagging and bootstrapping</li>
+<li>Weeks/days/sub-days</li>
+<li>Croston’s method and counts</li>
+<li>Outliers and missing values</li>
+</ul>
 
 
 
