@@ -231,7 +231,7 @@ This should give us an idea of what is going on.  The data come in Stata format;
 
 ```{r}
 library(MASS); library(foreign)
-Li.Data <- read.dta(url("https://github.com/robertwwalker/ChoiceAndForecasting/raw/main/posts/week-4/data/li-replication.dta"))
+Li.Data <- read.dta("https://github.com/robertwwalker/ChoiceAndForecasting/raw/main/posts/week-4/data/li-replication.dta")
 table(Li.Data$generosityg)
 Li.Data$generositygF <- as.factor(Li.Data$generosityg)
 ```

@@ -129,8 +129,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link rel="stylesheet" href="../../styles.css">
 <meta name="twitter:title" content="Models of Choice and Forecasting - Week 4: Ordered and Multinomial Logistic Regression">
 <meta name="twitter:description" content="The slides are here..">
-<meta name="twitter:image" content="image.png">
+<meta name="twitter:image" content="https://quartopub.com/sites/rww/models-of-choice-and-forecasting/posts/week-4/image.png">
 <meta name="twitter:creator" content="@PieRatio">
+<meta name="twitter:image-height" content="576">
+<meta name="twitter:image-width" content="624">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -302,7 +304,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, message=FALSE, warning=FALSE}</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(foreign); <span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>EXRT.data <span class="ot">&lt;-</span> <span class="fu">read.dta</span>(<span class="st">"./data/rr_dal_try1.dta"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>EXRT.data <span class="ot">&lt;-</span> <span class="fu">read.dta</span>(<span class="st">"https://github.com/robertwwalker/xaringan/raw/main/CMF-Week-4/img/rr_dal_try1.dta"</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(EXRT.data<span class="sc">$</span>regime2a)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>EXRT.data<span class="sc">$</span>regime2aF <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(EXRT.data<span class="sc">$</span>regime2a)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>EXRT.data<span class="sc">$</span>regime2aF <span class="ot">&lt;-</span> <span class="fu">relevel</span>(EXRT.data<span class="sc">$</span>regime2aF, <span class="at">ref =</span> <span class="st">"1"</span>)</span>
@@ -840,7 +842,7 @@ Attaching package: 'MASS'</code></pre>
     select</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>Li.Data <span class="ot">&lt;-</span> <span class="fu">read.dta</span>(<span class="st">"./data/li-replication.dta"</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>Li.Data <span class="ot">&lt;-</span> <span class="fu">read.dta</span>(<span class="st">"https://github.com/robertwwalker/ChoiceAndForecasting/raw/main/posts/week-4/data/li-replication.dta"</span>)</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(Li.Data<span class="sc">$</span>generosityg)</span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>Li.Data<span class="sc">$</span>generositygF <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(Li.Data<span class="sc">$</span>generosityg)</span>
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -873,8 +875,7 @@ Attaching package: 'MASS'</code></pre>
 </div>
 </div>
 <p>So anything below -3 is zero incentives; anything between -3 and -2 is one incentive, … , and anything above 4 should be all six incentives. What we have is a regression problem but the outcome is unobserved and takes the form of a logistic random variable. Indeed, one could write the equation as:</p>
-<p><span class="math display">\[y^{*} = X\beta + \epsilon\]</span></p>
-<p>where <span class="math inline">\(\epsilon\)</span> is assumed to have a logistic distribution but this is otherwise just a linear regression. Indeed, the direct interpretation of the slopes is the effect of a one-unit change in X on that logistic random variable.</p>
+<p><span class="math display">\[y^{*} = X\beta + \epsilon\]</span> where <span class="math inline">\(\epsilon\)</span> is assumed to have a logistic distribution but this is otherwise just a linear regression. Indeed, the direct interpretation of the slopes is the effect of a one-unit change in X on that logistic random variable.</p>
 </section>
 <section id="what-to-replicate" class="level2">
 <h2 class="anchored" data-anchor-id="what-to-replicate">What to Replicate</h2>
