@@ -52,7 +52,7 @@ but there is also a third: **intermediate regimes**; things like floating pegs, 
 
 ```{r, message=FALSE, warning=FALSE}
 library(foreign); library(tidyverse)
-EXRT.data <- read.dta("./data/rr_dal_try1.dta")
+EXRT.data <- read.dta("https://github.com/robertwwalker/xaringan/raw/main/CMF-Week-4/img/rr_dal_try1.dta")
 table(EXRT.data$regime2a)
 EXRT.data$regime2aF <- as.factor(EXRT.data$regime2a)
 EXRT.data$regime2aF <- relevel(EXRT.data$regime2aF, ref = "1")
@@ -231,7 +231,7 @@ This should give us an idea of what is going on.  The data come in Stata format;
 
 ```{r}
 library(MASS); library(foreign)
-Li.Data <- read.dta("./data/li-replication.dta")
+Li.Data <- read.dta(url("https://github.com/robertwwalker/ChoiceAndForecasting/raw/main/posts/week-4/data/li-replication.dta"))
 table(Li.Data$generosityg)
 Li.Data$generositygF <- as.factor(Li.Data$generosityg)
 ```
