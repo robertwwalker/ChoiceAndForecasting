@@ -1,0 +1,144 @@
+---
+title: "A Forecasting Example"
+author: "Robert W. Walker"
+date: "2022-12-12"
+categories: [R]
+image: "image.png"
+toc: true
+execute: 
+  echo: fenced
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE, cache = TRUE)
+```
+
+I want to set up an example that runs completely from beginning to end working with stock market data establishing one approach to daily data.  The book shows what happens if we want to model trading days as a sequence that doesn't actually reflect time per se.  I want to take a different approach.  First, I will need some data.  Let me work with Apple's stock market data in OHLC format.  I can get these from `tidyquant`.
+
+```{r}
+library(tidyverse)
+library(tidyquant)
+library(fpp3)
+# Get Apple stock price
+AAPL <- tq_get("AAPL")
+```
+
+Now I need to create the full sequence of dates that includes days that markets are closed.  I want to left join the original data to this to get Apple's data on a complete set of calendar dates as `Full.Set`.
+
+```{r}
+# Create unpopulated calendar
+calendar.set <- data.frame(date=seq.Date(from=min(AAPL$date), to=max(AAPL$date), by="1 day"))
+# Join together the calendar and AAPL OHLC data
+Full.Set <- left_join(calendar.set, AAPL)
+# Create 5 day moving average to model using slider::slide_dbl
+library(slider)
+Full.Set <- Full.Set %>% mutate(MA5 = slide_dbl(close, mean, na.rm=TRUE, .before=4)) %>% as_tsibble(index=date)
+```
+
+From here, I can create a training set and a test set.
+
+```{r}
+# Split a training set before November 30, 2022
+Train <- Full.Set %>% filter(date < "2022-11-30") %>% as_tsibble(index=date)
+Test <- anti_join(Full.Set, Train) %>% as_tsibble(index=date)
+# Plot the whole thing
+Full.Set %>% autoplot(MA5)
+```
+
+Now estimate two models.
+
+```{r}
+Mods <- Train %>% model(AM5=ARIMA(MA5), ETS5=ETS(MA5))
+Mods %>% glimpse()
+Mods %>% glance()
+```
+
+As we can see, the ARIMA is of a single difference with 1 AR and 4 MA terms as well as a 7 day seasonal moving average term.  The ETS contains no seasons, multiplicative errors, and additive trends.
+
+```{r}
+# Forecast for 30 days
+FC <- Mods %>% forecast(h=30)
+```
+
+How well does it do?
+
+```{r}
+# Model Assessment
+accuracy(FC, Test)
+```
+
+The ETS model seems to do better on this test set.
+
+```{r}
+# Show the forecast  needs alpha to see them
+Plot1 <- FC %>% autoplot(., alpha=0.2) + hrbrthemes::theme_ipsum_es() + labs(y="Forecast AAPL")
+Plot1
+```
+
+The ETS bends lower and this better fits the data over the last 30 days.
+
+```{r}
+# Show the forecast  needs alpha to see them
+Plot1 <- FC %>% autoplot(., alpha=0.4) + hrbrthemes::theme_ipsum_es() + labs(y="Forecast AAPL") + geom_point(data=Test, aes(x=date, y=MA5), color="blue", size=2, alpha=0.5) + guides(level="none") 
+Plot1
+```
+
+
+I don't really gain much from showing the whole training set.  It really is a lot of data.
+
+```{r}
+# Adapt the forecast to some data.
+Plot2 <- FC %>% autoplot(.) + geom_line(data=Train, aes(x=date, y=MA5)) + hrbrthemes::theme_ipsum_es() + labs(y="AAPL")
+Plot2
+```
+
+A bit more plotting.
+
+```{r}
+library(patchwork)
+# Plot1 + Plot2
+# Zoomed in.
+D2021P <- Full.Set %>% filter(date > "2022-10-01")
+Plot2 <- FC %>% autoplot(., alpha=0.2) + geom_line(data=D2021P, aes(x=date, y=MA5)) + hrbrthemes::theme_ipsum_es() + labs(y="AAPL") + guides(level="none")
+Plot1 + Plot2
+```
+
+Show it in zoom.
+
+```{r}
+Plot2
+```
+# A Cross-Validation
+
+```{r}
+apple_tr <- Full.Set %>%
+  stretch_tsibble(.init = 3350, .step = 30) %>%
+  relocate(date, .id)
+apple_tr %>% model(AM5=ARIMA(MA5)) %>% 
+  forecast(h=30) %>% 
+  accuracy(Full.Set)
+apple_tr %>% model(ETS5=ETS(MA5)) %>% 
+  forecast(h=30) %>% 
+  accuracy(Full.Set)
+```
+
+The ETS model seems to fit better across the cross-validated sets also.  Some forecasts on the data.
+
+```{r}
+AFR <- apple_tr %>% model(AM5=ARIMA(MA5), ETS5=ETS(MA5)) %>% forecast(h=30)
+```
+
+Putting all the data together requires a bit of manipulating.
+
+```{r, width="900px", height="600px"}
+FS1 <- Full.Set %>% select(date, MA5) %>% mutate(Truth = MA5) %>% select(-MA5) %>% as_tsibble(index=date)
+AFR2 <- AFR %>% left_join(., FS1) %>% filter(.id<11)
+AFR2 %>% autoplot(alpha=0.7) + 
+facet_wrap(vars(.id), scales = "free_x") + hrbrthemes::theme_ipsum_rc() + guides(level="none")
+```
+
+This is a solid view of the forecasts.
+
+```{r}
+AFR2 %>% autoplot(alpha=0.5) +  facet_wrap(vars(.id), scales = "free_x") + hrbrthemes::theme_ipsum_rc() + guides(level="none") + geom_line(data=AFR2, aes(x=date, y=Truth), size=1, alpha=0.2)
+```

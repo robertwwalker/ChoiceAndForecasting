@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Robert W. Walker">
+<meta name="dcterms.date" content="2022-12-12">
+
+<title>Models of Choice and Forecasting - A Forecasting Example</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta name="twitter:title" content="Models of Choice and Forecasting - A Forecasting Example">
+<meta name="twitter:description" content="I want to set up an example that runs completely from beginning to end working with stock market data establishing one approach to daily data.">
+<meta name="twitter:image" content="image.png">
+<meta name="twitter:creator" content="@PieRatio">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Models of Choice and Forecasting</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/robertwwalker/ChoiceAndForecasting"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/PieRatio"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">A Forecasting Example</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Robert W. Walker </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">December 12, 2022</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#a-cross-validation" id="toc-a-cross-validation" class="nav-link active" data-scroll-target="#a-cross-validation">A Cross-Validation</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>I want to set up an example that runs completely from beginning to end working with stock market data establishing one approach to daily data. The book shows what happens if we want to model trading days as a sequence that doesn’t actually reflect time per se. I want to take a different approach. First, I will need some data. Let me work with Apple’s stock market data in OHLC format. I can get these from <code>tidyquant</code>.</p>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-1_f3ee321164db2719abbf99f18a16b31d">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Get Apple stock price</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>AAPL <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"AAPL"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now I need to create the full sequence of dates that includes days that markets are closed. I want to left join the original data to this to get Apple’s data on a complete set of calendar dates as <code>Full.Set</code>.</p>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-2_568662b6931d2c8c855d41119794cbd0">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create unpopulated calendar</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>calendar.set <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">date=</span><span class="fu">seq.Date</span>(<span class="at">from=</span><span class="fu">min</span>(AAPL<span class="sc">$</span>date), <span class="at">to=</span><span class="fu">max</span>(AAPL<span class="sc">$</span>date), <span class="at">by=</span><span class="st">"1 day"</span>))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Join together the calendar and AAPL OHLC data</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>Full.Set <span class="ot">&lt;-</span> <span class="fu">left_join</span>(calendar.set, AAPL)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create 5 day moving average to model using slider::slide_dbl</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slider)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>Full.Set <span class="ot">&lt;-</span> Full.Set <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">MA5 =</span> <span class="fu">slide_dbl</span>(close, mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>, <span class="at">.before=</span><span class="dv">4</span>)) <span class="sc">%&gt;%</span> <span class="fu">as_tsibble</span>(<span class="at">index=</span>date)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>From here, I can create a training set and a test set.</p>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-3_be3484d301b973b8848d8dd32831e559">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Split a training set before November 30, 2022</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>Train <span class="ot">&lt;-</span> Full.Set <span class="sc">%&gt;%</span> <span class="fu">filter</span>(date <span class="sc">&lt;</span> <span class="st">"2022-11-30"</span>) <span class="sc">%&gt;%</span> <span class="fu">as_tsibble</span>(<span class="at">index=</span>date)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>Test <span class="ot">&lt;-</span> <span class="fu">anti_join</span>(Full.Set, Train) <span class="sc">%&gt;%</span> <span class="fu">as_tsibble</span>(<span class="at">index=</span>date)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the whole thing</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>Full.Set <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(MA5)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Now estimate two models.</p>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-4_5688eb4babbd7c5afb136e858e955c5d">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Mods <span class="ot">&lt;-</span> Train <span class="sc">%&gt;%</span> <span class="fu">model</span>(<span class="at">AM5=</span><span class="fu">ARIMA</span>(MA5), <span class="at">ETS5=</span><span class="fu">ETS</span>(MA5))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>Mods <span class="sc">%&gt;%</span> <span class="fu">glimpse</span>()</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>Mods <span class="sc">%&gt;%</span> <span class="fu">glance</span>()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1
+Columns: 2
+$ AM5  &lt;model&gt; [ARIMA(1,1,4)(0,0,1)[7] w/ drift]
+$ ETS5 &lt;model&gt; [ETS(M,Ad,N)]
+# A tibble: 2 × 11
+  .model    sigma2 log_lik    AIC   AICc    BIC ar_roots  ma_roots    MSE  AMSE
+  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;list&gt;    &lt;list&gt;    &lt;dbl&gt; &lt;dbl&gt;
+1 AM5    0.284      -2854.  5724.  5724.  5773. &lt;cpl [1]&gt; &lt;cpl&gt;    NA     NA   
+2 ETS5   0.0000447 -10610. 21231. 21231. 21268. &lt;NULL&gt;    &lt;NULL&gt;    0.331  1.17
+# … with 1 more variable: MAE &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>As we can see, the ARIMA is of a single difference with 1 AR and 4 MA terms as well as a 7 day seasonal moving average term. The ETS contains no seasons, multiplicative errors, and additive trends.</p>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-5_f3df813284d8dd5492f670d3bd6ffa8b">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Forecast for 30 days</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>FC <span class="ot">&lt;-</span> Mods <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">30</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>How well does it do?</p>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-6_7e7db6456bc7d1b77c55e806f509a819">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Model Assessment</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(FC, Test)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 10
+  .model .type     ME  RMSE   MAE    MPE  MAPE  MASE RMSSE  ACF1
+  &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 AM5    Test  -3.82   7.30  5.43 -2.94   4.04   NaN   NaN 0.914
+2 ETS5   Test   0.385  5.39  4.93  0.108  3.57   NaN   NaN 0.908</code></pre>
+</div>
+</div>
+<p>The ETS model seems to do better on this test set.</p>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-7_73681cdc9fe5f023b4b1e11d0c2412d2">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the forecast  needs alpha to see them</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Plot1 <span class="ot">&lt;-</span> FC <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(., <span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">+</span> hrbrthemes<span class="sc">::</span><span class="fu">theme_ipsum_es</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Forecast AAPL"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>Plot1</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The ETS bends lower and this better fits the data over the last 30 days.</p>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-8_fe7fbf8c13db59b34abe06fe91adc293">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the forecast  needs alpha to see them</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>Plot1 <span class="ot">&lt;-</span> FC <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(., <span class="at">alpha=</span><span class="fl">0.4</span>) <span class="sc">+</span> hrbrthemes<span class="sc">::</span><span class="fu">theme_ipsum_es</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Forecast AAPL"</span>) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">data=</span>Test, <span class="fu">aes</span>(<span class="at">x=</span>date, <span class="at">y=</span>MA5), <span class="at">color=</span><span class="st">"blue"</span>, <span class="at">size=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span> <span class="fu">guides</span>(<span class="at">level=</span><span class="st">"none"</span>) </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>Plot1</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>I don’t really gain much from showing the whole training set. It really is a lot of data.</p>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-9_4470de07685f5d4e3dd5e77938870001">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Adapt the forecast to some data.</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>Plot2 <span class="ot">&lt;-</span> FC <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(.) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data=</span>Train, <span class="fu">aes</span>(<span class="at">x=</span>date, <span class="at">y=</span>MA5)) <span class="sc">+</span> hrbrthemes<span class="sc">::</span><span class="fu">theme_ipsum_es</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"AAPL"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>Plot2</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>A bit more plotting.</p>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-10_ca7b778057eae5b2e5d4d9ef762b462f">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot1 + Plot2</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Zoomed in.</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>D2021P <span class="ot">&lt;-</span> Full.Set <span class="sc">%&gt;%</span> <span class="fu">filter</span>(date <span class="sc">&gt;</span> <span class="st">"2022-10-01"</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>Plot2 <span class="ot">&lt;-</span> FC <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(., <span class="at">alpha=</span><span class="fl">0.2</span>) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data=</span>D2021P, <span class="fu">aes</span>(<span class="at">x=</span>date, <span class="at">y=</span>MA5)) <span class="sc">+</span> hrbrthemes<span class="sc">::</span><span class="fu">theme_ipsum_es</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"AAPL"</span>) <span class="sc">+</span> <span class="fu">guides</span>(<span class="at">level=</span><span class="st">"none"</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>Plot1 <span class="sc">+</span> Plot2</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Show it in zoom.</p>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-11_c5c7b5e8fc1627d3e96c5878965fcf63">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Plot2</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="a-cross-validation" class="level1">
+<h1>A Cross-Validation</h1>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-12_d314fd63ad40431aedd4d26f3907b36d">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>apple_tr <span class="ot">&lt;-</span> Full.Set <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stretch_tsibble</span>(<span class="at">.init =</span> <span class="dv">3350</span>, <span class="at">.step =</span> <span class="dv">30</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(date, .id)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>apple_tr <span class="sc">%&gt;%</span> <span class="fu">model</span>(<span class="at">AM5=</span><span class="fu">ARIMA</span>(MA5)) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">30</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(Full.Set)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>apple_tr <span class="sc">%&gt;%</span> <span class="fu">model</span>(<span class="at">ETS5=</span><span class="fu">ETS</span>(MA5)) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">30</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(Full.Set)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 10
+  .model .type    ME  RMSE   MAE   MPE  MAPE  MASE RMSSE  ACF1
+  &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 AM5    Test  -3.68  10.8  8.52 -2.62  5.63  5.02  3.80 0.956
+# A tibble: 1 × 10
+  .model .type    ME  RMSE   MAE   MPE  MAPE  MASE RMSSE  ACF1
+  &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 ETS5   Test  -2.97  9.98  7.70 -2.16  5.15  4.54  3.50 0.959</code></pre>
+</div>
+</div>
+<p>The ETS model seems to fit better across the cross-validated sets also. Some forecasts on the data.</p>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-13_f6f0476459ecfb9dba39af330fc8fce8">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>AFR <span class="ot">&lt;-</span> apple_tr <span class="sc">%&gt;%</span> <span class="fu">model</span>(<span class="at">AM5=</span><span class="fu">ARIMA</span>(MA5), <span class="at">ETS5=</span><span class="fu">ETS</span>(MA5)) <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">30</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Putting all the data together requires a bit of manipulating.</p>
+<div class="cell" width="900px" height="600px" data-hash="index_cache/html/unnamed-chunk-14_0afed82a6350162fd669fdb491ff69c6">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, width="900px", height="600px"}</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>FS1 <span class="ot">&lt;-</span> Full.Set <span class="sc">%&gt;%</span> <span class="fu">select</span>(date, MA5) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Truth =</span> MA5) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>MA5) <span class="sc">%&gt;%</span> <span class="fu">as_tsibble</span>(<span class="at">index=</span>date)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>AFR2 <span class="ot">&lt;-</span> AFR <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(., FS1) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(.id<span class="sc">&lt;</span><span class="dv">11</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>AFR2 <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="at">alpha=</span><span class="fl">0.7</span>) <span class="sc">+</span> </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">facet_wrap</span>(<span class="fu">vars</span>(.id), <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span> hrbrthemes<span class="sc">::</span><span class="fu">theme_ipsum_rc</span>() <span class="sc">+</span> <span class="fu">guides</span>(<span class="at">level=</span><span class="st">"none"</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This is a solid view of the forecasts.</p>
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-15_152e26cd9224b67863f3c4c59743fb2d">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>AFR2 <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(.id), <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span> hrbrthemes<span class="sc">::</span><span class="fu">theme_ipsum_rc</span>() <span class="sc">+</span> <span class="fu">guides</span>(<span class="at">level=</span><span class="st">"none"</span>) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">data=</span>AFR2, <span class="fu">aes</span>(<span class="at">x=</span>date, <span class="at">y=</span>Truth), <span class="at">size=</span><span class="dv">1</span>, <span class="at">alpha=</span><span class="fl">0.2</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
