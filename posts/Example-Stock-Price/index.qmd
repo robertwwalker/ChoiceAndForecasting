@@ -142,3 +142,27 @@ This is a solid view of the forecasts.
 ```{r}
 AFR2 %>% autoplot(alpha=0.5) +  facet_wrap(vars(.id), scales = "free_x") + hrbrthemes::theme_ipsum_rc() + guides(level="none") + geom_line(data=AFR2, aes(x=date, y=Truth), size=1, alpha=0.2)
 ```
+
+```{r}
+AFR2 %>% filter(.id==1) %>% autoplot(alpha=0.5) + hrbrthemes::theme_ipsum_rc() + guides(level="none") + geom_line(data={AFR2 %>% filter(.id==1)}, aes(x=date, y=Truth), size=1, alpha=0.2)
+```
+
+```{r}
+AFR2 %>% filter(.id==2) %>% autoplot(alpha=0.5) + hrbrthemes::theme_ipsum_rc() + guides(level="none") + geom_line(data={AFR2 %>% filter(.id==2)}, aes(x=date, y=Truth), size=1, alpha=0.2)
+```
+
+```{r}
+AFR2 %>% filter(.id==3) %>% autoplot(alpha=0.5) + hrbrthemes::theme_ipsum_rc() + guides(level="none") + geom_line(data={AFR2 %>% filter(.id==3)}, aes(x=date, y=Truth), size=1, alpha=0.2)
+```
+
+```{r}
+AFR2 %>% filter(.id==4) %>% autoplot(alpha=0.5) + hrbrthemes::theme_ipsum_rc() + guides(level="none") + geom_line(data={AFR2 %>% filter(.id==4)}, aes(x=date, y=Truth), size=1, alpha=0.2)
+```
+
+```{r}
+AFR2 %>% filter(.id==5) %>% autoplot(alpha=0.5) + hrbrthemes::theme_ipsum_rc() + guides(level="none") + geom_line(data={AFR2 %>% filter(.id==5)}, aes(x=date, y=Truth), size=1, alpha=0.2)
+```
+
+```{r}
+AFR2 %>% filter(.id==6) %>% autoplot(alpha=0.5) + hrbrthemes::theme_ipsum_rc() + guides(level="none") + geom_line(data={AFR2 %>% filter(.id==6)}, aes(x=date, y=Truth), size=1, alpha=0.2)
+```
